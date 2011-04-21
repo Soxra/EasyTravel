@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10099109-5adc-4c34-8cab-d1ed442c21ae" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Speaker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" />
     </list>
     <ignored path="EasyTravel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -109,10 +107,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TravelCommandExecutor.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TravelCommandExecutor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="341" column="18" selection-start="14333" selection-end="14333" vertical-scroll-proportion="1.0450981">
+            <state line="341" column="18" selection-start="14333" selection-end="14333" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="13" selection-start="31" selection-end="31" vertical-scroll-proportion="0.07058824">
               <folding />
             </state>
           </provider>
@@ -134,15 +141,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EconomyHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="69" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -181,7 +179,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/LocalizedStrings.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/utils/Resources.java" />
@@ -197,6 +194,7 @@
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Messages.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -543,7 +541,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Done some CodeCleanup.&#10;Everything seems to work, without the load function. (But save function works!)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamed NpcSpeaker to Speaker." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -557,6 +555,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Done some CodeCleanup.&#10;Everything seems to work, without the load function. (But save function works!)" />
+    <MESSAGE value="Renamed NpcSpeaker to Speaker." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -566,13 +565,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPermissions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="99" selection-start="486" selection-end="486" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidLinkException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="42" selection-start="152" selection-end="152" vertical-scroll-proportion="0.0">
@@ -681,7 +673,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="341" column="18" selection-start="14333" selection-end="14333" vertical-scroll-proportion="1.0450981">
+        <state line="341" column="18" selection-start="14333" selection-end="14333" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="13" selection-start="31" selection-end="31" vertical-scroll-proportion="0.07058824">
           <folding />
         </state>
       </provider>
