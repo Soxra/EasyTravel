@@ -1,6 +1,6 @@
 package at.co.hohl.easytravel.data;
 
-import at.co.hohl.easytravel.messages.NpcSpeaker;
+import at.co.hohl.easytravel.messages.Speaker;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -62,7 +62,7 @@ final class TravelPortStorage {
                         port.setPassword(lineParts[INDEX_PASSWORD]);
                     }
                     if (!"null".equals(lineParts[INDEX_SPEAKER])) {
-                        port.setSpeaker(new NpcSpeaker(lineParts[INDEX_SPEAKER]));
+                        port.setSpeaker(new Speaker(lineParts[INDEX_SPEAKER]));
                     }
                     port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
 

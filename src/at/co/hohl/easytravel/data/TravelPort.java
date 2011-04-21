@@ -1,7 +1,7 @@
 package at.co.hohl.easytravel.data;
 
 import at.co.hohl.easytravel.messages.Messages;
-import at.co.hohl.easytravel.messages.NpcSpeaker;
+import at.co.hohl.easytravel.messages.Speaker;
 import org.bukkit.Location;
 
 /**
@@ -10,7 +10,7 @@ import org.bukkit.Location;
  * @author Michael Hohl
  */
 public class TravelPort {
-    private static final NpcSpeaker DEFAULT_SPEAKER = new NpcSpeaker(Messages.defaultSpeakerName);
+    private static final Speaker DEFAULT_SPEAKER = new Speaker(Messages.defaultSpeakerName);
 
     /** Unique ID of the Travel Port. */
     private final Integer id;
@@ -34,7 +34,7 @@ public class TravelPort {
     private double price = 0;
 
     /** The speaker. */
-    private NpcSpeaker speaker;
+    private Speaker speaker;
 
     /** Creates a new travel port. */
     public TravelPort(Integer id) {
@@ -147,7 +147,7 @@ public class TravelPort {
     }
 
     /** @return the speaker or the default speaker if none set. */
-    public NpcSpeaker getSpeaker() {
+    public Speaker getSpeaker() {
         if (speaker != null) {
             return speaker;
         } else {
@@ -160,7 +160,7 @@ public class TravelPort {
      *
      * @param speaker the speaker to set.
      */
-    public void setSpeaker(NpcSpeaker speaker) {
+    public void setSpeaker(Speaker speaker) {
         this.speaker = speaker;
     }
 

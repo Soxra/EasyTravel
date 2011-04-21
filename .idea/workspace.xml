@@ -2,30 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10099109-5adc-4c34-8cab-d1ed442c21ae" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/UniversalPermissions.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/WorldEdit.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/iConomy.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/WorldEdit.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/iConomy.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/README" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Messages.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/at/co/hohl/economy/iConomyHandler.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/LocalizedStrings.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/InvalidLinkException.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidLinkException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/WarpException.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/WarpException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Speaker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java" />
     </list>
     <ignored path="EasyTravel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -92,7 +72,7 @@
       <file leaf-file-name="TravelPort.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="168" column="30" selection-start="4199" selection-end="4199" vertical-scroll-proportion="0.0">
+            <state line="168" column="30" selection-start="4181" selection-end="4181" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -109,10 +89,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NpcSpeaker.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java">
+      <file leaf-file-name="Speaker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Speaker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="35" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
+            <state line="33" column="35" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -132,7 +112,7 @@
       <file leaf-file-name="TravelCommandExecutor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="347" column="79" selection-start="14728" selection-end="14728" vertical-scroll-proportion="1.1862745">
+            <state line="341" column="18" selection-start="14333" selection-end="14333" vertical-scroll-proportion="1.0450981">
               <folding />
             </state>
           </provider>
@@ -170,7 +150,7 @@
       <file leaf-file-name="TravelPortStorage.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="139" column="19" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.0">
+            <state line="139" column="19" selection-start="6088" selection-end="6088" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -563,7 +543,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="Done some CodeCleanup.&#10;Everything seems to work, without the load function. (But save function works!)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -576,6 +556,7 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="Done some CodeCleanup.&#10;Everything seems to work, without the load function. (But save function works!)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -647,16 +628,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="30" selection-start="4199" selection-end="4199" vertical-scroll-proportion="0.0">
+        <state line="168" column="30" selection-start="4181" selection-end="4181" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java">
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Speaker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="35" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
+        <state line="33" column="35" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -665,7 +646,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="139" column="19" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.0">
+        <state line="139" column="19" selection-start="6088" selection-end="6088" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -700,7 +681,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="347" column="79" selection-start="14728" selection-end="14728" vertical-scroll-proportion="1.1862745">
+        <state line="341" column="18" selection-start="14333" selection-end="14333" vertical-scroll-proportion="1.0450981">
           <folding />
         </state>
       </provider>

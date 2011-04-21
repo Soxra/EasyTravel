@@ -8,16 +8,16 @@ import org.bukkit.entity.Player;
  *
  * @author Michael Hohl
  */
-public class NpcSpeaker {
+public class Speaker {
     /** The name of the NPC. */
     private final String name;
 
     /**
-     * Creates a new NpcSpeaker.
+     * Creates a new Speaker.
      *
      * @param name the name of the npc.
      */
-    public NpcSpeaker(String name) {
+    public Speaker(String name) {
         this.name = name;
     }
 
