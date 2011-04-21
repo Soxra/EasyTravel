@@ -17,15 +17,16 @@ public interface EconomyHandler {
      * @param player the player.
      * @return the amount of money on his account.
      */
-    int getBalance(Player player);    
+    double getBalance(Player player);
 
     /**
      * Opposite of grant, means the player loses an amount of money.
      *
      * @param player the player.
      * @param amount the amount of money to pay.
+     * @return false, if the player doesn't have enough money to pay.
      */
-    void pay(Player player, int amount);
+    boolean pay(Player player, double amount);
 
     /**
      * Grants an user the amount of money.
@@ -33,5 +34,5 @@ public interface EconomyHandler {
      * @param player the player.
      * @param amount the amount of money to grant.
      */
-    void grant(Player player, int amount);
+    void grant(Player player, double amount);
 }

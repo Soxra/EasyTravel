@@ -1,7 +1,6 @@
 package at.co.hohl.easytravel.data;
 
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.exceptions.InvalidLinkException;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
@@ -110,7 +109,7 @@ public class TravelPortContainer {
      * @param port the port to remove.
      */
     public void remove(TravelPort port) {
-        if (port.getTarget() != null) {
+        if (port.getTargetId() != null) {
             try {
                 unlink(port);
             } catch (InvalidLinkException exception) {
@@ -129,9 +128,9 @@ public class TravelPortContainer {
      * @throws InvalidLinkException thrown when the ports are already linked.
      */
     public void link(TravelPort port1, TravelPort port2) throws InvalidLinkException {
-        if (port1.getTarget() == null && port2.getTarget() == null) {
-            port1.setTarget(port2.getId());
-            port2.setTarget(port1.getId());
+        if (port1.getTargetId() == null && port2.getTargetId() == null) {
+            port1.setTargetId(port2.getId());
+            port2.setTargetId(port1.getId());
         } else {
             throw new InvalidLinkException("Ports are already linked!");
         }
@@ -144,11 +143,11 @@ public class TravelPortContainer {
      * @throws InvalidLinkException
      */
     public void unlink(TravelPort port) throws InvalidLinkException {
-        if (port.getTarget() != null) {
-            TravelPort anotherPort = get(port.getTarget());
+        if (port.getTargetId() != null) {
+            TravelPort anotherPort = get(port.getTargetId());
 
-            port.setTarget(null);
-            anotherPort.setTarget(null);
+            port.setTargetId(null);
+            anotherPort.setTargetId(null);
         } else {
             throw new InvalidLinkException("Can't unlinke ports, which aren't linked!");
         }

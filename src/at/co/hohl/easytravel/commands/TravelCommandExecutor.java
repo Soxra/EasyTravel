@@ -1,11 +1,12 @@
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.easytravel.exceptions.InvalidLinkException;
-import at.co.hohl.easytravel.LocalizedStrings;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.data.InvalidLinkException;
+import at.co.hohl.easytravel.data.InvalidPortIdException;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.data.TravelPortContainer;
+import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.ChatColor;
@@ -49,12 +50,15 @@ public class TravelCommandExecutor implements CommandExecutor {
         if (plugin.getPermissionsHandler().hasPermission(sender, TravelPermissions.MODERATE_PERMISSION)) {
             if (args.length == 0 || "help".equals(args[0])) {
                 onHelpCommand(sender);
-
+                return true;
+            } else if ("reload".equals(args[0])) {
+                plugin.onReload();
+                sender.sendMessage(ChatColor.GREEN + "Reloaded successfully!");
                 return true;
             } else {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    container = plugin.getTravelPortContainer();
+                    container = plugin.getTravelPorts();
 
                     if ("create".equals(args[0])) {
                         if (args.length > 1) {
@@ -68,7 +72,7 @@ public class TravelCommandExecutor implements CommandExecutor {
                             String nameOfPort = nameBuilder.toString().trim();
                             onCreateCommand(player, nameOfPort);
                         } else {
-                            ChatHelper.sendMessage(player, LocalizedStrings.NEED_TO_PASS_NAME);
+                            ChatHelper.sendMessage(player, Messages.needToPassNameForPort);
                         }
                     } else if ("remove".equals(args[0])) {
                         if (args.length == 1) {
@@ -77,10 +81,10 @@ public class TravelCommandExecutor implements CommandExecutor {
                             try {
                                 onRemoveCommand(player, Integer.parseInt(args[1]));
                             } catch (NumberFormatException exception) {
-                                ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                                ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                             }
                         } else {
-                            ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                            ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                         }
                     } else if ("link".equals(args[0])) {
                         if (args.length == 2) {
@@ -89,7 +93,7 @@ public class TravelCommandExecutor implements CommandExecutor {
 
                                 onLinkCommand(player, port1);
                             } catch (NumberFormatException exception) {
-                                ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                                ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                             }
                         } else if (args.length == 3) {
                             try {
@@ -98,10 +102,10 @@ public class TravelCommandExecutor implements CommandExecutor {
 
                                 onLinkCommand(player, port1, port2);
                             } catch (NumberFormatException exception) {
-                                ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                                ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                             }
                         } else {
-                            ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                            ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                         }
                     } else if ("unlink".equals(args[0])) {
                         if (args.length == 1) {
@@ -110,10 +114,10 @@ public class TravelCommandExecutor implements CommandExecutor {
                             try {
                                 onUnlinkCommand(player, Integer.parseInt(args[1]));
                             } catch (NumberFormatException exception) {
-                                ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                                ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                             }
                         } else {
-                            ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                            ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                         }
                     } else if ("info".equals(args[0])) {
                         if (args.length == 1) {
@@ -122,10 +126,10 @@ public class TravelCommandExecutor implements CommandExecutor {
                             try {
                                 onInfoCommand(player, Integer.parseInt(args[1]));
                             } catch (NumberFormatException exception) {
-                                ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                                ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                             }
                         } else {
-                            ChatHelper.sendMessage(player, LocalizedStrings.INVALID_USE);
+                            ChatHelper.sendMessage(player, Messages.invalidUseOfCommand);
                         }
                     }
 
@@ -152,18 +156,19 @@ public class TravelCommandExecutor implements CommandExecutor {
         PluginDescriptionFile pdf = plugin.getDescription();
         sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Version %s] = = =", pdf.getName(),
                 pdf.getVersion()));
-        sender.sendMessage(
-                "/travel create <name> - Creates a new TravelPort with the passed name. (Name could contain spaces!)");
-        sender.sendMessage("/travel remove [<id>] - Removes the TravelPort, with the passed ID or the TravelPort you" +
-                " are currently staying in.");
-        sender.sendMessage("/travel link <id1> [<id2>] - Links two TravelPorts. If you do not pass a second ID it " +
-                "will link with the TravelPort you are currently staying in.");
-        sender.sendMessage("/travel unlink [<id>] - Unlink the TravelPort.");
-        sender.sendMessage("/travel info [<id>] - Shows information about your actual TravelPort or the TravelPort " +
-                "with the passed ID!");
+        sender.sendMessage(commandDescription("/travel create <name>",
+                "Creates a new TravelPort with the passed name. (Name could contain spaces!)"));
+        sender.sendMessage(commandDescription("/travel remove [<id>]",
+                "Removes the TravelPort, with the passed ID or the TravelPort you are currently staying in."));
+        sender.sendMessage(commandDescription("/travel link <id1> [<id2>]", "Links two TravelPorts. If you do not " +
+                "pass a second ID it will link with the TravelPort you are currently staying in."));
+        sender.sendMessage(commandDescription("/travel unlink [<id>]", "Unlink the TravelPort."));
+        sender.sendMessage(commandDescription("/travel info [<id>]", "Shows information about your actual TravelPort" +
+                " or the TravelPort with the passed ID!"));
+        sender.sendMessage("/travel reload - Reloads the plugin.");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GRAY + "Notice: Name and ID isn't the same. To get the ID of a TravelPort use " +
-                "/travel port");
+        sender.sendMessage(ChatColor.GRAY + "Notice: Name and ID isn't the same! To get the ID of a TravelPort use " +
+                "/travel info");
     }
 
     /**
@@ -182,9 +187,9 @@ public class TravelCommandExecutor implements CommandExecutor {
             port.setEdge2(playerSelection.getMaximumPoint());
             container.add(port);
 
-            ChatHelper.sendMessage(player, LocalizedStrings.PORT_CREATED_SUCCESSFULLY);
+            ChatHelper.sendMessage(player, Messages.onPortCreatedSuccessfully);
         } else {
-            ChatHelper.sendMessage(player, LocalizedStrings.NEED_TO_SELECT);
+            ChatHelper.sendMessage(player, Messages.needToSelectArea);
         }
     }
 
@@ -196,16 +201,20 @@ public class TravelCommandExecutor implements CommandExecutor {
      */
     public void onLinkCommand(Player player, Integer target) {
         if (container.isInsideTravelPort(player)) {
-            TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
-            TravelPort passedPort = container.get(target);
             try {
-                container.link(currentPlayerPort, passedPort);
-                ChatHelper.sendMessage(player, LocalizedStrings.LINKED_SUCCESSFULLY);
-            } catch (InvalidLinkException exception) {
-                ChatHelper.sendMessage(player, LocalizedStrings.ALREADY_LINKED);
+                TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
+                TravelPort passedPort = container.get(target);
+                try {
+                    container.link(currentPlayerPort, passedPort);
+                    ChatHelper.sendMessage(player, Messages.onLinkedSuccessfully);
+                } catch (InvalidLinkException exception) {
+                    ChatHelper.sendMessage(player, Messages.portAlreadyLinked);
+                }
+            } catch (InvalidPortIdException exception) {
+                ChatHelper.sendMessage(player, Messages.invalidPortId);
             }
         } else {
-            ChatHelper.sendMessage(player, LocalizedStrings.NEED_TO_STAY_INSIDE_PORT);
+            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
         }
     }
 
@@ -217,14 +226,18 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param second the second id passed.
      */
     public void onLinkCommand(Player player, Integer first, Integer second) {
-        TravelPort port1 = container.get(first);
-        TravelPort port2 = container.get(second);
-
         try {
-            container.link(port1, port2);
-            ChatHelper.sendMessage(player, LocalizedStrings.LINKED_SUCCESSFULLY);
-        } catch (InvalidLinkException exception) {
-            ChatHelper.sendMessage(player, LocalizedStrings.ALREADY_LINKED);
+            TravelPort port1 = container.get(first);
+            TravelPort port2 = container.get(second);
+
+            try {
+                container.link(port1, port2);
+                ChatHelper.sendMessage(player, Messages.onLinkedSuccessfully);
+            } catch (InvalidLinkException exception) {
+                ChatHelper.sendMessage(player, Messages.portAlreadyLinked);
+            }
+        } catch (InvalidPortIdException exception) {
+            ChatHelper.sendMessage(player, Messages.invalidPortId);
         }
     }
 
@@ -239,12 +252,12 @@ public class TravelCommandExecutor implements CommandExecutor {
 
             try {
                 container.unlink(currentPlayerPort);
-                ChatHelper.sendMessage(player, LocalizedStrings.UNLINKED_SUCCESSFULLY);
+                ChatHelper.sendMessage(player, Messages.onUnlinkedSuccessfully);
             } catch (InvalidLinkException e) {
-                ChatHelper.sendMessage(player, LocalizedStrings.NOT_LINKED);
+                ChatHelper.sendMessage(player, Messages.portNotLinked);
             }
         } else {
-            ChatHelper.sendMessage(player, LocalizedStrings.NEED_TO_STAY_INSIDE_PORT);
+            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
         }
     }
 
@@ -257,7 +270,7 @@ public class TravelCommandExecutor implements CommandExecutor {
         try {
             container.unlink(container.get(portId));
         } catch (InvalidLinkException e) {
-            ChatHelper.sendMessage(player, LocalizedStrings.NOT_LINKED);
+            ChatHelper.sendMessage(player, Messages.portNotLinked);
         }
     }
 
@@ -271,9 +284,9 @@ public class TravelCommandExecutor implements CommandExecutor {
             TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
 
             container.remove(currentPlayerPort);
-            ChatHelper.sendMessage(player, LocalizedStrings.REMOVED_SUCCESSFULLY);
+            ChatHelper.sendMessage(player, Messages.onRemovedSuccessfully);
         } else {
-            ChatHelper.sendMessage(player, LocalizedStrings.NEED_TO_STAY_INSIDE_PORT);
+            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
         }
     }
 
@@ -284,9 +297,13 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param portId the id of the port.
      */
     public void onRemoveCommand(Player player, Integer portId) {
-        TravelPort port = container.get(portId);
-        container.remove(port);
-        ChatHelper.sendMessage(player, LocalizedStrings.REMOVED_SUCCESSFULLY);
+        try {
+            TravelPort port = container.get(portId);
+            container.remove(port);
+            ChatHelper.sendMessage(player, Messages.onRemovedSuccessfully);
+        } catch (InvalidPortIdException exception) {
+            ChatHelper.sendMessage(player, Messages.invalidPortId);
+        }
     }
 
     /**
@@ -299,7 +316,7 @@ public class TravelCommandExecutor implements CommandExecutor {
             TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
             aboutTravelPort(player, currentPlayerPort);
         } else {
-            ChatHelper.sendMessage(player, LocalizedStrings.NEED_TO_STAY_INSIDE_PORT);
+            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
         }
     }
 
@@ -310,8 +327,12 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param portId the id the player passed to the command.
      */
     public void onInfoCommand(Player player, Integer portId) {
-        TravelPort port = container.get(portId);
-        aboutTravelPort(player, port);
+        try {
+            TravelPort port = container.get(portId);
+            aboutTravelPort(player, port);
+        } catch (InvalidPortIdException exception) {
+            ChatHelper.sendMessage(player, Messages.invalidPortId);
+        }
     }
 
     /**
@@ -323,9 +344,20 @@ public class TravelCommandExecutor implements CommandExecutor {
     private void aboutTravelPort(Player player, TravelPort port) {
         player.sendMessage(ChatColor.GREEN + "= = = Information About TravelPort = = =");
         player.sendMessage(String.format("ID: %d", port.getId()));
-        player.sendMessage(String.format("Name: %d", port.getName()));
-        player.sendMessage(String.format("Linked to ID: %d", port.getTarget()));
-        player.sendMessage(String.format("Price: %d", port.getPrice()));
+        player.sendMessage(String.format("Name: %s", port.getName()));
+        player.sendMessage(String.format("Linked to ID: %d", port.getTargetId()));
+        player.sendMessage(String.format("Price: %.2f", port.getPrice()));
         player.sendMessage(String.format("Password: %s", port.getPassword()));
+    }
+
+    /**
+     * Creates a string for command description.
+     *
+     * @param label       the label of the command to describe.
+     * @param description the description.
+     * @return the created string.
+     */
+    private String commandDescription(String label, String description) {
+        return String.format("%s%s%s - %s", ChatColor.GRAY, label, ChatColor.WHITE, description);
     }
 }

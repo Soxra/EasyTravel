@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.exceptions;
+package at.co.hohl.easytravel.data;
 
 /**
  * Exception for invalid links.

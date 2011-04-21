@@ -6,9 +6,8 @@ import at.co.hohl.easytravel.commands.DepartCommandExecutor;
 import at.co.hohl.easytravel.commands.TravelCommandExecutor;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.data.TravelPortContainer;
-import at.co.hohl.easytravel.exceptions.WarpException;
 import at.co.hohl.economy.EconomyHandler;
-import at.co.hohl.utils.ChatHelper;
+import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.Location;
@@ -85,8 +84,8 @@ public class TravelPlugin extends JavaPlugin {
      * @param currentPort the current port to warp from.
      * @throws WarpException thrown if the player couldn't get warped.
      */
-    public void warpPlayer(Player player, TravelPort currentPort) {
-        TravelPort targetPort = travelPortContainer.get(currentPort.getTarget());
+    public void teleportPlayer(Player player, TravelPort currentPort) {
+        TravelPort targetPort = travelPortContainer.get(currentPort.getTargetId());
 
         if (targetPort != null) {
             Location currentPlayer = player.getLocation();
@@ -102,7 +101,7 @@ public class TravelPlugin extends JavaPlugin {
             playerListener.onPlayerTraveled(player, currentPort, targetPort);
         } else {
             String exceptionMessage = String.format("Port '%s' (ID:%d) is linked to an invalid port (ID:%d)!",
-                    currentPort.getName(), currentPort.getId(), currentPort.getTarget());
+                    currentPort.getName(), currentPort.getId(), currentPort.getTargetId());
             throw new WarpException(exceptionMessage);
         }
     }
@@ -128,8 +127,13 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /** @return the container for the travel ports. */
-    public TravelPortContainer getTravelPortContainer() {
+    public TravelPortContainer getTravelPorts() {
         return travelPortContainer;
+    }
+
+    /** @return the used player listener. */
+    public TravelPlayerListener getPlayerListener() {
+        return playerListener;
     }
 
     /** @return the logger of this application. */
@@ -165,6 +169,15 @@ public class TravelPlugin extends JavaPlugin {
         } else {
             logger.severe(String.format("%s requires WorldEdit! Please install first.", getDescription().getName()));
             this.setEnabled(false);
+        }
+    }
+
+    /** Setups the economy system. */
+    private void setupEconomy() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("iConomy");
+        if (plugin != null) {
+            economyHandler = new iConomyHandler();
+            logger.info(String.format("%s connected to iConomy successfully!", getDescription().getName()));
         }
     }
 }

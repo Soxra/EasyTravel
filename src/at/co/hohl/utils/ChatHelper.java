@@ -6,7 +6,7 @@
 
 package at.co.hohl.utils;
 
-import at.co.hohl.easytravel.LocalizedStrings;
+import at.co.hohl.easytravel.messages.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -23,7 +23,7 @@ public class ChatHelper {
      * @param message the message to send.
      */
     public static void sendMessage(Player player, String message) {
-        player.sendMessage(replaceColorCodes(String.format(LocalizedStrings.MESSAGE_FORMAT, message)));
+        player.sendMessage(replaceColorCodes(String.format(Messages.messageFormat, message)));
     }
 
     /**

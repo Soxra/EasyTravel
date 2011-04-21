@@ -1,14 +1,17 @@
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.easytravel.LocalizedStrings;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.exceptions.WarpException;
+import at.co.hohl.easytravel.WarpException;
+import at.co.hohl.easytravel.data.InvalidPortIdException;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.data.TravelPortContainer;
+import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.utils.ChatHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,41 +44,47 @@ public class DepartCommandExecutor implements CommandExecutor {
      * @return true, if the Executor could handle the command.
      */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        TravelPortContainer container = plugin.getTravelPortContainer();
+        TravelPortContainer container = plugin.getTravelPorts();
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (plugin.getPermissionsHandler().hasPermission(player, TravelPermissions.DEPART_PERMISSION)) {
-                if (container.isInsideTravelPort(player)) {
-                    TravelPort port = container.getPlayerCurrentTravelPort(player);
 
-                    try {
-                        if (port.getPrice() > 0) {
-                            if (plugin.getEconomyHandler() != null) {
+            try {
+                if (plugin.getPermissionsHandler().hasPermission(player, TravelPermissions.DEPART_PERMISSION)) {
+                    if (container.isInsideTravelPort(player)) {
+                        TravelPort port = container.getPlayerCurrentTravelPort(player);
+
+                        try {
+                            double price = port.getPrice();
+                            if (price > 0) {
                                 EconomyHandler economyHandler = plugin.getEconomyHandler();
-
-                                if (economyHandler.getBalance(player) >= port.getPrice()) {
-                                    economyHandler.pay(player, port.getPrice());
-                                    ChatHelper.sendMessage(player, LocalizedStrings.MONEY_PAYED);
-                                    plugin.warpPlayer(player, port);
+                                if (economyHandler != null && economyHandler.pay(player, price)) {
+                                    plugin.getPlayerListener().onPlayerPaidForTravelling(player, price);
+                                    plugin.teleportPlayer(player, port);
                                 } else {
-                                    ChatHelper.sendMessage(player, LocalizedStrings.NOT_ENOUGH_MONEY);
+                                    port.getSpeaker().say(player, Messages.speakerSayNotEnoughMoney);
                                 }
                             } else {
-                                ChatHelper.sendMessage(player, LocalizedStrings.PROBLEM_WITH_ECONOMY);
+                                plugin.teleportPlayer(player, port);
                             }
-                        } else {
-                            plugin.warpPlayer(player, port);
+                        } catch (WarpException exception) {
+                            ChatHelper.sendMessage(player, Messages.portHasNoTarget);
+                            plugin.getLogger().severe(exception.getMessage());
+                        } catch (InvalidPortIdException exception) {
+                            ChatHelper.sendMessage(player, Messages.internalError);
                         }
-                    } catch (WarpException exception) {
-                        ChatHelper.sendMessage(player, LocalizedStrings.PORT_HAS_NO_TARGET);
-                        plugin.getLogger().severe(exception.getMessage());
+                    } else {
+                        ChatHelper.sendMessage(player, Messages.notInsideTravelPort);
                     }
                 } else {
-                    ChatHelper.sendMessage(player, LocalizedStrings.NOT_INSIDE_TRAVEL_PORT);
+                    ChatHelper.sendMessage(player, Messages.missDepartPermission);
                 }
-            } else {
-                ChatHelper.sendMessage(player, LocalizedStrings.NO_DEPART_PERMISSIONS);
+            } catch (CommandException exception) {
+                ChatHelper.sendMessage(player, Messages.internalError);
+
+                if (player.isOp()) {
+                    player.sendMessage(ChatColor.RED + "Error Message: " + exception.getMessage());
+                }
             }
 
             return true;

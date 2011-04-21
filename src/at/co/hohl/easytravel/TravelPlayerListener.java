@@ -2,6 +2,7 @@ package at.co.hohl.easytravel;
 
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.data.TravelPortContainer;
+import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
@@ -35,7 +36,7 @@ public class TravelPlayerListener extends PlayerListener {
     @Override
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        TravelPortContainer container = plugin.getTravelPortContainer();
+        TravelPortContainer container = plugin.getTravelPorts();
 
         if (container.isInsideTravelPort(player)) {
             // Check if player is now in TravelPort too!
@@ -67,13 +68,15 @@ public class TravelPlayerListener extends PlayerListener {
     public void onPlayerEnteredTravelPort(Player player, TravelPort port) {
         if (port.getPrice() > 0) {
             if (plugin.getEconomyHandler() != null) {
-                ChatHelper.sendMessage(player, String.format(LocalizedStrings.ON_BOARD_GREETING_PAID,
-                        port.getPrice(), plugin.getEconomyHandler().getCurrency()));
+                port.getSpeaker().say(player, String.format(Messages.speakerSayGreetingPaid, port.getPrice(),
+                        plugin.getEconomyHandler().getCurrency()));
             } else {
-                ChatHelper.sendMessage(player, LocalizedStrings.PROBLEM_WITH_ECONOMY);
+                ChatHelper.sendMessage(player, Messages.economyNotFound);
+                plugin.getLogger().warning("Player tried to use paid TravelPort, but can't use it, because of " +
+                        "missing Economy System!");
             }
         } else {
-            ChatHelper.sendMessage(player, LocalizedStrings.ON_BOARD_GREETING_FREE);
+            port.getSpeaker().say(player, Messages.speakerSayGreetingFree);
         }
     }
 
@@ -85,7 +88,7 @@ public class TravelPlayerListener extends PlayerListener {
      * @param alreadyTraveled true, if the player leaves the travel port, after traveling.
      */
     public void onPlayerLeavedTravelPort(Player player, TravelPort port, boolean alreadyTraveled) {
-        plugin.getLogger().info("Player leaved port!");
+        //plugin.getLogger().info("Player leaved port!");
     }
 
     /**
@@ -96,7 +99,18 @@ public class TravelPlayerListener extends PlayerListener {
      * @param to     the target travel port where to player goes to.
      */
     public void onPlayerTraveled(Player player, TravelPort from, TravelPort to) {
-        ChatHelper.sendMessage(player, LocalizedStrings.ARRIVING_AT_TARGET);
+        ChatHelper.sendMessage(player, Messages.onArriveTarget);
+    }
+
+    /**
+     * Called when the player paid for using a TravelPort.
+     *
+     * @param player the player which paid.
+     * @param amount the amount of money the player paid.
+     */
+    public void onPlayerPaidForTravelling(Player player, double amount) {
+        String currency = plugin.getEconomyHandler().getCurrency();
+        ChatHelper.sendMessage(player, String.format(Messages.onMoneyPayed, amount, currency));
     }
 }
 

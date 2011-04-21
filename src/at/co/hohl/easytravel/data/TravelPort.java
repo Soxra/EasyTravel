@@ -1,5 +1,7 @@
 package at.co.hohl.easytravel.data;
 
+import at.co.hohl.easytravel.messages.Messages;
+import at.co.hohl.easytravel.messages.NpcSpeaker;
 import org.bukkit.Location;
 
 /**
@@ -8,6 +10,8 @@ import org.bukkit.Location;
  * @author Michael Hohl
  */
 public class TravelPort {
+    private static final NpcSpeaker DEFAULT_SPEAKER = new NpcSpeaker(Messages.defaultSpeakerName);
+
     /** Unique ID of the Travel Port. */
     private final Integer id;
 
@@ -21,13 +25,16 @@ public class TravelPort {
     private String name;
 
     /** The name of the target of this port. */
-    private Integer target;
+    private Integer targetId;
 
     /** The password for the travel port. */
     private String password;
 
     /** The price to travel */
-    private int price = 0;
+    private double price = 0;
+
+    /** The speaker. */
+    private NpcSpeaker speaker;
 
     /** Creates a new travel port. */
     public TravelPort(Integer id) {
@@ -102,21 +109,21 @@ public class TravelPort {
     }
 
     /** @return the id of the target. */
-    public Integer getTarget() {
-        return target;
+    public Integer getTargetId() {
+        return targetId;
     }
 
     /**
      * Sets the id of the target.
      *
-     * @param target the id of the target.
+     * @param targetId the id of the target.
      */
-    public void setTarget(Integer target) {
-        this.target = target;
+    public void setTargetId(Integer targetId) {
+        this.targetId = targetId;
     }
 
     /** @return the price it costs to travel. */
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -125,7 +132,7 @@ public class TravelPort {
      *
      * @param price the price it costs to travel
      */
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -137,5 +144,28 @@ public class TravelPort {
     /** @param password sets the password needed to travel */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /** @return the speaker or the default speaker if none set. */
+    public NpcSpeaker getSpeaker() {
+        if (speaker != null) {
+            return speaker;
+        } else {
+            return DEFAULT_SPEAKER;
+        }
+    }
+
+    /**
+     * Sets the Speaker.
+     *
+     * @param speaker the speaker to set.
+     */
+    public void setSpeaker(NpcSpeaker speaker) {
+        this.speaker = speaker;
+    }
+
+    /** Returns true, if the default speaker is set. */
+    public boolean isDefaultSpeaker() {
+        return speaker == null;
     }
 }

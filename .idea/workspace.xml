@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="10099109-5adc-4c34-8cab-d1ed442c21ae" name="Default" comment="" />
+    <list default="true" id="10099109-5adc-4c34-8cab-d1ed442c21ae" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/UniversalPermissions.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/WorldEdit.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/iConomy.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/WorldEdit.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/iConomy.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Messages.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/at/co/hohl/economy/iConomyHandler.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/LocalizedStrings.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/InvalidLinkException.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidLinkException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/WarpException.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/WarpException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java" afterPath="$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java" />
+    </list>
     <ignored path="EasyTravel.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,21 +49,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" line="50" class="at.co.hohl.easytravel.commands.TravelCommandExecutor" package="at.co.hohl.easytravel.commands">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -82,7 +92,47 @@
       <file leaf-file-name="TravelPort.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="36" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0">
+            <state line="168" column="30" selection-start="4199" selection-end="4199" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Messages.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Messages.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="78" selection-start="2458" selection-end="2458" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NpcSpeaker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="35" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TravelPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="170" column="5" selection-start="6048" selection-end="6048" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TravelCommandExecutor.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="347" column="79" selection-start="14728" selection-end="14728" vertical-scroll-proportion="1.1862745">
               <folding />
             </state>
           </provider>
@@ -91,70 +141,36 @@
       <file leaf-file-name="TravelPlayerListener.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="29" selection-start="1950" selection-end="1950" vertical-scroll-proportion="0.0">
+            <state line="112" column="91" selection-start="4324" selection-end="4324" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TravelCommandExecutor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
+      <file leaf-file-name="iConomyHandler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/economy/iConomyHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="322" column="12" selection-start="13401" selection-end="13401" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="69" column="37" selection-start="1971" selection-end="1971" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TravelPlugin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java">
+      <file leaf-file-name="EconomyHandler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="150" column="29" selection-start="5325" selection-end="5325" vertical-scroll-proportion="0.0">
+            <state line="26" column="69" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LocalizedStrings.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/LocalizedStrings.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="0" selection-start="1392" selection-end="1392" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatHelper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="42" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TravelPortStorage.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TravelPortStorage.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="25" selection-start="2316" selection-end="2316" vertical-scroll-proportion="0.6955414">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InvalidPortIdException.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidPortIdException.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InvalidLinkException.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/InvalidLinkException.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="152" selection-end="152" vertical-scroll-proportion="0.0">
+            <state line="139" column="19" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -163,7 +179,7 @@
       <file leaf-file-name="TravelPortContainer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="50" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
+            <state line="53" column="50" selection-start="1669" selection-end="1669" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -178,25 +194,29 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/WarpException.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/economy/ChatColorHelper.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/utils/ChatColorHelper.java" />
-        <option value="$PROJECT_DIR$/plugin.yml" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/InvalidLinkException.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/InvalidPortIdException.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPermissions.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java" />
-        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/LocalizedStrings.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/utils/Resources.java" />
+        <option value="$PROJECT_DIR$/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/economy/iConomyHandler.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/Resources.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java" />
         <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Messages.java" />
+        <option value="$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java" />
       </list>
     </option>
   </component>
@@ -204,7 +224,7 @@
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -338,7 +358,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="exceptions" />
+              <option name="myItemId" value="messages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -401,7 +421,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -493,6 +513,7 @@
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
     <option name="FORCE_UPDATE" value="false" />
+    <configuration useDefault="true">$USER_HOME$/.subversion_IDEA</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
@@ -505,9 +526,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="954" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297362" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297362" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17780502" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -564,21 +585,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="34" selection-start="497" selection-end="497" vertical-scroll-proportion="0.28322983" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/WarpException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="25" selection-start="516" selection-end="516" vertical-scroll-proportion="0.31304348" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugin.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="14" selection-start="85" selection-end="85" vertical-scroll-proportion="0.045859873" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPermissions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="99" selection-start="486" selection-end="486" vertical-scroll-proportion="0.0">
@@ -586,51 +592,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="47" selection-start="1859" selection-end="1859" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="29" selection-start="1950" selection-end="1950" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="322" column="12" selection-start="13401" selection-end="13401" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="50" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="36" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidPortIdException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/exceptions/InvalidLinkException.java">
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidLinkException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="42" selection-start="152" selection-end="152" vertical-scroll-proportion="0.0">
           <folding />
@@ -639,28 +601,106 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/utils/ChatHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="42" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0">
+        <state line="19" column="42" selection-start="351" selection-end="351" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/InvalidPortIdException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="21" selection-start="79" selection-end="79" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/economy/EconomyHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="69" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/economy/iConomyHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="37" selection-start="1971" selection-end="1971" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="50" selection-start="1669" selection-end="1669" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="168" column="30" selection-start="4199" selection-end="4199" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/NpcSpeaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="35" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="139" column="19" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlayerListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="91" selection-start="4324" selection-end="4324" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/DepartCommandExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="102" selection-start="2469" selection-end="2469" vertical-scroll-proportion="0.42802548">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/TravelPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="29" selection-start="5325" selection-end="5325" vertical-scroll-proportion="0.0">
+        <state line="170" column="5" selection-start="6048" selection-end="6048" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/LocalizedStrings.java">
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/messages/Messages.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1392" selection-end="1392" vertical-scroll-proportion="0.0">
+        <state line="57" column="78" selection-start="2458" selection-end="2458" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/data/TravelPortStorage.java">
+    <entry file="file://$PROJECT_DIR$/src/at/co/hohl/easytravel/commands/TravelCommandExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="25" selection-start="2316" selection-end="2316" vertical-scroll-proportion="0.6955414">
+        <state line="347" column="79" selection-start="14728" selection-end="14728" vertical-scroll-proportion="1.1862745">
           <folding />
         </state>
       </provider>
@@ -682,6 +722,11 @@
           </splitter-proportions>
         </settings>
       </state>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions />
+        </settings>
+      </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
           <last-edited>Android</last-edited>
@@ -696,7 +741,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>WorldEdit API</last-edited>
+          <last-edited>Universal Permissions API</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -725,6 +770,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -732,6 +778,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>iConomy</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -739,6 +786,11 @@
               </list>
             </option>
           </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions />
         </settings>
       </state>
     </states>

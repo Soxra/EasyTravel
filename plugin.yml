@@ -1,6 +1,6 @@
 name: EasyTravel
 main: at.co.hohl.easytravel.TravelPlugin
-version: 0.1
+version: 0.1-snapshot
 database: true
 authors:
  - 'Michael Hohl (miho)'

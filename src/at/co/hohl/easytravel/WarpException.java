@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.exceptions;
+package at.co.hohl.easytravel;
 
 /**
  * Exception thrown, when the plugin can't warp the player because of an internal error.

@@ -1,9 +1,9 @@
 package at.co.hohl.easytravel.data;
 
+import at.co.hohl.easytravel.messages.NpcSpeaker;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.util.Hashtable;
@@ -27,7 +27,8 @@ final class TravelPortStorage {
     private static final int INDEX_EDGE2_X = 9;
     private static final int INDEX_EDGE2_Y = 10;
     private static final int INDEX_EDGE2_Z = 11;
-    private static final int CSV_COLUMNS = 12;
+    private static final int INDEX_SPEAKER = 12;
+    private static final int CSV_COLUMNS = 13;
 
     /** Hidden default constructor. */
     private TravelPortStorage() {
@@ -55,12 +56,15 @@ final class TravelPortStorage {
                     TravelPort port = new TravelPort(new Integer(lineParts[INDEX_ID]));
                     port.setName(lineParts[INDEX_NAME]);
                     if (!"null".equals(lineParts[INDEX_TARGET])) {
-                        port.setTarget(new Integer(lineParts[INDEX_TARGET]));
+                        port.setTargetId(new Integer(lineParts[INDEX_TARGET]));
                     }
                     if (!"null".equals(lineParts[INDEX_PASSWORD])) {
                         port.setPassword(lineParts[INDEX_PASSWORD]);
                     }
-                    port.setPrice(Integer.parseInt(lineParts[INDEX_PRICE]));
+                    if (!"null".equals(lineParts[INDEX_SPEAKER])) {
+                        port.setSpeaker(new NpcSpeaker(lineParts[INDEX_SPEAKER]));
+                    }
+                    port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
 
                     World world = server.getWorld(lineParts[INDEX_WORLD]);
                     Double edge1X = Double.parseDouble(lineParts[INDEX_EDGE1_X]);
@@ -75,10 +79,10 @@ final class TravelPortStorage {
                     Location edge2 = new Location(world, edge2X, edge2Y, edge2Z);
                     port.setEdge2(edge2);
                 } else {
-                    server.getLogger().info(String.format("Invalid number of columns! '%s'", line));
+                    server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
                 }
             } catch (NumberFormatException e) {
-                server.getLogger().info(String.format("Invalid TravelPort configuration line! '%s'", line));
+                server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
             }
         }
         scanner.close();
@@ -93,8 +97,7 @@ final class TravelPortStorage {
      * @param csvFile     the file to save.
      * @throws IOException thrown when there is an error during writing.
      */
-    static void savePorts(Hashtable<Integer, TravelPort> travelPorts, File csvFile) throws
-            IOException {
+    static void savePorts(Hashtable<Integer, TravelPort> travelPorts, File csvFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
 
         for (TravelPort port : travelPorts.values()) {
@@ -109,7 +112,7 @@ final class TravelPortStorage {
                         line.append(port.getName());
                         break;
                     case INDEX_TARGET:
-                        line.append(port.getTarget());
+                        line.append(port.getTargetId());
                         break;
                     case INDEX_PASSWORD:
                         line.append(port.getPassword());
@@ -137,6 +140,13 @@ final class TravelPortStorage {
                         break;
                     case INDEX_EDGE2_Z:
                         line.append(port.getEdge2().getBlockY());
+                        break;
+                    case INDEX_SPEAKER:
+                        if (!port.isDefaultSpeaker()) {
+                            line.append(port.getSpeaker().getName());
+                        } else {
+                            line.append("null");
+                        }
                         break;
                     default:
                         throw new RuntimeException(
