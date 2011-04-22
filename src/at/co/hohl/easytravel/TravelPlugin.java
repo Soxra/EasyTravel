@@ -85,9 +85,12 @@ public class TravelPlugin extends JavaPlugin {
      * @throws WarpException thrown if the player couldn't get warped.
      */
     public void teleportPlayer(Player player, TravelPort currentPort) {
-        TravelPort targetPort = travelPortContainer.get(currentPort.getTargetId());
+        Integer targetId = currentPort.getTargetId();
 
-        if (targetPort != null) {
+
+        if (targetId != null) {
+            TravelPort targetPort = travelPortContainer.get(targetId);
+
             Location currentPlayer = player.getLocation();
             Location currentEdge1 = currentPort.getEdge1();
             Location targetEdge1 = targetPort.getEdge1();
