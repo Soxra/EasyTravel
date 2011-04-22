@@ -23,7 +23,7 @@ public final class ChatHelper {
      * @param message the message to send.
      */
     public static void sendMessage(Player player, String message) {
-        player.sendMessage(replaceColorCodes(String.format(Messages.messageFormat, message)));
+        player.sendMessage(replaceColorCodes(String.format(Messages.get("format"), message)));
     }
 
     /**

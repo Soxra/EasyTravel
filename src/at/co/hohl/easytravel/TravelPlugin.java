@@ -4,8 +4,11 @@ import at.co.hohl.Permissions.Permission;
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.commands.DepartCommandExecutor;
 import at.co.hohl.easytravel.commands.TravelCommandExecutor;
+import at.co.hohl.easytravel.data.FlatFileTravelPortContainer;
+import at.co.hohl.easytravel.data.PlayerInformation;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.data.TravelPortContainer;
+import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -19,6 +22,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -36,6 +41,9 @@ public class TravelPlugin extends JavaPlugin {
     /** CommandExecutor for /depart. */
     private final DepartCommandExecutor departCommandExecutor = new DepartCommandExecutor(this);
 
+    /** Player Information storage. */
+    private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
+
     /** Logger used for outputting debug information. */
     private final Logger logger = Logger.getLogger("Minecraft.EasyTravel");
 
@@ -49,7 +57,7 @@ public class TravelPlugin extends JavaPlugin {
     private WorldEditPlugin worldEditPlugin;
 
     /** The container which holds the TravelPorts. */
-    private TravelPortContainer travelPortContainer;
+    private FlatFileTravelPortContainer travelPortContainer;
 
     /** Enables this plugin. */
     public void onEnable() {
@@ -57,9 +65,6 @@ public class TravelPlugin extends JavaPlugin {
         setupWorldEdit();
         setupPermissions();
         setupEventHandler();
-
-        travelPortContainer = new TravelPortContainer(this, new File(getDataFolder(), "ports.csv"));
-        travelPortContainer.load();
 
         logger.info(String.format("%s is enabled!", getDescription().getFullName()));
     }
@@ -78,7 +83,7 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /**
-     * Warps a player.
+     * Teleports the player.
      *
      * @param player      the player to port.
      * @param currentPort the current port to warp from.
@@ -86,7 +91,6 @@ public class TravelPlugin extends JavaPlugin {
      */
     public void teleportPlayer(Player player, TravelPort currentPort) {
         Integer targetId = currentPort.getTargetId();
-
 
         if (targetId != null) {
             TravelPort targetPort = travelPortContainer.get(targetId);
@@ -99,8 +103,12 @@ public class TravelPlugin extends JavaPlugin {
             double playerOffsetZ = currentEdge1.getZ() - currentPlayer.getZ();
             Location targetPlayer = new Location(targetEdge1.getWorld(), targetEdge1.getX() - playerOffsetX,
                     targetEdge1.getY() - playerOffsetY, targetEdge1.getZ() - playerOffsetZ);
-
             player.teleport(targetPlayer);
+
+            PlayerInformation playerInformation = getPlayerInformation(player);
+            playerInformation.setCurrentPort(targetPort);
+            playerInformation.setAlreadyTravelled(true);
+
             playerListener.onPlayerTraveled(player, currentPort, targetPort);
         } else {
             String exceptionMessage = String.format("Port '%s' (ID:%d) is linked to an invalid port (ID:%d)!",
@@ -139,6 +147,21 @@ public class TravelPlugin extends JavaPlugin {
         return playerListener;
     }
 
+    /**
+     * Returns the PlayerInformation data holder, for the passed player. Automatically creates a new one, if the player
+     * isn't in database yet.
+     *
+     * @param player the player.
+     * @return the PlayerInformation.
+     */
+    public PlayerInformation getPlayerInformation(Player player) {
+        if (!playerInformationMap.containsKey(player)) {
+            playerInformationMap.put(player, new PlayerInformation());
+        }
+
+        return playerInformationMap.get(player);
+    }
+
     /** @return the logger of this application. */
     public Logger getLogger() {
         return logger;
@@ -146,7 +169,16 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Loads the configuration. */
     private void loadConfiguration() {
+        // Properties...
         Configuration configuration = getConfiguration();
+
+        // Messages...
+        Configuration messages = new Configuration(new File(getDataFolder(), "messages.yml"));
+        Messages.load(messages);
+
+        // TravelPorts...
+        travelPortContainer = new FlatFileTravelPortContainer(this, new File(getDataFolder(), "ports.csv"));
+        travelPortContainer.load();
     }
 
 

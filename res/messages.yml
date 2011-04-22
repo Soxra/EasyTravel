@@ -1,0 +1,41 @@
+# General Message Format:
+# You could set a prefix here and it will used for all output by this plugin. (Except the Help)
+format: '&d%s'
+
+# The greetings get shown when you enter a TravelPort.
+greeting:
+    free: 'Welcome on board! Use /depart to begin your journey.'
+    paid: 'Welcome on board! This journey costs &a%.2f %s&e. Use /depart to begin your journey.'
+
+# Called when events occurred.
+event:
+    arrived: 'You arrived at &a%s&d!'
+    money-paid: 'You have been charged &a%.2f %s&d for this trip!'
+
+# Messages which are shown to the player when there are problems, or they have made a mistake.
+problem:
+    little-money: '&cYou haven't enough money for this journey!'
+    not-allowed: '&cYou are not allowed to use begin this journey!'
+    not-inside-port: '&cYou can only depart, when you are on board!'
+    invalid-password: '&cThis journey is locked by with a magical key! Use &4/depart <password>&c to unlock it!'
+    miss-economy: '&cSorry. You can't begin your journey, because of technical problems.'
+    miss-target: '&cThe port doesn't have a target! Link ports, before using /depart.'
+    internal-error: '&cInternal Error occurred! Please contact an Administrator!'
+
+# This messages are only shown in the moderator backend.
+moderator:
+    successfully:
+         created: '&2Port created successfully!'
+         removed: '&2Port removed successfully!'
+         linked: '&2Ports linked successfully!'
+         unlinked: '&2Port unlinked successfully!'
+    problem:
+         invalid-use: '&cInvalid use of this command! Use /travel help for information how to use it.'
+         create:
+              pass-name: '&cYou need to pass a name, when creating a TravelPort!'
+              select-area: '&cYou need to select an area with you WorldEdit wand!'
+         others:
+              not-inside: '&cYou are not inside a TravelPort!'
+              already-linked: '&cAt least one of the port is already linked! Do unlink before!'
+              not-linked: '&cPort isn't linked to another!'
+              invalid-id: '&cPassed ID isn't a valid port id!'

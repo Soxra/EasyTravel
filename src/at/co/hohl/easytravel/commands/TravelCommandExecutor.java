@@ -181,13 +181,12 @@ public class TravelCommandExecutor implements CommandExecutor {
         Selection playerSelection = plugin.getSelection(player);
 
         if (playerSelection != null && playerSelection.getArea() > 1) {
-            TravelPort port = new TravelPort(container.getFreeTravelPortId());
+            TravelPort port = container.create();
             port.setName(name);
             port.setEdge1(playerSelection.getMinimumPoint());
             port.setEdge2(playerSelection.getMaximumPoint());
-            container.add(port);
 
-            ChatHelper.sendMessage(player, Messages.onPortCreatedSuccessfully);
+            ChatHelper.sendMessage(player, Messages.portCreatedSuccessfully);
         } else {
             ChatHelper.sendMessage(player, Messages.needToSelectArea);
         }
@@ -200,13 +199,14 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param target the target to link.
      */
     public void onLinkCommand(Player player, Integer target) {
-        if (container.isInsideTravelPort(player)) {
+        TravelPort currentPlayerPort = plugin.getPlayerInformation(player).getCurrentPort();
+
+        if (currentPlayerPort != null) {
             try {
-                TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
                 TravelPort passedPort = container.get(target);
                 try {
                     container.link(currentPlayerPort, passedPort);
-                    ChatHelper.sendMessage(player, Messages.onLinkedSuccessfully);
+                    ChatHelper.sendMessage(player, Messages.linkedSuccessfully);
                 } catch (InvalidLinkException exception) {
                     ChatHelper.sendMessage(player, Messages.portAlreadyLinked);
                 }
@@ -214,7 +214,7 @@ public class TravelCommandExecutor implements CommandExecutor {
                 ChatHelper.sendMessage(player, Messages.invalidPortId);
             }
         } else {
-            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
+            ChatHelper.sendMessage(player, Messages.notInsideTravelPort);
         }
     }
 
@@ -232,7 +232,7 @@ public class TravelCommandExecutor implements CommandExecutor {
 
             try {
                 container.link(port1, port2);
-                ChatHelper.sendMessage(player, Messages.onLinkedSuccessfully);
+                ChatHelper.sendMessage(player, Messages.linkedSuccessfully);
             } catch (InvalidLinkException exception) {
                 ChatHelper.sendMessage(player, Messages.portAlreadyLinked);
             }
@@ -247,17 +247,17 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param player the player which calls the command.
      */
     public void onUnlinkCommand(Player player) {
-        if (container.isInsideTravelPort(player)) {
-            TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
+        TravelPort currentPlayerPort = plugin.getPlayerInformation(player).getCurrentPort();
 
+        if (currentPlayerPort != null) {
             try {
                 container.unlink(currentPlayerPort);
-                ChatHelper.sendMessage(player, Messages.onUnlinkedSuccessfully);
+                ChatHelper.sendMessage(player, Messages.unlinkedSuccessfully);
             } catch (InvalidLinkException e) {
                 ChatHelper.sendMessage(player, Messages.portNotLinked);
             }
         } else {
-            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
+            ChatHelper.sendMessage(player, Messages.notInsideTravelPort);
         }
     }
 
@@ -280,13 +280,13 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param player the player which called the command.
      */
     public void onRemoveCommand(Player player) {
-        if (container.isInsideTravelPort(player)) {
-            TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
+        TravelPort currentPlayerPort = plugin.getPlayerInformation(player).getCurrentPort();
 
+        if (currentPlayerPort != null) {
             container.remove(currentPlayerPort);
-            ChatHelper.sendMessage(player, Messages.onRemovedSuccessfully);
+            ChatHelper.sendMessage(player, Messages.removedSuccessfully);
         } else {
-            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
+            ChatHelper.sendMessage(player, Messages.notInsideTravelPort);
         }
     }
 
@@ -300,7 +300,7 @@ public class TravelCommandExecutor implements CommandExecutor {
         try {
             TravelPort port = container.get(portId);
             container.remove(port);
-            ChatHelper.sendMessage(player, Messages.onRemovedSuccessfully);
+            ChatHelper.sendMessage(player, Messages.removedSuccessfully);
         } catch (InvalidPortIdException exception) {
             ChatHelper.sendMessage(player, Messages.invalidPortId);
         }
@@ -312,11 +312,12 @@ public class TravelCommandExecutor implements CommandExecutor {
      * @param player the player which called the info.
      */
     public void onInfoCommand(Player player) {
-        if (container.isInsideTravelPort(player)) {
-            TravelPort currentPlayerPort = container.getPlayerCurrentTravelPort(player);
+        TravelPort currentPlayerPort = plugin.getPlayerInformation(player).getCurrentPort();
+
+        if (currentPlayerPort != null) {
             aboutTravelPort(player, currentPlayerPort);
         } else {
-            ChatHelper.sendMessage(player, Messages.needToStayInsidePort);
+            ChatHelper.sendMessage(player, Messages.notInsideTravelPort);
         }
     }
 

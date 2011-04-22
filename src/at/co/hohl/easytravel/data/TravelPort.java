@@ -1,8 +1,11 @@
 package at.co.hohl.easytravel.data;
 
-import at.co.hohl.easytravel.messages.Messages;
-import at.co.hohl.easytravel.messages.Speaker;
+import at.co.hohl.Permissions.PermissionsHandler;
+import at.co.hohl.easytravel.TravelPermissions;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * Represents a place, where a user could travel.
@@ -10,8 +13,6 @@ import org.bukkit.Location;
  * @author Michael Hohl
  */
 public class TravelPort {
-    private static final Speaker DEFAULT_SPEAKER = new Speaker(Messages.defaultSpeakerName);
-
     /** Unique ID of the Travel Port. */
     private final Integer id;
 
@@ -30,11 +31,11 @@ public class TravelPort {
     /** The password for the travel port. */
     private String password;
 
+    /** List of allowed Groups and Players. */
+    private List<String> allowed;
+
     /** The price to travel */
     private double price;
-
-    /** The speaker. */
-    private Speaker speaker;
 
     /**
      * Creates a new travel port.
@@ -52,7 +53,6 @@ public class TravelPort {
      * @return true, if the location is inside the TravelPoint.
      */
     public final boolean contains(Location location) {
-
         boolean insideX = Math.min(edge1.getBlockX(), edge2.getBlockX()) <= location.getBlockX() &&
                 location.getBlockX() <= Math.max(edge1.getBlockX(), edge2.getBlockX());
 
@@ -63,6 +63,67 @@ public class TravelPort {
                 location.getBlockZ() <= Math.max(edge1.getBlockZ(), edge2.getBlockZ()) + 1;
 
         return insideX && insideY && insideZ;
+    }
+
+    /**
+     * Sets who is allowed to use this TravelPort. If set to null, everybody is allowed to use.
+     *
+     * @param allowed list of Strings with names of groups and players.
+     */
+    public void setAllowed(List<String> allowed) {
+        this.allowed = allowed;
+    }
+
+    /** @return true, if this TravelPort is allowed to everybody. */
+    public boolean isAllowedToEverybody() {
+        if (allowed == null || allowed.size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the player is allowed to use the TravelPort.
+     *
+     * @param permissions needed to check if the user is in group.
+     * @param player      the player to check.
+     * @return true, if the player is allowed to.
+     */
+    public boolean isAllowed(PermissionsHandler permissions, Player player) {
+        if (permissions.hasPermission(player, TravelPermissions.DEPART_PERMISSION)) {
+            if (isAllowedToEverybody() || allowed.contains(player.getName())) {
+                return true;
+            } else {
+                String group = permissions.getGroup(player);
+                return allowed.contains(group);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /** Allows this TravelPort to everybody. */
+    public void setAllowedToEverybody() {
+        allowed.clear();
+    }
+
+    /**
+     * Adds somebody to the allowed list.
+     *
+     * @param allowed the one to add.
+     */
+    public void addAllowed(String allowed) {
+        this.allowed.add(allowed.trim());
+    }
+
+    /**
+     * Removes someone from the allowed list. If the allowed list is empty, everybody is allowed to use!
+     *
+     * @param allowed the one to remove.
+     */
+    public void removeAllowed(String allowed) {
+        this.allowed.remove(allowed);
     }
 
     /** @return the unique id of the travel port. */
@@ -150,26 +211,8 @@ public class TravelPort {
         this.password = password;
     }
 
-    /** @return the speaker or the default speaker if none set. */
-    public final Speaker getSpeaker() {
-        if (speaker != null) {
-            return speaker;
-        } else {
-            return DEFAULT_SPEAKER;
-        }
-    }
-
-    /**
-     * Sets the Speaker.
-     *
-     * @param speaker the speaker to set.
-     */
-    public final void setSpeaker(Speaker speaker) {
-        this.speaker = speaker;
-    }
-
-    /** @return true, if the default speaker is set. */
-    public final boolean isDefaultSpeaker() {
-        return speaker == null;
+    /** @return a list of allowed groups and player. If null everybody is allowed to use that TravelPort. */
+    public List<String> getAllowed() {
+        return allowed;
     }
 }

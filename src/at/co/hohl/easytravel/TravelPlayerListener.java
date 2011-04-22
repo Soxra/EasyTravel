@@ -1,7 +1,7 @@
 package at.co.hohl.easytravel;
 
+import at.co.hohl.easytravel.data.PlayerInformation;
 import at.co.hohl.easytravel.data.TravelPort;
-import at.co.hohl.easytravel.data.TravelPortContainer;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
@@ -36,23 +36,24 @@ public class TravelPlayerListener extends PlayerListener {
     @Override
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        TravelPortContainer container = plugin.getTravelPorts();
+        PlayerInformation playerInformation = plugin.getPlayerInformation(player);
+        TravelPort currentTravelPort = playerInformation.getCurrentPort();
 
-        if (container.isInsideTravelPort(player)) {
+        if (currentTravelPort != null) {
             // Check if player is now in TravelPort too!
-            TravelPort port = container.getPlayerCurrentTravelPort(player);
-            if (!port.contains(player.getLocation())) {
-                boolean traveledRecently = container.isTraveledRecently(player);
-                onPlayerLeavedTravelPort(player, port, traveledRecently);
-                container.setTraveledRecently(player, false);
-                container.setPlayerCurrentTravelPort(player, null);
+            if (!currentTravelPort.contains(player.getLocation())) {
+                boolean traveledRecently = playerInformation.isAlreadyTravelled();
+                onPlayerLeavedTravelPort(player, currentTravelPort, traveledRecently);
+                playerInformation.setAlreadyTravelled(false);
+                playerInformation.setCurrentPort(null);
             }
         } else {
             // Check if player now has entered one.
-            Collection<TravelPort> ports = container.getAll();
+
+            Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
             for (TravelPort port : ports) {
                 if (port.contains(player.getLocation())) {
-                    container.setPlayerCurrentTravelPort(player, port);
+                    playerInformation.setCurrentPort(port);
                     onPlayerEnteredTravelPort(player, port);
                 }
             }
@@ -68,15 +69,15 @@ public class TravelPlayerListener extends PlayerListener {
     public void onPlayerEnteredTravelPort(Player player, TravelPort port) {
         if (port.getPrice() > 0) {
             if (plugin.getEconomyHandler() != null) {
-                port.getSpeaker().say(player, String.format(Messages.speakerSayGreetingPaid, port.getPrice(),
+                ChatHelper.sendMessage(player, String.format(Messages.get("greeting.paid"), port.getPrice(),
                         plugin.getEconomyHandler().getCurrency()));
             } else {
-                ChatHelper.sendMessage(player, Messages.economyNotFound);
+                ChatHelper.sendMessage(player, Messages.get("problem.miss-economy"));
                 plugin.getLogger().warning("Player tried to use paid TravelPort, but can't use it, because of " +
                         "missing Economy System!");
             }
         } else {
-            port.getSpeaker().say(player, Messages.speakerSayGreetingFree);
+            ChatHelper.sendMessage(player, Messages.get("greeting.free"));
         }
     }
 
@@ -99,7 +100,7 @@ public class TravelPlayerListener extends PlayerListener {
      * @param to     the target travel port where to player goes to.
      */
     public void onPlayerTraveled(Player player, TravelPort from, TravelPort to) {
-        ChatHelper.sendMessage(player, Messages.onArriveTarget);
+        ChatHelper.sendMessage(player, String.format(Messages.get("event.arrived"), to.getName()));
     }
 
     /**
@@ -110,7 +111,7 @@ public class TravelPlayerListener extends PlayerListener {
      */
     public void onPlayerPaidForTravelling(Player player, double amount) {
         String currency = plugin.getEconomyHandler().getCurrency();
-        ChatHelper.sendMessage(player, String.format(Messages.onMoneyPayed, amount, currency));
+        ChatHelper.sendMessage(player, String.format(Messages.get("event.money-paid"), amount, currency));
     }
 }
 
