@@ -166,6 +166,7 @@ public class TravelPlugin extends JavaPlugin {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
         if (plugin != null) {
             worldEditPlugin = (WorldEditPlugin) plugin;
+            logger.info(String.format("%s connected to WorldEdit successfully!", getDescription().getName()));
         } else {
             logger.severe(String.format("%s requires WorldEdit! Please install first.", getDescription().getName()));
             this.setEnabled(false);

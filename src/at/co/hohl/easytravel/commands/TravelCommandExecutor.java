@@ -161,7 +161,7 @@ public class TravelCommandExecutor implements CommandExecutor {
         sender.sendMessage(commandDescription("/travel remove [<id>]",
                 "Removes the TravelPort, with the passed ID or the TravelPort you are currently staying in."));
         sender.sendMessage(commandDescription("/travel link <id1> [<id2>]", "Links two TravelPorts. If you do not " +
-                "pass a second ID it will link with the TravelPort you are currently staying in."));
+                "pass a second ID it will link with the TravelPort you are currently staying at."));
         sender.sendMessage(commandDescription("/travel unlink [<id>]", "Unlink the TravelPort."));
         sender.sendMessage(commandDescription("/travel info [<id>]", "Shows information about your actual TravelPort" +
                 " or the TravelPort with the passed ID!"));

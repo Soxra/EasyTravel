@@ -40,14 +40,14 @@ final class TravelPortStorage {
      * Loads TravelPorts out of a file into the passed Hashtable.
      *
      * @param server  the server used for searching the worlds.
-     * @param cvsFile the file to load.
+     * @param csvFile the file to load.
      * @param ports   the Hashtable used to store the loaded TravelPorts.
      * @throws IOException thrown when there are problems in reading the file.
      */
-    static void loadPorts(Server server, Hashtable<Integer, TravelPort> ports, File cvsFile) throws IOException {
+    static void loadPorts(Server server, Hashtable<Integer, TravelPort> ports, File csvFile) throws IOException {
         ports.clear();
 
-        Scanner scanner = new Scanner(new FileReader(cvsFile));
+        Scanner scanner = new Scanner(new FileReader(csvFile));
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             try {
@@ -78,6 +78,8 @@ final class TravelPortStorage {
                     Double edge2Z = Double.parseDouble(lineParts[INDEX_EDGE2_Z]);
                     Location edge2 = new Location(world, edge2X, edge2Y, edge2Z);
                     port.setEdge2(edge2);
+
+                    ports.put(port.getId(), port);
                 } else {
                     server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
                 }
