@@ -89,7 +89,7 @@ public class TravelCommandExecutor implements CommandExecutor {
                     } else if ("link".equals(args[0])) {
                         if (args.length == 2) {
                             try {
-                                Integer port1 = new Integer(args[1]);
+                                Integer port1 = Integer.valueOf(args[1]);
 
                                 onLinkCommand(player, port1);
                             } catch (NumberFormatException exception) {
@@ -97,8 +97,8 @@ public class TravelCommandExecutor implements CommandExecutor {
                             }
                         } else if (args.length == 3) {
                             try {
-                                Integer port1 = new Integer(args[1]);
-                                Integer port2 = new Integer(args[2]);
+                                Integer port1 = Integer.valueOf((args[1]));
+                                Integer port2 = Integer.valueOf((args[2]));
 
                                 onLinkCommand(player, port1, port2);
                             } catch (NumberFormatException exception) {

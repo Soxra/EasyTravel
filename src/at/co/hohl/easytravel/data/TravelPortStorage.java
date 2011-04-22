@@ -6,7 +6,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 
 import java.io.*;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -37,26 +37,27 @@ final class TravelPortStorage {
     }
 
     /**
-     * Loads TravelPorts out of a file into the passed Hashtable.
+     * Loads TravelPorts out of a file into the passed Map.
      *
      * @param server  the server used for searching the worlds.
      * @param csvFile the file to load.
-     * @param ports   the Hashtable used to store the loaded TravelPorts.
+     * @param ports   the Map used to store the loaded TravelPorts.
      * @throws IOException thrown when there are problems in reading the file.
      */
-    static void loadPorts(Server server, Hashtable<Integer, TravelPort> ports, File csvFile) throws IOException {
+    static void loadPorts(Server server, Map<Integer, TravelPort> ports, File csvFile) throws IOException {
         ports.clear();
 
-        Scanner scanner = new Scanner(new FileReader(csvFile));
+        FileReader reader = new FileReader(csvFile);
+        Scanner scanner = new Scanner(reader);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             try {
                 String[] lineParts = line.split(";");
                 if (lineParts.length == CSV_COLUMNS) {
-                    TravelPort port = new TravelPort(new Integer(lineParts[INDEX_ID]));
+                    TravelPort port = new TravelPort(Integer.valueOf((lineParts[INDEX_ID])));
                     port.setName(lineParts[INDEX_NAME]);
                     if (!"null".equals(lineParts[INDEX_TARGET])) {
-                        port.setTargetId(new Integer(lineParts[INDEX_TARGET]));
+                        port.setTargetId(Integer.valueOf((lineParts[INDEX_TARGET])));
                     }
                     if (!"null".equals(lineParts[INDEX_PASSWORD])) {
                         port.setPassword(lineParts[INDEX_PASSWORD]);
@@ -88,6 +89,7 @@ final class TravelPortStorage {
             }
         }
         scanner.close();
+        reader.close();
 
         server.getLogger().info(String.format("Loaded %d TravelPorts!", ports.size()));
     }
@@ -99,7 +101,7 @@ final class TravelPortStorage {
      * @param csvFile     the file to save.
      * @throws IOException thrown when there is an error during writing.
      */
-    static void savePorts(Hashtable<Integer, TravelPort> travelPorts, File csvFile) throws IOException {
+    static void savePorts(Map<Integer, TravelPort> travelPorts, File csvFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
 
         for (TravelPort port : travelPorts.values()) {

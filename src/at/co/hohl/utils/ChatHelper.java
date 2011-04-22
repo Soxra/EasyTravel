@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  *
  * @author Michael Hohl
  */
-public class ChatHelper {
+public final class ChatHelper {
     /**
      * Sends the passed player the message.
      *
@@ -38,5 +38,9 @@ public class ChatHelper {
         }
 
         return message;
+    }
+
+    /** Hidden constructor. */
+    private ChatHelper() {
     }
 }

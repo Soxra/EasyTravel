@@ -43,7 +43,7 @@ public class DepartCommandExecutor implements CommandExecutor {
      * @param args    the arguments passed to the command.
      * @return true, if the Executor could handle the command.
      */
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         TravelPortContainer container = plugin.getTravelPorts();
 
         if (sender instanceof Player) {

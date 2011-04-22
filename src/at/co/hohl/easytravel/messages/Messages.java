@@ -53,7 +53,12 @@ public final class Messages {
 
     public static String portNotLinked = "&cPort isn't linked to another!";
 
-    public static String invalidUseOfCommand = "&cInvalid use of this command! Use /travel help for information how to use it.";
+    public static String invalidUseOfCommand =
+            "&cInvalid use of this command! Use /travel help for information how to use it.";
 
     public static String invalidPortId = "&cPassed ID isn't a valid port id!";
+
+    /** Hidden constructor. */
+    private Messages() {
+    }
 }

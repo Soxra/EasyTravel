@@ -13,4 +13,8 @@ public final class TravelPermissions {
 
     /** The Permission needed to create new TravelPorts. */
     public final static Permission MODERATE_PERMISSION = new Permission("easytravel.moderate", true);
+
+    /** Hidden constructor. */
+    private TravelPermissions() {
+    }
 }

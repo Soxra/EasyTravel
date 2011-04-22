@@ -7,7 +7,8 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -26,13 +27,13 @@ public class TravelPortContainer {
     private final Logger logger;
 
     /** Contains all travel ports. */
-    private final Hashtable<Integer, TravelPort> travelPorts = new Hashtable<Integer, TravelPort>();
+    private final Map<Integer, TravelPort> travelPorts = new HashMap<Integer, TravelPort>();
 
     /** The travel port, where a player is inside. */
-    private final Hashtable<Player, TravelPort> playerInsideTravelPort = new Hashtable<Player, TravelPort>();
+    private final Map<Player, TravelPort> playerInsideTravelPort = new HashMap<Player, TravelPort>();
 
     /** true, if the passed player traveled recently. */
-    private final Hashtable<Player, Boolean> playerTraveledRecently = new Hashtable<Player, Boolean>();
+    private final Map<Player, Boolean> playerTraveledRecently = new HashMap<Player, Boolean>();
 
 
     /**
@@ -82,7 +83,7 @@ public class TravelPortContainer {
      *          thrown when there isn't any port with the passed id.
      */
     public TravelPort get(Integer id) {
-        if (travelPorts.contains(id)) {
+        if (travelPorts.containsKey(id)) {
             return travelPorts.get(id);
         } else {
             throw new InvalidPortIdException();
@@ -139,8 +140,8 @@ public class TravelPortContainer {
     /**
      * Unlink the passed TravelPort
      *
-     * @param port
-     * @throws InvalidLinkException
+     * @param port the port to unlink
+     * @throws InvalidLinkException thrown when port isn't linked to another.
      */
     public void unlink(TravelPort port) throws InvalidLinkException {
         if (port.getTargetId() != null) {
@@ -149,13 +150,13 @@ public class TravelPortContainer {
             port.setTargetId(null);
             anotherPort.setTargetId(null);
         } else {
-            throw new InvalidLinkException("Can't unlinke ports, which aren't linked!");
+            throw new InvalidLinkException("Can't unlink ports, which aren't linked!");
         }
     }
 
     /** @return the next free travel port id. */
     public Integer getFreeTravelPortId() {
-        Integer currentId = new Integer(0);
+        Integer currentId = Integer.valueOf(0);
 
         for (TravelPort travelPort : travelPorts.values()) {
             if (travelPort.getId() > currentId) {

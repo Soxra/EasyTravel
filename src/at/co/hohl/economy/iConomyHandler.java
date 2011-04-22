@@ -15,7 +15,7 @@ public class iConomyHandler implements EconomyHandler {
     }
 
     /** @return the currency of the economy system. */
-    public String getCurrency() {
+    public final String getCurrency() {
         return iConomy.getBank().getCurrency();
     }
 
@@ -25,7 +25,7 @@ public class iConomyHandler implements EconomyHandler {
      * @param player the player.
      * @return the amount of money on his account.
      */
-    public double getBalance(Player player) {
+    public final double getBalance(Player player) {
         Account playersAccount = iConomy.getBank().getAccount(player.getName());
 
         if (playersAccount != null) {
@@ -42,7 +42,7 @@ public class iConomyHandler implements EconomyHandler {
      * @param amount the amount of money to pay.
      * @return false, if the player has not enough money.
      */
-    public boolean pay(Player player, double amount) {
+    public final boolean pay(Player player, double amount) {
         Account playersAccount = iConomy.getBank().getAccount(player.getName());
 
         if (playersAccount != null) {
@@ -63,7 +63,7 @@ public class iConomyHandler implements EconomyHandler {
      * @param player the player.
      * @param amount the amount of money to grant.
      */
-    public void grant(Player player, double amount) {
+    public final void grant(Player player, double amount) {
         Account playersAccount = iConomy.getBank().getAccount(player.getName());
 
         if (playersAccount != null) {

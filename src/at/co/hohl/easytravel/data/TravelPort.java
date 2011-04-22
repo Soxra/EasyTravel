@@ -31,24 +31,18 @@ public class TravelPort {
     private String password;
 
     /** The price to travel */
-    private double price = 0;
+    private double price;
 
     /** The speaker. */
     private Speaker speaker;
 
-    /** Creates a new travel port. */
+    /**
+     * Creates a new travel port.
+     *
+     * @param id the id used for this port.
+     */
     public TravelPort(Integer id) {
         this.id = id;
-    }
-
-    /** @return the unique id of the travel port. */
-    public Integer getId() {
-        return id;
-    }
-
-    /** @return the first edge. */
-    public Location getEdge1() {
-        return edge1;
     }
 
     /**
@@ -57,7 +51,7 @@ public class TravelPort {
      * @param location the location to check.
      * @return true, if the location is inside the TravelPoint.
      */
-    public boolean contains(Location location) {
+    public final boolean contains(Location location) {
 
         boolean insideX = Math.min(edge1.getBlockX(), edge2.getBlockX()) <= location.getBlockX() &&
                 location.getBlockX() <= Math.max(edge1.getBlockX(), edge2.getBlockX());
@@ -71,17 +65,27 @@ public class TravelPort {
         return insideX && insideY && insideZ;
     }
 
+    /** @return the unique id of the travel port. */
+    public final Integer getId() {
+        return id;
+    }
+
+    /** @return the first edge. */
+    public final Location getEdge1() {
+        return edge1;
+    }
+
     /**
      * Sets the first edge.
      *
      * @param edge1 the first edge.
      */
-    public void setEdge1(Location edge1) {
+    public final void setEdge1(Location edge1) {
         this.edge1 = edge1;
     }
 
     /** @return the second edge. */
-    public Location getEdge2() {
+    public final Location getEdge2() {
         return edge2;
     }
 
@@ -90,12 +94,12 @@ public class TravelPort {
      *
      * @param edge2 the second edge.
      */
-    public void setEdge2(Location edge2) {
+    public final void setEdge2(Location edge2) {
         this.edge2 = edge2;
     }
 
     /** @return the name of the travel point. */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -104,12 +108,12 @@ public class TravelPort {
      *
      * @param name the name to set.
      */
-    public void setName(String name) {
+    public final void setName(String name) {
         this.name = name;
     }
 
     /** @return the id of the target. */
-    public Integer getTargetId() {
+    public final Integer getTargetId() {
         return targetId;
     }
 
@@ -118,12 +122,12 @@ public class TravelPort {
      *
      * @param targetId the id of the target.
      */
-    public void setTargetId(Integer targetId) {
+    public final void setTargetId(Integer targetId) {
         this.targetId = targetId;
     }
 
     /** @return the price it costs to travel. */
-    public double getPrice() {
+    public final double getPrice() {
         return price;
     }
 
@@ -132,22 +136,22 @@ public class TravelPort {
      *
      * @param price the price it costs to travel
      */
-    public void setPrice(double price) {
+    public final void setPrice(double price) {
         this.price = price;
     }
 
     /** @return the password needed to travel with this port. */
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
     /** @param password sets the password needed to travel */
-    public void setPassword(String password) {
+    public final void setPassword(String password) {
         this.password = password;
     }
 
     /** @return the speaker or the default speaker if none set. */
-    public Speaker getSpeaker() {
+    public final Speaker getSpeaker() {
         if (speaker != null) {
             return speaker;
         } else {
@@ -160,12 +164,12 @@ public class TravelPort {
      *
      * @param speaker the speaker to set.
      */
-    public void setSpeaker(Speaker speaker) {
+    public final void setSpeaker(Speaker speaker) {
         this.speaker = speaker;
     }
 
-    /** Returns true, if the default speaker is set. */
-    public boolean isDefaultSpeaker() {
+    /** @return true, if the default speaker is set. */
+    public final boolean isDefaultSpeaker() {
         return speaker == null;
     }
 }
