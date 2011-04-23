@@ -39,13 +39,16 @@ public class PortCreateCommandExecutor extends SubCommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
+        Player player = (Player) sender;
+
         if (plugin.getPermissionsHandler().hasPermission(sender, TravelPermissions.MODERATE_PERMISSION)) {
             String name = StringHelper.toSingleString(args, " ", 1);
-            Selection playerSelection = plugin.getSelection((Player) sender);
+            Selection playerSelection = plugin.getSelection(player);
 
             if (playerSelection != null && playerSelection.getArea() > 1) {
                 TravelPort port = plugin.getTravelPorts().create();
                 port.setName(name);
+                port.setOwner(player.getName());
                 port.setEdge1(playerSelection.getMinimumPoint());
                 port.setEdge2(playerSelection.getMaximumPoint());
 

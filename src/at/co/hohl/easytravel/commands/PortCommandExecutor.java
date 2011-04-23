@@ -73,4 +73,9 @@ public class PortCommandExecutor implements CommandExecutor {
             return true;
         }
     }
+
+    /** @return sub commands by this plugin. */
+    public Map<String, SubCommandExecutor> getSubCommands() {
+        return subCommands;
+    }
 }
