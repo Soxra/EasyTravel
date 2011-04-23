@@ -8,7 +8,7 @@ package at.co.hohl.utils;
 
 import at.co.hohl.easytravel.messages.Messages;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 /**
  * Helper class for using color codes.
@@ -17,13 +17,13 @@ import org.bukkit.entity.Player;
  */
 public final class ChatHelper {
     /**
-     * Sends the passed player the message.
+     * Sends the passed receiver the message.
      *
-     * @param player  the player.
-     * @param message the message to send.
+     * @param receiver the receiver.
+     * @param message  the message to send.
      */
-    public static void sendMessage(Player player, String message) {
-        player.sendMessage(replaceColorCodes(String.format(Messages.get("format"), message)));
+    public static void sendMessage(CommandSender receiver, String message) {
+        receiver.sendMessage(replaceColorCodes(String.format(Messages.get("format"), message)));
     }
 
     /**

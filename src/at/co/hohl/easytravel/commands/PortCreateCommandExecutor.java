@@ -1,0 +1,74 @@
+package at.co.hohl.easytravel.commands;
+
+import at.co.hohl.easytravel.TravelPermissions;
+import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.data.TravelPort;
+import at.co.hohl.easytravel.messages.Messages;
+import at.co.hohl.utils.ChatHelper;
+import at.co.hohl.utils.StringHelper;
+import com.sk89q.worldedit.bukkit.selections.Selection;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+/**
+ * SubCommandExecutor for the port create command.
+ *
+ * @author Michael Hohl
+ */
+public class PortCreateCommandExecutor extends SubCommandExecutor {
+    /**
+     * Creates a new PortCreateCommandExecutor.
+     *
+     * @param plugin the plugin which holds this command.
+     * @param parent the parent of this CommandExecutor.
+     */
+    public PortCreateCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 1, -1);
+    }
+
+    /**
+     * Called when the player uses the command.
+     *
+     * @param sender        the sender of the command.
+     * @param parentCommand the parent command.
+     * @param label         the label of the parent command.
+     * @param args          the arguments passed to the command. (Index 0 = the label of the sub parentCommand itself!)
+     * @return true, if the SubCommandExecutor could handle the parentCommand.
+     */
+    @Override
+    public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
+        if (plugin.getPermissionsHandler().hasPermission(sender, TravelPermissions.MODERATE_PERMISSION)) {
+            String name = StringHelper.toSingleString(args, " ", 1);
+            Selection playerSelection = plugin.getSelection((Player) sender);
+
+            if (playerSelection != null && playerSelection.getArea() > 1) {
+                TravelPort port = plugin.getTravelPorts().create();
+                port.setName(name);
+                port.setEdge1(playerSelection.getMinimumPoint());
+                port.setEdge2(playerSelection.getMaximumPoint());
+
+                ChatHelper.sendMessage(sender, Messages.get("moderator.success.created"));
+            } else {
+                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.select-area"));
+            }
+        } else {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-allowed"));
+        }
+
+        return true;
+    }
+
+    /** @return string which describes the valid usage. */
+    @Override
+    public String getUsage() {
+        return "/<command> create <name>";
+    }
+
+    /** @return description of the command. */
+    @Override
+    public String getDescription() {
+        return "Creates a new port.";
+    }
+}

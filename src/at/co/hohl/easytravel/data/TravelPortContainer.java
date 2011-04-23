@@ -21,9 +21,19 @@ public interface TravelPortContainer {
      * @param id the id of the travel port to get.
      * @return the travel port.
      *
-     * @throws InvalidPortIdException thrown when there isn't any port with the passed id.
+     * @throws TravelPortNotFound thrown when there isn't any port with the passed id.
      */
-    TravelPort get(Integer id);
+    TravelPort get(Integer id) throws TravelPortNotFound;
+
+    /**
+     * Searches a TravelPort.
+     *
+     * @param id could be a part of the name or the id.
+     * @return the founded TravelPort.
+     *
+     * @throws TravelPortNotFound thrown when there is no match for the id.
+     */
+    TravelPort search(String id) throws TravelPortNotFound;
 
     /** @return list of TravelPorts. */
     Collection<TravelPort> getAll();

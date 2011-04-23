@@ -47,6 +47,25 @@ public final class StringHelper {
         return builder.toString();
     }
 
+    /**
+     * Converts the passed Array to a single String.
+     *
+     * @param string     the array to convert.
+     * @param separator  the separator to set between the entries of the Array.
+     * @param startIndex the start index of the array.
+     * @return the created string.
+     */
+    public static String toSingleString(String[] string, String separator, int startIndex) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int index = startIndex; index < string.length; ++index) {
+            builder.append(string[index]);
+            builder.append(separator);
+        }
+
+        return builder.toString();
+    }
+
     /** Hidden constructor */
     private StringHelper() {
     }

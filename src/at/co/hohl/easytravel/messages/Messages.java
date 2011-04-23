@@ -42,6 +42,7 @@ public final class Messages {
      */
     public static void load(Configuration configuration) {
         Messages.configuration = configuration;
+        configuration.load();
     }
 
     /**
@@ -50,7 +51,12 @@ public final class Messages {
      * @param messageId the id of the message to get.
      */
     public static String get(String messageId) {
-        String missTranslation = String.format("Miss translation for '%s'", messageId);
+        String missTranslation;
+        if (messageId != "format") {
+            missTranslation = String.format("Miss translation for '%s'", messageId);
+        } else {
+            missTranslation = "%s";
+        }
 
         if (configuration != null) {
             return configuration.getString(messageId, missTranslation);

@@ -5,6 +5,7 @@ import at.co.hohl.easytravel.TravelPermissions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class TravelPort {
     private String password;
 
     /** List of allowed Groups and Players. */
-    private List<String> allowed;
+    private List<String> allowed = new LinkedList<String>();
 
     /** The price to travel */
     private double price;

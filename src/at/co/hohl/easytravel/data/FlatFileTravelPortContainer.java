@@ -8,10 +8,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -82,14 +79,42 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
      * @param id the id of the travel port to get.
      * @return the travel port.
      *
-     * @throws at.co.hohl.easytravel.data.InvalidPortIdException
-     *          thrown when there isn't any port with the passed id.
+     * @throws TravelPortNotFound thrown when there isn't any port with the passed id.
      */
-    public TravelPort get(Integer id) {
-        if (travelPorts.containsKey(id)) {
+    public TravelPort get(Integer id) throws TravelPortNotFound {
+        if (id != null && travelPorts.containsKey(id)) {
             return travelPorts.get(id);
         } else {
-            throw new InvalidPortIdException();
+            throw new TravelPortNotFound();
+        }
+    }
+
+    /**
+     * Searches a TravelPort.
+     *
+     * @param id could be a part of the name or the id.
+     * @return the founded TravelPort.
+     *
+     * @throws at.co.hohl.easytravel.data.TravelPortNotFound
+     *          thrown when there is no match for the id.
+     */
+    public TravelPort search(String id) throws TravelPortNotFound {
+        try {
+            Integer portId = Integer.valueOf(id);
+            return get(portId);
+        } catch (Exception exception) {
+            List<TravelPort> foundedResults = new LinkedList<TravelPort>();
+            for (TravelPort port : travelPorts.values()) {
+                if (port.getName().contains(id)) {
+                    foundedResults.add(port);
+                }
+            }
+
+            if (foundedResults.size() == 1) {
+                return foundedResults.get(0);
+            } else {
+                throw new TravelPortNotFound();
+            }
         }
     }
 
@@ -159,10 +184,15 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
      */
     public void unlink(TravelPort port) throws InvalidLinkException {
         if (port.getTargetId() != null) {
-            TravelPort anotherPort = get(port.getTargetId());
+            try {
+                TravelPort anotherPort = get(port.getTargetId());
+                anotherPort.setTargetId(null);
+            } catch (TravelPortNotFound exception) {
+                logger.warning("TravelPort wasn't linked correctly!");
+            }
 
             port.setTargetId(null);
-            anotherPort.setTargetId(null);
+
         } else {
             throw new InvalidLinkException("Can't unlink ports, which aren't linked!");
         }

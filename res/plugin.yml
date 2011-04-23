@@ -8,6 +8,6 @@ commands:
   depart:
     description: Departs, when you inside a travel point.
     usage: /<command> - Departs, when you inside a travel point.
-  travel:
+  port:
     description: Manages the TravelPorts of EasyTravel.
     usage: /<command> help - Shows the help of the command.

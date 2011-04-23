@@ -3,11 +3,8 @@ package at.co.hohl.easytravel;
 import at.co.hohl.Permissions.Permission;
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.commands.DepartCommandExecutor;
-import at.co.hohl.easytravel.commands.TravelCommandExecutor;
-import at.co.hohl.easytravel.data.FlatFileTravelPortContainer;
-import at.co.hohl.easytravel.data.PlayerInformation;
-import at.co.hohl.easytravel.data.TravelPort;
-import at.co.hohl.easytravel.data.TravelPortContainer;
+import at.co.hohl.easytravel.commands.PortCommandExecutor;
+import at.co.hohl.easytravel.data.*;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
@@ -34,12 +31,6 @@ import java.util.logging.Logger;
 public class TravelPlugin extends JavaPlugin {
     /** Listener for player events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
-
-    /** CommandExecutor for /travel. */
-    private final TravelCommandExecutor travelCommandExecutor = new TravelCommandExecutor(this);
-
-    /** CommandExecutor for /depart. */
-    private final DepartCommandExecutor departCommandExecutor = new DepartCommandExecutor(this);
 
     /** Player Information storage. */
     private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
@@ -90,9 +81,9 @@ public class TravelPlugin extends JavaPlugin {
      * @throws WarpException thrown if the player couldn't get warped.
      */
     public void teleportPlayer(Player player, TravelPort currentPort) {
-        Integer targetId = currentPort.getTargetId();
+        try {
+            Integer targetId = currentPort.getTargetId();
 
-        if (targetId != null) {
             TravelPort targetPort = travelPortContainer.get(targetId);
 
             Location currentPlayer = player.getLocation();
@@ -110,7 +101,7 @@ public class TravelPlugin extends JavaPlugin {
             playerInformation.setAlreadyTravelled(true);
 
             playerListener.onPlayerTraveled(player, currentPort, targetPort);
-        } else {
+        } catch (TravelPortNotFound exception) {
             String exceptionMessage = String.format("Port '%s' (ID:%d) is linked to an invalid port (ID:%d)!",
                     currentPort.getName(), currentPort.getId(), currentPort.getTargetId());
             throw new WarpException(exceptionMessage);
@@ -187,8 +178,8 @@ public class TravelPlugin extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Low, this);
 
-        getCommand("travel").setExecutor(travelCommandExecutor);
-        getCommand("depart").setExecutor(departCommandExecutor);
+        getCommand("port").setExecutor(new PortCommandExecutor(this));
+        getCommand("depart").setExecutor(new DepartCommandExecutor(this));
     }
 
     /** Setups the permissions handler. */
