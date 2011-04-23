@@ -17,20 +17,23 @@ public class TravelPort {
     /** Unique ID of the Travel Port. */
     private final Integer id;
 
-    /** The first Edge. */
+    /** First Edge. */
     private Location edge1;
 
-    /** The second Edge. */
+    /** Second Edge. */
     private Location edge2;
 
-    /** The name of the travel port. */
+    /** Name of the travel port. */
     private String name;
 
-    /** The name of the target of this port. */
+    /** Name of the target of this port. */
     private Integer targetId;
 
-    /** The password for the travel port. */
+    /** Password for the travel port. */
     private String password;
+
+    /** Owner of the travel port. */
+    private String owner;
 
     /** List of allowed Groups and Players. */
     private List<String> allowed = new LinkedList<String>();
@@ -215,5 +218,19 @@ public class TravelPort {
     /** @return a list of allowed groups and player. If null everybody is allowed to use that TravelPort. */
     public List<String> getAllowed() {
         return allowed;
+    }
+
+    /** @return owner of the port. */
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets the owner of the port.
+     *
+     * @param owner the name of the owner to set.
+     */
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

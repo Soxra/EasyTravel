@@ -214,17 +214,18 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         private static final int INDEX_ID = 0;
         private static final int INDEX_NAME = 1;
         private static final int INDEX_TARGET = 2;
-        private static final int INDEX_PASSWORD = 3;
-        private static final int INDEX_PRICE = 4;
-        private static final int INDEX_WORLD = 5;
-        private static final int INDEX_EDGE1_X = 6;
-        private static final int INDEX_EDGE1_Y = 7;
-        private static final int INDEX_EDGE1_Z = 8;
-        private static final int INDEX_EDGE2_X = 9;
-        private static final int INDEX_EDGE2_Y = 10;
-        private static final int INDEX_EDGE2_Z = 11;
-        private static final int INDEX_ALLOWED = 12;
-        private static final int CSV_COLUMNS = 13;
+        private static final int INDEX_OWNER = 3;
+        private static final int INDEX_PASSWORD = 4;
+        private static final int INDEX_PRICE = 5;
+        private static final int INDEX_WORLD = 6;
+        private static final int INDEX_EDGE1_X = 7;
+        private static final int INDEX_EDGE1_Y = 8;
+        private static final int INDEX_EDGE1_Z = 9;
+        private static final int INDEX_EDGE2_X = 10;
+        private static final int INDEX_EDGE2_Y = 11;
+        private static final int INDEX_EDGE2_Z = 12;
+        private static final int INDEX_ALLOWED = 13;
+        private static final int CSV_COLUMNS = 14;
 
         /** Hidden default constructor. */
         private FlatFilePortStorage() {
@@ -254,6 +255,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         port.setName(lineParts[INDEX_NAME]);
                         if (!"null".equals(lineParts[INDEX_TARGET])) {
                             port.setTargetId(Integer.valueOf((lineParts[INDEX_TARGET])));
+                        }
+                        if (!"null".equals(lineParts[INDEX_OWNER])) {
+                            port.setOwner(lineParts[INDEX_OWNER]);
                         }
                         if (!"null".equals(lineParts[INDEX_PASSWORD])) {
                             port.setPassword(lineParts[INDEX_PASSWORD]);
@@ -313,6 +317,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             break;
                         case INDEX_TARGET:
                             line.append(port.getTargetId());
+                            break;
+                        case INDEX_OWNER:
+                            line.append(port.getOwner());
                             break;
                         case INDEX_PASSWORD:
                             line.append(port.getPassword());
