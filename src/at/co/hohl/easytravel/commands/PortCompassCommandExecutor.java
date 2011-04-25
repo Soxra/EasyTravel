@@ -15,18 +15,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * SubCommandExecutor for the port remove command.
+ * Command Executor to set the compass to a TravelPort.
  *
  * @author Michael Hohl
  */
-public class PortRemoveCommandExecutor extends SubCommandExecutor {
+public class PortCompassCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortRemoveCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+    public PortCompassCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
         super(plugin, parent, 0, 1);
     }
 
@@ -46,31 +46,25 @@ public class PortRemoveCommandExecutor extends SubCommandExecutor {
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
         TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        TravelPort travelPortToRemove;
+        TravelPort travelPortToPoint;
         if (args.length == 2) {
             try {
-                travelPortToRemove = travelPorts.search(args[1]);
+                travelPortToPoint = travelPorts.search(args[1]);
             } catch (TravelPortNotFound travelPortNotFound) {
                 ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
                 return true;
             }
         } else {
-            travelPortToRemove = playerInformation.getCurrentPort();
+            travelPortToPoint = playerInformation.getCurrentPort();
 
-            if (travelPortToRemove == null) {
+            if (travelPortToPoint == null) {
                 ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
                 return true;
             }
         }
 
-        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
-        boolean isOwner = player.getName().equals(travelPortToRemove.getOwner());
-        if (isModerator || isOwner) {
-            travelPorts.remove(travelPortToRemove);
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.removed"));
-        } else {
-            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
-        }
+        player.setCompassTarget(travelPortToPoint.getEdge1());
+        ChatHelper.sendMessage(sender, Messages.get("moderator.success.point-compass"));
 
         return true;
     }
@@ -78,18 +72,18 @@ public class PortRemoveCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> remove [<id>]";
+        return "/<command> compass [<id>]";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Removes an existing port.";
+        return "Points the compass to a TravelPort";
     }
 
     /** @return required permission for executing this command. */
     @Override
     public Permission getRequiredPermission() {
-        return TravelPermissions.CREATE;
+        return TravelPermissions.COMPASS;
     }
 }

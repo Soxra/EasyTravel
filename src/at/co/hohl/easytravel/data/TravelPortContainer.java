@@ -28,15 +28,23 @@ public interface TravelPortContainer {
     /**
      * Searches a TravelPort.
      *
-     * @param id could be a part of the name or the id.
+     * @param keyword could be a part of the name or the id.
      * @return the founded TravelPort.
      *
      * @throws TravelPortNotFound thrown when there is no match for the id.
      */
-    TravelPort search(String id) throws TravelPortNotFound;
+    TravelPort search(String keyword) throws TravelPortNotFound;
 
     /** @return list of TravelPorts. */
     Collection<TravelPort> getAll();
+
+    /**
+     * Searches the TravelPorts.
+     *
+     * @param keyword could be a part of the name of the TravelPort to search.
+     * @return all TravelPorts matching the keyword.
+     */
+    Collection<TravelPort> searchAll(String keyword);
 
     /**
      * Adds the passed travel port to the port list.
@@ -68,4 +76,7 @@ public interface TravelPortContainer {
      * @throws InvalidLinkException thrown when port isn't linked to another.
      */
     void unlink(TravelPort port) throws InvalidLinkException;
+
+    /** @return number of available entries. */
+    int size();
 }

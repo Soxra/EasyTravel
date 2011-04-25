@@ -1,5 +1,7 @@
 package at.co.hohl.easytravel.commands;
 
+import at.co.hohl.Permissions.Permission;
+import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.data.*;
 import at.co.hohl.easytravel.messages.Messages;
@@ -54,8 +56,15 @@ public class PortLinkCommandExecutor extends SubCommandExecutor {
                     return true;
                 }
             }
-            travelPorts.link(port1, port2);
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.linked"));
+
+            boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+            boolean isOwner = player.getName().equals(port1.getOwner()) && player.getName().equals(port2.getOwner());
+            if (isModerator || isOwner) {
+                travelPorts.link(port1, port2);
+                ChatHelper.sendMessage(sender, Messages.get("moderator.success.linked"));
+            } else {
+                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
+            }
         } catch (TravelPortNotFound exception) {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
         } catch (InvalidLinkException e) {
@@ -75,5 +84,11 @@ public class PortLinkCommandExecutor extends SubCommandExecutor {
     @Override
     public String getDescription() {
         return "Links two TravelPorts.";
+    }
+
+    /** @return required permission for executing this command. */
+    @Override
+    public Permission getRequiredPermission() {
+        return TravelPermissions.CREATE;
     }
 }

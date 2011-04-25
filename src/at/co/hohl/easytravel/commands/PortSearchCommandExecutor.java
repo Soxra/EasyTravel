@@ -1,8 +1,10 @@
 package at.co.hohl.easytravel.commands;
 
 import at.co.hohl.Permissions.Permission;
-import at.co.hohl.Permissions.PermissionsHandler;
+import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.data.TravelPort;
+import at.co.hohl.utils.StringHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,19 +13,19 @@ import org.bukkit.command.CommandSender;
 import java.util.Collection;
 
 /**
- * SubCommandExecutor for the port help command.
+ * Command Executor for searching TravelPorts.
  *
  * @author Michael Hohl
  */
-public class PortHelpCommandExecutor extends SubCommandExecutor {
+public class PortSearchCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortHelpCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 0, 1);
+    public PortSearchCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 1, -1);
     }
 
     /**
@@ -38,25 +40,14 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
-        PermissionsHandler permissionsHandler = plugin.getPermissionsHandler();
+        String keyword = StringHelper.toSingleString(args, " ", 1);
 
-        sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Version %s] = = =",
-                plugin.getDescription().getName(), plugin.getDescription().getVersion()));
+        sender.sendMessage(ChatColor.GREEN + String.format("= = = Travel Ports [Search: %s] = = =", keyword));
 
-        Collection<SubCommandExecutor> commands = ((PortCommandExecutor) this.parent).getSubCommands().values();
-
-        for (SubCommandExecutor command : commands) {
-            Permission permission = command.getRequiredPermission();
-            if (permission == null || permissionsHandler.hasPermission(sender, permission)) {
-                String helpLine = String.format("%s%s%s - %s", ChatColor.GRAY,
-                        command.getUsage().replace("<command>", label), ChatColor.WHITE, command.getDescription());
-                sender.sendMessage(helpLine);
-            }
+        Collection<TravelPort> result = plugin.getTravelPorts().searchAll(keyword);
+        for (TravelPort port : result) {
+            sender.sendMessage(String.format("[%s] %s (%s)", port.getId(), port.getName(), port.getOwner()));
         }
-
-        sender.sendMessage("");
-        sender.sendMessage(
-                ChatColor.GRAY + "As ID you can pass the unique id or (a part of) the name of the TravelPort.");
 
         return true;
     }
@@ -64,18 +55,18 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> help";
+        return "/<command> search <keyword>";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Shows this help.";
+        return "Searches TravelPorts.";
     }
 
     /** @return required permission for executing this command. */
     @Override
     public Permission getRequiredPermission() {
-        return null;
+        return TravelPermissions.LIST;
     }
 }

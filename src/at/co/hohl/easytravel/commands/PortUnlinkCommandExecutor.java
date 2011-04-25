@@ -1,5 +1,7 @@
 package at.co.hohl.easytravel.commands;
 
+import at.co.hohl.Permissions.Permission;
+import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.data.PlayerInformation;
 import at.co.hohl.easytravel.data.TravelPort;
@@ -60,8 +62,15 @@ public class PortUnlinkCommandExecutor extends SubCommandExecutor {
                 return true;
             }
         }
-        travelPorts.remove(travelPortToRemove);
-        ChatHelper.sendMessage(sender, Messages.get("moderator.success.unlinked"));
+
+        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+        boolean isOwner = player.getName().equals(travelPortToRemove.getOwner());
+        if (isModerator || isOwner) {
+            travelPorts.remove(travelPortToRemove);
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.unlinked"));
+        } else {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
+        }
 
         return true;
     }
@@ -76,5 +85,11 @@ public class PortUnlinkCommandExecutor extends SubCommandExecutor {
     @Override
     public String getDescription() {
         return "Unlink the TravelPort";
+    }
+
+    /** @return required permission for executing this command. */
+    @Override
+    public Permission getRequiredPermission() {
+        return TravelPermissions.MODERATE;
     }
 }

@@ -1,5 +1,7 @@
 package at.co.hohl.easytravel.commands;
 
+import at.co.hohl.Permissions.Permission;
+import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +14,9 @@ public abstract class SubCommandExecutor implements CommandExecutor {
 
     /** Parent CommandExecutor which holds this SubCommandExecutor. */
     protected CommandExecutor parent;
+
+    /** The permissions handler of the plugin. */
+    protected PermissionsHandler permissionsHandler;
 
     /** Number of arguments which are allowed. */
     private int minimumNumberOfArguments, maximumNumberOfArguments;
@@ -28,13 +33,14 @@ public abstract class SubCommandExecutor implements CommandExecutor {
         this.parent = parent;
         this.minimumNumberOfArguments = minimumNumberOfArguments;
         this.maximumNumberOfArguments = maximumNumberOfArguments;
+        this.permissionsHandler = plugin.getPermissionsHandler();
     }
 
     /**
      * Returns true, if the number of passed arguments is valid.
      *
-     * @param numberOfArguments
-     * @return
+     * @param numberOfArguments the number of arguments passed.
+     * @return true, if the passed number of arguments valid is.
      */
     public boolean isValidNumberOfArguments(int numberOfArguments) {
         return minimumNumberOfArguments <= numberOfArguments &&
@@ -58,4 +64,7 @@ public abstract class SubCommandExecutor implements CommandExecutor {
 
     /** @return description of the command. */
     public abstract String getDescription();
+
+    /** @return required permission for executing this command. */
+    public abstract Permission getRequiredPermission();
 }

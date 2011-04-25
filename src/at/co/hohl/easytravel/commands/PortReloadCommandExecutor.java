@@ -1,29 +1,29 @@
 package at.co.hohl.easytravel.commands;
 
 import at.co.hohl.Permissions.Permission;
-import at.co.hohl.Permissions.PermissionsHandler;
+import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.messages.Messages;
+import at.co.hohl.utils.ChatHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.Collection;
-
 /**
- * SubCommandExecutor for the port help command.
+ * SubCommandExecutor to reload the server configuration.
  *
  * @author Michael Hohl
  */
-public class PortHelpCommandExecutor extends SubCommandExecutor {
+public class PortReloadCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortHelpCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 0, 1);
+    public PortReloadCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 0, 0);
     }
 
     /**
@@ -38,25 +38,15 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
-        PermissionsHandler permissionsHandler = plugin.getPermissionsHandler();
+        try {
+            plugin.reload();
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.reload"));
+        } catch (RuntimeException exception) {
+            plugin.getLogger().warning("Exception on force save!");
+            plugin.getLogger().severe(exception.getMessage());
 
-        sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Version %s] = = =",
-                plugin.getDescription().getName(), plugin.getDescription().getVersion()));
-
-        Collection<SubCommandExecutor> commands = ((PortCommandExecutor) this.parent).getSubCommands().values();
-
-        for (SubCommandExecutor command : commands) {
-            Permission permission = command.getRequiredPermission();
-            if (permission == null || permissionsHandler.hasPermission(sender, permission)) {
-                String helpLine = String.format("%s%s%s - %s", ChatColor.GRAY,
-                        command.getUsage().replace("<command>", label), ChatColor.WHITE, command.getDescription());
-                sender.sendMessage(helpLine);
-            }
+            sender.sendMessage(ChatColor.RED + "Error occurred on forcing a save!");
         }
-
-        sender.sendMessage("");
-        sender.sendMessage(
-                ChatColor.GRAY + "As ID you can pass the unique id or (a part of) the name of the TravelPort.");
 
         return true;
     }
@@ -64,18 +54,18 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> help";
+        return "/<command> reload";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Shows this help.";
+        return "Reloads the configuration.";
     }
 
     /** @return required permission for executing this command. */
     @Override
     public Permission getRequiredPermission() {
-        return null;
+        return TravelPermissions.ADMINISTRATE;
     }
 }

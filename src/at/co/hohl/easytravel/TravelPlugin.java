@@ -62,15 +62,20 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Disables this plugin. */
     public void onDisable() {
-        travelPortContainer.save();
+        onSave();
 
         logger.info(String.format("%s is disabled!", getDescription().getName()));
     }
 
-    /** Reloads the configuration of this application. */
+    /** Called when forcing a reload. */
     public void onReload() {
         getConfiguration().load();
         loadConfiguration();
+    }
+
+    /** Called when forcing a save. */
+    public void onSave() {
+        travelPortContainer.save();
     }
 
     /**
@@ -158,6 +163,19 @@ public class TravelPlugin extends JavaPlugin {
         return logger;
     }
 
+    /** Saves the configuration an the TravelPorts. */
+    public final void save() {
+        logger.info("EasyTravel forcing a save...");
+        onSave();
+        logger.info("EasyTravel ports and configuration saved!");
+    }
+
+    /** Reloads the server. */
+    public final void reload() {
+        onReload();
+        logger.info("EasyTravel reloaded!");
+    }
+
     /** Loads the configuration. */
     private void loadConfiguration() {
         // Properties...
@@ -171,7 +189,6 @@ public class TravelPlugin extends JavaPlugin {
         travelPortContainer = new FlatFileTravelPortContainer(this, new File(getDataFolder(), "ports.csv"));
         travelPortContainer.load();
     }
-
 
     /** Setups all event handlers, used by this plugin. */
     private void setupEventHandler() {

@@ -15,19 +15,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * SubCommandExecutor for the port remove command.
+ * SubCommandExecutor for the command to set the price.
  *
  * @author Michael Hohl
  */
-public class PortRemoveCommandExecutor extends SubCommandExecutor {
+public class PortPriceCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortRemoveCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 0, 1);
+    public PortPriceCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 2, 1);
     }
 
     /**
@@ -46,28 +46,37 @@ public class PortRemoveCommandExecutor extends SubCommandExecutor {
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
         TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        TravelPort travelPortToRemove;
-        if (args.length == 2) {
-            try {
-                travelPortToRemove = travelPorts.search(args[1]);
-            } catch (TravelPortNotFound travelPortNotFound) {
-                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
-                return true;
-            }
-        } else {
-            travelPortToRemove = playerInformation.getCurrentPort();
+        TravelPort travelPortToChangePrice;
+        double priceToSet;
+        try {
+            if (args.length == 3) {
+                try {
+                    travelPortToChangePrice = travelPorts.search(args[1]);
+                    priceToSet = Double.parseDouble(args[2]);
+                } catch (TravelPortNotFound travelPortNotFound) {
+                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
+                    return true;
+                }
+            } else {
+                travelPortToChangePrice = playerInformation.getCurrentPort();
+                priceToSet = Double.parseDouble(args[1]);
 
-            if (travelPortToRemove == null) {
-                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
-                return true;
+                if (travelPortToChangePrice == null) {
+                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
+                    return true;
+                }
             }
+        } catch (NumberFormatException exception) {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-use"));
+
+            return true;
         }
 
         boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
-        boolean isOwner = player.getName().equals(travelPortToRemove.getOwner());
+        boolean isOwner = player.getName().equals(travelPortToChangePrice.getOwner());
         if (isModerator || isOwner) {
-            travelPorts.remove(travelPortToRemove);
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.removed"));
+            travelPortToChangePrice.setPrice(priceToSet);
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-price"));
         } else {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
         }
@@ -78,13 +87,13 @@ public class PortRemoveCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> remove [<id>]";
+        return "/<command> price [<id>] <price>";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Removes an existing port.";
+        return "Sets the price for a TravelPort.";
     }
 
     /** @return required permission for executing this command. */

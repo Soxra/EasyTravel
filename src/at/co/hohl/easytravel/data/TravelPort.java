@@ -95,7 +95,7 @@ public class TravelPort {
      * @return true, if the player is allowed to.
      */
     public boolean isAllowed(PermissionsHandler permissions, Player player) {
-        if (permissions.hasPermission(player, TravelPermissions.DEPART_PERMISSION)) {
+        if (permissions.hasPermission(player, TravelPermissions.DEPART)) {
             if (isAllowedToEverybody() || allowed.contains(player.getName())) {
                 return true;
             } else {

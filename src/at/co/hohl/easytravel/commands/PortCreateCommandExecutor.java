@@ -1,5 +1,6 @@
 package at.co.hohl.easytravel.commands;
 
+import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.data.TravelPort;
@@ -41,7 +42,7 @@ public class PortCreateCommandExecutor extends SubCommandExecutor {
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         Player player = (Player) sender;
 
-        if (plugin.getPermissionsHandler().hasPermission(sender, TravelPermissions.MODERATE_PERMISSION)) {
+        if (plugin.getPermissionsHandler().hasPermission(sender, TravelPermissions.MODERATE)) {
             String name = StringHelper.toSingleString(args, " ", 1);
             Selection playerSelection = plugin.getSelection(player);
 
@@ -73,5 +74,11 @@ public class PortCreateCommandExecutor extends SubCommandExecutor {
     @Override
     public String getDescription() {
         return "Creates a new port.";
+    }
+
+    /** @return required permission for executing this command. */
+    @Override
+    public Permission getRequiredPermission() {
+        return TravelPermissions.CREATE;
     }
 }

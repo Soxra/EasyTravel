@@ -1,5 +1,7 @@
 package at.co.hohl.easytravel.commands;
 
+import at.co.hohl.Permissions.Permission;
+import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
@@ -32,11 +34,19 @@ public class PortCommandExecutor implements CommandExecutor {
         this.plugin = plugin;
 
         subCommands = new HashMap<String, SubCommandExecutor>();
+        subCommands.put("help", new PortHelpCommandExecutor(plugin, this));
         subCommands.put("create", new PortCreateCommandExecutor(plugin, this));
         subCommands.put("remove", new PortRemoveCommandExecutor(plugin, this));
         subCommands.put("link", new PortLinkCommandExecutor(plugin, this));
         subCommands.put("unlink", new PortUnlinkCommandExecutor(plugin, this));
-        subCommands.put("help", new PortHelpCommandExecutor(plugin, this));
+        subCommands.put("info", new PortInfoCommandExecutor(plugin, this));
+        subCommands.put("list", new PortListCommandExecutor(plugin, this));
+        subCommands.put("search", new PortSearchCommandExecutor(plugin, this));
+        subCommands.put("compass", new PortCompassCommandExecutor(plugin, this));
+        subCommands.put("price", new PortPriceCommandExecutor(plugin, this));
+        subCommands.put("owner", new PortOwnerCommandExecutor(plugin, this));
+        subCommands.put("save", new PortSaveCommandExecutor(plugin, this));
+        subCommands.put("reload", new PortReloadCommandExecutor(plugin, this));
     }
 
     /**
@@ -49,28 +59,34 @@ public class PortCommandExecutor implements CommandExecutor {
      * @return true, if the CommandExecutor could handle the command.
      */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            if (args.length > 0) {
-                SubCommandExecutor subCommandExecutor = subCommands.get(args[0]);
-
-                if (subCommandExecutor != null) {
-                    if (subCommandExecutor.isValidNumberOfArguments(args.length - 1)) {
-                        return subCommandExecutor.onCommand(sender, command, label, args);
-                    } else {
-                        ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-num-args"));
-                    }
-                } else {
-                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-use"));
-                }
-
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("Only use the /depart command as player! Doesn't make sense anyway for you ;)");
 
             return true;
+        }
+
+        if (args.length > 0) {
+            SubCommandExecutor subCommandExecutor = subCommands.get(args[0]);
+
+            if (subCommandExecutor != null) {
+                if (subCommandExecutor.isValidNumberOfArguments(args.length - 1)) {
+                    PermissionsHandler permissionsHandler = plugin.getPermissionsHandler();
+                    Permission requiredPermission = subCommandExecutor.getRequiredPermission();
+
+                    if (requiredPermission == null ||
+                            permissionsHandler.hasPermission(sender, requiredPermission)) {
+                        return subCommandExecutor.onCommand(sender, command, label, args);
+                    }
+                } else {
+                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-num-args"));
+                }
+            } else {
+                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-use"));
+            }
+
+            return true;
+        } else {
+            return false;
         }
     }
 

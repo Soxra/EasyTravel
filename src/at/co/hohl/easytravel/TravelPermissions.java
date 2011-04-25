@@ -9,10 +9,25 @@ import at.co.hohl.Permissions.Permission;
  */
 public final class TravelPermissions {
     /** The Permission needed to depart. */
-    public final static Permission DEPART_PERMISSION = new Permission("easytravel.depart", false);
+    public final static Permission DEPART = new Permission("easytravel.depart", false);
 
     /** The Permission needed to create new TravelPorts. */
-    public final static Permission MODERATE_PERMISSION = new Permission("easytravel.moderate", true);
+    public final static Permission CREATE = new Permission("easytravel.create", true);
+
+    /** The Permission needed to get info about TravelPorts. */
+    public final static Permission INFO = new Permission("easytravel.info", true);
+
+    /** The Permission needed to get info about TravelPorts. */
+    public final static Permission LIST = new Permission("easytravel.list", true);
+
+    /** The Permission needed to get info about TravelPorts. */
+    public final static Permission COMPASS = new Permission("easytravel.compass", true);
+
+    /** The Permission manage all existing TravelPorts. */
+    public final static Permission MODERATE = new Permission("easytravel.moderate", true);
+
+    /** The Permission needed to force saving or reload the plugin. */
+    public final static Permission ADMINISTRATE = new Permission("easytravel.administrate", true);
 
     /** Hidden constructor. */
     private TravelPermissions() {

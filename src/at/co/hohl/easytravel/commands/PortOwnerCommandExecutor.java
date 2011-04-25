@@ -15,19 +15,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * SubCommandExecutor for the port remove command.
+ * CommandExecutor for changing the owner of a TravelPort.
  *
  * @author Michael Hohl
  */
-public class PortRemoveCommandExecutor extends SubCommandExecutor {
+public class PortOwnerCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortRemoveCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 0, 1);
+    public PortOwnerCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 1, 2);
     }
 
     /**
@@ -46,31 +46,34 @@ public class PortRemoveCommandExecutor extends SubCommandExecutor {
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
         TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        TravelPort travelPortToRemove;
-        if (args.length == 2) {
-            try {
-                travelPortToRemove = travelPorts.search(args[1]);
-            } catch (TravelPortNotFound travelPortNotFound) {
-                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
-                return true;
-            }
-        } else {
-            travelPortToRemove = playerInformation.getCurrentPort();
+        TravelPort travelPortToChangePrice;
+        String newOwner;
+        try {
+            if (args.length == 3) {
+                try {
+                    travelPortToChangePrice = travelPorts.search(args[1]);
+                    newOwner = args[2];
+                } catch (TravelPortNotFound travelPortNotFound) {
+                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
+                    return true;
+                }
+            } else {
+                travelPortToChangePrice = playerInformation.getCurrentPort();
+                newOwner = args[1];
 
-            if (travelPortToRemove == null) {
-                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
-                return true;
+                if (travelPortToChangePrice == null) {
+                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
+                    return true;
+                }
             }
+        } catch (NumberFormatException exception) {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-use"));
+
+            return true;
         }
 
-        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
-        boolean isOwner = player.getName().equals(travelPortToRemove.getOwner());
-        if (isModerator || isOwner) {
-            travelPorts.remove(travelPortToRemove);
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.removed"));
-        } else {
-            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
-        }
+        travelPortToChangePrice.setOwner(newOwner);
+        ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-owner"));
 
         return true;
     }
@@ -78,18 +81,18 @@ public class PortRemoveCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> remove [<id>]";
+        return "/<command> owner [<id>] <owner>";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Removes an existing port.";
+        return "Sets owner of a TravelPort";
     }
 
     /** @return required permission for executing this command. */
     @Override
     public Permission getRequiredPermission() {
-        return TravelPermissions.CREATE;
+        return TravelPermissions.MODERATE;
     }
 }

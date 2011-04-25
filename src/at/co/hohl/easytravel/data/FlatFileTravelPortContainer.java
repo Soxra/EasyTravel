@@ -124,6 +124,24 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     }
 
     /**
+     * Searches the TravelPorts.
+     *
+     * @param keyword could be a part of the name of the TravelPort to search.
+     * @return all TravelPorts matching the keyword.
+     */
+    public Collection<TravelPort> searchAll(String keyword) {
+        List<TravelPort> result = new LinkedList<TravelPort>();
+
+        for (TravelPort port : travelPorts.values()) {
+            if (port.getName().contains(keyword)) {
+                result.add(port);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to storage.)
      *
      * @return the created TravelPort
@@ -196,6 +214,11 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         } else {
             throw new InvalidLinkException("Can't unlink ports, which aren't linked!");
         }
+    }
+
+    /** @return number of available entries. */
+    public int size() {
+        return travelPorts.size();
     }
 
     /** @return the next free travel port id. */
