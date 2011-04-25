@@ -40,45 +40,49 @@ public class DepartCommandExecutor implements CommandExecutor {
      * @return true, if the Executor could handle the command.
      */
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            PlayerInformation playerInformation = plugin.getPlayerInformation(player);
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Only use the /depart command as player! Doesn't make sense anyway for you ;)");
+            return true;
+        }
 
-            try {
-                TravelPort port = playerInformation.getCurrentPort();
+        Player player = (Player) sender;
+        PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-                if (port != null) {
-                    if (port.isAllowed(plugin.getPermissionsHandler(), player)) {
-                        String password = port.getPassword();
-                        if (password != null && !password.equals(playerInformation.getEnteredPassword())) {
-                            ChatHelper.sendMessage(player, Messages.get("problem.invalid-password"));
-                        } else {
-                            double price = port.getPrice();
-                            if (price > 0) {
-                                EconomyHandler economyHandler = plugin.getEconomyHandler();
-                                if (economyHandler != null && economyHandler.pay(player, price)) {
-                                    plugin.getPlayerListener().onPlayerPaidForTravelling(player, price);
-                                    plugin.teleportPlayer(player, port);
-                                } else {
-                                    ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
-                                }
-                            } else {
-                                plugin.teleportPlayer(player, port);
-                            }
+
+        TravelPort port = playerInformation.getCurrentPort();
+
+        if (port == null) {
+            ChatHelper.sendMessage(player, Messages.get("problem.not-inside"));
+            return true;
+        }
+
+        if (port.isAllowed(plugin.getPermissionsHandler(), player)) {
+            String password = port.getPassword();
+            if (password != null && !password.equals(playerInformation.getEnteredPassword())) {
+                ChatHelper.sendMessage(player, Messages.get("problem.invalid-password"));
+            } else {
+                double price = port.getPrice();
+                if (price > 0) {
+                    EconomyHandler economyHandler = plugin.getEconomyHandler();
+                    if (economyHandler != null && economyHandler.pay(player.getName(), price)) {
+                        plugin.getPlayerListener().onPlayerPaidForTravelling(player, price);
+                        try {
+                            plugin.teleportPlayer(player, port);
+                        } catch (WarpException exception) {
+                            ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
+                            plugin.getLogger().severe(exception.getMessage());
                         }
                     } else {
-                        ChatHelper.sendMessage(player, Messages.get("problem.not-allowed"));
+                        ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
                     }
                 } else {
-                    ChatHelper.sendMessage(player, Messages.get("problem.not-inside"));
+                    plugin.teleportPlayer(player, port);
                 }
-            } catch (WarpException exception) {
-                ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
-                plugin.getLogger().severe(exception.getMessage());
             }
         } else {
-            sender.sendMessage("Only use the /depart command as player! Doesn't make sense anyway for you ;)");
+            ChatHelper.sendMessage(player, Messages.get("problem.not-allowed"));
         }
+
 
         return true;
     }

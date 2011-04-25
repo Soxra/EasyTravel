@@ -105,7 +105,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         } catch (Exception exception) {
             List<TravelPort> foundedResults = new LinkedList<TravelPort>();
             for (TravelPort port : travelPorts.values()) {
-                if (port.getName().contains(id)) {
+                if (port.getName().toLowerCase().contains(id.toLowerCase())) {
                     foundedResults.add(port);
                 }
             }
@@ -133,7 +133,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         List<TravelPort> result = new LinkedList<TravelPort>();
 
         for (TravelPort port : travelPorts.values()) {
-            if (port.getName().contains(keyword)) {
+            if (port.getName().toLowerCase().contains(keyword.toLowerCase())) {
                 result.add(port);
             }
         }

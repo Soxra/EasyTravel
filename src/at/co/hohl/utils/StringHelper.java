@@ -63,7 +63,7 @@ public final class StringHelper {
             builder.append(separator);
         }
 
-        return builder.toString();
+        return builder.toString().trim();
     }
 
     /** Hidden constructor */

@@ -5,13 +5,14 @@ import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.data.TravelPortContainer;
-import at.co.hohl.easytravel.data.TravelPortNotFound;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+
+import java.util.Collection;
 
 /**
  * Command executor for showing a list of TravelPorts.
@@ -46,7 +47,7 @@ public class PortListCommandExecutor extends SubCommandExecutor {
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        int page = 0;
+        int page = 1;
         if (args.length == 2) {
             try {
                 page = Integer.valueOf(args[1]);
@@ -55,20 +56,18 @@ public class PortListCommandExecutor extends SubCommandExecutor {
             }
         }
 
-        int numberOfEntries = travelPorts.size();
-        int startEntry = page * ENTRIES_PER_PAGE;
-        int endEntry = Math.min(startEntry + ENTRIES_PER_PAGE, travelPorts.size()) - 1;
+        Collection<TravelPort> ports = travelPorts.getAll();
+        int numPages = ports.size() / ENTRIES_PER_PAGE + 1;
+        int startEntry = (page - 1) * ENTRIES_PER_PAGE;
+        int endEntry = Math.min(startEntry + ENTRIES_PER_PAGE, ports.size());
 
-        sender.sendMessage(ChatColor.GREEN +
-                String.format("= = = Travel Ports [Page %d/%d] = = =", page, numberOfEntries / ENTRIES_PER_PAGE));
-        for (int current = startEntry; current <= endEntry; ++current) {
-            try {
-                TravelPort port = travelPorts.get(Integer.valueOf(current));
+        sender.sendMessage(ChatColor.GREEN + String.format("= = = Travel Ports [Page %d/%d] = = =", page, numPages));
+        int current = 0;
+        for (TravelPort port : ports) {
+            if (current >= startEntry && current < endEntry) {
                 sender.sendMessage(String.format("[%s] %s (%s)", port.getId(), port.getName(), port.getOwner()));
-            } catch (TravelPortNotFound travelPortNotFound) {
-                plugin.getLogger().fine("Leak in IDs of TravelPorts detected!");
-                sender.sendMessage(String.format("[%d] ---", current));
             }
+            ++current;
         }
 
         return true;

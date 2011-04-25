@@ -3,10 +3,7 @@ package at.co.hohl.easytravel.commands;
 import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.data.PlayerInformation;
-import at.co.hohl.easytravel.data.TravelPort;
-import at.co.hohl.easytravel.data.TravelPortContainer;
-import at.co.hohl.easytravel.data.TravelPortNotFound;
+import at.co.hohl.easytravel.data.*;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.command.Command;
@@ -46,30 +43,36 @@ public class PortUnlinkCommandExecutor extends SubCommandExecutor {
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
         TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        TravelPort travelPortToRemove;
+        TravelPort travelPortToUnlink;
         if (args.length == 2) {
             try {
-                travelPortToRemove = travelPorts.search(args[1]);
+                travelPortToUnlink = travelPorts.search(args[1]);
             } catch (TravelPortNotFound travelPortNotFound) {
                 ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
                 return true;
             }
         } else {
-            travelPortToRemove = playerInformation.getCurrentPort();
+            travelPortToUnlink = playerInformation.getCurrentPort();
 
-            if (travelPortToRemove == null) {
+            if (travelPortToUnlink == null) {
                 ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
                 return true;
             }
         }
 
-        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
-        boolean isOwner = player.getName().equals(travelPortToRemove.getOwner());
-        if (isModerator || isOwner) {
-            travelPorts.remove(travelPortToRemove);
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.unlinked"));
-        } else {
-            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
+        try {
+            boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+            boolean isOwner = player.getName().equals(travelPortToUnlink.getOwner());
+            if (isModerator || isOwner) {
+
+                travelPorts.unlink(travelPortToUnlink);
+                ChatHelper.sendMessage(sender, Messages.get("moderator.success.unlinked"));
+
+            } else {
+                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
+            }
+        } catch (InvalidLinkException e) {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-linked"));
         }
 
         return true;

@@ -2,7 +2,6 @@ package at.co.hohl.economy;
 
 import com.nijiko.coelho.iConomy.iConomy;
 import com.nijiko.coelho.iConomy.system.Account;
-import org.bukkit.entity.Player;
 
 /**
  * Handler for the iConomy system.
@@ -20,13 +19,13 @@ public class iConomyHandler implements EconomyHandler {
     }
 
     /**
-     * Returns the balance of the account of the passed player.
+     * Returns the balance of the account of the passed account.
      *
-     * @param player the player.
+     * @param account the account.
      * @return the amount of money on his account.
      */
-    public final double getBalance(Player player) {
-        Account playersAccount = iConomy.getBank().getAccount(player.getName());
+    public final double getBalance(String account) {
+        Account playersAccount = iConomy.getBank().getAccount(account);
 
         if (playersAccount != null) {
             return playersAccount.getBalance();
@@ -36,14 +35,14 @@ public class iConomyHandler implements EconomyHandler {
     }
 
     /**
-     * Opposite of grant, means the player loses an amount of money.
+     * Opposite of grant, means the account loses an amount of money.
      *
-     * @param player the player.
-     * @param amount the amount of money to pay.
-     * @return false, if the player has not enough money.
+     * @param account the account.
+     * @param amount  the amount of money to pay.
+     * @return false, if the account has not enough money.
      */
-    public final boolean pay(Player player, double amount) {
-        Account playersAccount = iConomy.getBank().getAccount(player.getName());
+    public final boolean pay(String account, double amount) {
+        Account playersAccount = iConomy.getBank().getAccount(account);
 
         if (playersAccount != null) {
             if (playersAccount.getBalance() >= amount) {
@@ -60,11 +59,11 @@ public class iConomyHandler implements EconomyHandler {
     /**
      * Grants an user the amount of money.
      *
-     * @param player the player.
-     * @param amount the amount of money to grant.
+     * @param account the account.
+     * @param amount  the amount of money to grant.
      */
-    public final void grant(Player player, double amount) {
-        Account playersAccount = iConomy.getBank().getAccount(player.getName());
+    public final void grant(String account, double amount) {
+        Account playersAccount = iConomy.getBank().getAccount(account);
 
         if (playersAccount != null) {
             playersAccount.add(amount);
