@@ -370,31 +370,31 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             line.append(port.getEdge1().getWorld().getName());
                             break;
                         case INDEX_EDGE1_X:
-                            line.append(port.getEdge1().getBlockX());
+                            line.append(port.getEdge1().getX());
                             break;
                         case INDEX_EDGE1_Y:
-                            line.append(port.getEdge1().getBlockY());
+                            line.append(port.getEdge1().getY());
                             break;
                         case INDEX_EDGE1_Z:
-                            line.append(port.getEdge1().getBlockZ());
+                            line.append(port.getEdge1().getZ());
                             break;
                         case INDEX_EDGE2_X:
-                            line.append(port.getEdge2().getBlockX());
+                            line.append(port.getEdge2().getX());
                             break;
                         case INDEX_EDGE2_Y:
-                            line.append(port.getEdge2().getBlockY());
+                            line.append(port.getEdge2().getY());
                             break;
                         case INDEX_EDGE2_Z:
-                            line.append(port.getEdge2().getBlockY());
+                            line.append(port.getEdge2().getZ());
                             break;
                         case INDEX_DESTINATION_X:
-                            line.append(port.getDestination().getBlockX());
+                            line.append(port.getDestination().getX());
                             break;
                         case INDEX_DESTINATION_Y:
-                            line.append(port.getDestination().getBlockY());
+                            line.append(port.getDestination().getY());
                             break;
                         case INDEX_DESTINATION_Z:
-                            line.append(port.getDestination().getBlockY());
+                            line.append(port.getDestination().getZ());
                             break;
                         default:
                             throw new RuntimeException(

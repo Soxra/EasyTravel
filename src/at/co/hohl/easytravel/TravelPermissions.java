@@ -20,8 +20,11 @@ public final class TravelPermissions {
     /** The Permission needed to get info about TravelPorts. */
     public final static Permission LIST = new Permission("easytravel.list", true);
 
-    /** The Permission needed to get info about TravelPorts. */
+    /** The Permission needed to point the compass TravelPorts. */
     public final static Permission COMPASS = new Permission("easytravel.compass", true);
+
+    /** The Permission needed to warp to TravelPorts. */
+    public final static Permission WARP = new Permission("easytravel.warp", true);
 
     /** The Permission manage all existing TravelPorts. */
     public final static Permission MODERATE = new Permission("easytravel.moderate", true);

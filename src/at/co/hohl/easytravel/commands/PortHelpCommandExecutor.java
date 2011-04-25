@@ -8,7 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SubCommandExecutor for the port help command.
@@ -43,13 +46,17 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
         sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Version %s] = = =",
                 plugin.getDescription().getName(), plugin.getDescription().getVersion()));
 
-        Collection<SubCommandExecutor> commands = ((PortCommandExecutor) this.parent).getSubCommands().values();
+        Map<String, SubCommandExecutor> commandMap = ((PortCommandExecutor) this.parent).getSubCommands();
+        List<String> commands = new LinkedList<String>(commandMap.keySet());
+        Collections.sort(commands);
 
-        for (SubCommandExecutor command : commands) {
-            Permission permission = command.getRequiredPermission();
+        for (String command : commands) {
+            SubCommandExecutor commandExecutor = commandMap.get(command);
+            Permission permission = commandExecutor.getRequiredPermission();
             if (permission == null || permissionsHandler.hasPermission(sender, permission)) {
                 String helpLine = String.format("%s%s%s - %s", ChatColor.GRAY,
-                        command.getUsage().replace("<command>", label), ChatColor.WHITE, command.getDescription());
+                        commandExecutor.getUsage().replace("<command>", label), ChatColor.WHITE,
+                        commandExecutor.getDescription());
                 sender.sendMessage(helpLine);
             }
         }
