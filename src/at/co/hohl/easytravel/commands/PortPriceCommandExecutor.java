@@ -27,7 +27,7 @@ public class PortPriceCommandExecutor extends SubCommandExecutor {
      * @param parent the parent of this CommandExecutor.
      */
     public PortPriceCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 2, 1);
+        super(plugin, parent, 1, 2);
     }
 
     /**

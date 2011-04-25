@@ -84,7 +84,7 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Returns information about the TravelPort you are currently inside.";
+        return "Information about your current TravelPort.";
     }
 
     /** @return required permission for executing this command. */

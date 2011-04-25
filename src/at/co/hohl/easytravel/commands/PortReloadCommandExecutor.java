@@ -40,7 +40,7 @@ public class PortReloadCommandExecutor extends SubCommandExecutor {
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         try {
             plugin.reload();
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.reload"));
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.reloaded"));
         } catch (RuntimeException exception) {
             plugin.getLogger().warning("Exception on force save!");
             plugin.getLogger().severe(exception.getMessage());

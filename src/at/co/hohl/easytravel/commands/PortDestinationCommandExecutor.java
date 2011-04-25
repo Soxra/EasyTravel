@@ -1,29 +1,31 @@
 package at.co.hohl.easytravel.commands;
 
 import at.co.hohl.Permissions.Permission;
-import at.co.hohl.Permissions.PermissionsHandler;
+import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
-import org.bukkit.ChatColor;
+import at.co.hohl.easytravel.data.PlayerInformation;
+import at.co.hohl.easytravel.data.TravelPort;
+import at.co.hohl.easytravel.messages.Messages;
+import at.co.hohl.utils.ChatHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import java.util.Collection;
+import org.bukkit.entity.Player;
 
 /**
- * SubCommandExecutor for the port help command.
+ * Adds a command to change the destination of a TravelPort.
  *
  * @author Michael Hohl
  */
-public class PortHelpCommandExecutor extends SubCommandExecutor {
+public class PortDestinationCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortHelpCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 0, 1);
+    public PortDestinationCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 0, 0);
     }
 
     /**
@@ -38,25 +40,19 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
-        PermissionsHandler permissionsHandler = plugin.getPermissionsHandler();
+        Player player = (Player) sender;
+        PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-        sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Version %s] = = =",
-                plugin.getDescription().getName(), plugin.getDescription().getVersion()));
+        TravelPort currentPort = playerInformation.getCurrentPort();
 
-        Collection<SubCommandExecutor> commands = ((PortCommandExecutor) this.parent).getSubCommands().values();
-
-        for (SubCommandExecutor command : commands) {
-            Permission permission = command.getRequiredPermission();
-            if (permission == null || permissionsHandler.hasPermission(sender, permission)) {
-                String helpLine = String.format("%s%s%s - %s", ChatColor.GRAY,
-                        command.getUsage().replace("<command>", label), ChatColor.WHITE, command.getDescription());
-                sender.sendMessage(helpLine);
-            }
+        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+        boolean isOwner = player.getName().equals(currentPort.getOwner());
+        if (isModerator || isOwner) {
+            currentPort.setDestination(player.getLocation());
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-destination"));
+        } else {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
         }
-
-        sender.sendMessage(" ");
-        sender.sendMessage(
-                ChatColor.WHITE + "As <id> you can pass the unique id or a part of the name.");
 
         return true;
     }
@@ -64,18 +60,18 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> help";
+        return "/<command> destination";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Shows this help.";
+        return "Sets the destination of a TravelPort.";
     }
 
     /** @return required permission for executing this command. */
     @Override
     public Permission getRequiredPermission() {
-        return null;
+        return TravelPermissions.CREATE;
     }
 }

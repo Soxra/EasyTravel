@@ -50,6 +50,7 @@ public class PortCreateCommandExecutor extends SubCommandExecutor {
                 TravelPort port = plugin.getTravelPorts().create();
                 port.setName(name);
                 port.setOwner(player.getName());
+                port.setDestination(player.getLocation());
                 port.setEdge1(playerSelection.getMinimumPoint());
                 port.setEdge2(playerSelection.getMaximumPoint());
 

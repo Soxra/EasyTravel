@@ -10,7 +10,6 @@ import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
@@ -54,6 +53,7 @@ public class TravelPlugin extends JavaPlugin {
     public void onEnable() {
         loadConfiguration();
         setupWorldEdit();
+        setupEconomy();
         setupPermissions();
         setupEventHandler();
 
@@ -62,7 +62,7 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Disables this plugin. */
     public void onDisable() {
-        onSave();
+        save();
 
         logger.info(String.format("%s is disabled!", getDescription().getName()));
     }
@@ -75,7 +75,21 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Called when forcing a save. */
     public void onSave() {
+        logger.info("Save TravelPorts...");
         travelPortContainer.save();
+    }
+
+    /** Saves the configuration an the TravelPorts. */
+    public final void save() {
+        logger.info("EasyTravel forcing a save...");
+        onSave();
+        logger.info("EasyTravel ports and configuration saved!");
+    }
+
+    /** Reloads the server. */
+    public final void reload() {
+        onReload();
+        logger.info("EasyTravel reloaded!");
     }
 
     /**
@@ -90,16 +104,7 @@ public class TravelPlugin extends JavaPlugin {
             Integer targetId = currentPort.getTargetId();
 
             TravelPort targetPort = travelPortContainer.get(targetId);
-
-            Location currentPlayer = player.getLocation();
-            Location currentEdge1 = currentPort.getEdge1();
-            Location targetEdge1 = targetPort.getEdge1();
-            double playerOffsetX = currentEdge1.getX() - currentPlayer.getX();
-            double playerOffsetY = currentEdge1.getY() - currentPlayer.getY();
-            double playerOffsetZ = currentEdge1.getZ() - currentPlayer.getZ();
-            Location targetPlayer = new Location(targetEdge1.getWorld(), targetEdge1.getX() - playerOffsetX,
-                    targetEdge1.getY() - playerOffsetY, targetEdge1.getZ() - playerOffsetZ);
-            player.teleport(targetPlayer);
+            player.teleport(targetPort.getDestination());
 
             PlayerInformation playerInformation = getPlayerInformation(player);
             playerInformation.setCurrentPort(targetPort);
@@ -161,19 +166,6 @@ public class TravelPlugin extends JavaPlugin {
     /** @return the logger of this application. */
     public Logger getLogger() {
         return logger;
-    }
-
-    /** Saves the configuration an the TravelPorts. */
-    public final void save() {
-        logger.info("EasyTravel forcing a save...");
-        onSave();
-        logger.info("EasyTravel ports and configuration saved!");
-    }
-
-    /** Reloads the server. */
-    public final void reload() {
-        onReload();
-        logger.info("EasyTravel reloaded!");
     }
 
     /** Loads the configuration. */

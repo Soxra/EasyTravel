@@ -171,11 +171,11 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
             try {
                 unlink(port);
             } catch (InvalidLinkException exception) {
-                logger.severe("Internal unexpected error occurred! Seems to be a multithreading problem");
+                logger.severe("Internal unexpected error occurred! Seems to be a multithread problem");
             }
         }
 
-        travelPorts.remove(port);
+        travelPorts.remove(port.getId());
     }
 
     /**
@@ -238,22 +238,25 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         private static final int INDEX_NAME = 1;
         private static final int INDEX_TARGET = 2;
         private static final int INDEX_OWNER = 3;
-        private static final int INDEX_PASSWORD = 4;
-        private static final int INDEX_PRICE = 5;
-        private static final int INDEX_WORLD = 6;
-        private static final int INDEX_EDGE1_X = 7;
-        private static final int INDEX_EDGE1_Y = 8;
-        private static final int INDEX_EDGE1_Z = 9;
-        private static final int INDEX_EDGE2_X = 10;
-        private static final int INDEX_EDGE2_Y = 11;
-        private static final int INDEX_EDGE2_Z = 12;
-        private static final int INDEX_ALLOWED = 13;
-        private static final int CSV_COLUMNS = 14;
+        private static final int INDEX_ALLOWED = 4;
+        private static final int INDEX_PASSWORD = 5;
+        private static final int INDEX_PRICE = 6;
+        private static final int INDEX_WORLD = 7;
+        private static final int INDEX_EDGE1_X = 8;
+        private static final int INDEX_EDGE1_Y = 9;
+        private static final int INDEX_EDGE1_Z = 10;
+        private static final int INDEX_EDGE2_X = 11;
+        private static final int INDEX_EDGE2_Y = 12;
+        private static final int INDEX_EDGE2_Z = 13;
+        private static final int INDEX_DESTINATION_X = 14;
+        private static final int INDEX_DESTINATION_Y = 15;
+        private static final int INDEX_DESTINATION_Z = 16;
+        private static final int CSV_COLUMNS = 17;
 
         /** Hidden default constructor. */
         private FlatFilePortStorage() {
             throw new RuntimeException("Don't call the hidden default constructor! " +
-                    "This is a static helper class, not build for creating an instace of it.");
+                    "This is a static helper class, not build for creating an instance of it.");
         }
 
         /**
@@ -303,6 +306,12 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         Location edge2 = new Location(world, edge2X, edge2Y, edge2Z);
                         port.setEdge2(edge2);
 
+                        Double destinationX = Double.parseDouble(lineParts[INDEX_DESTINATION_X]);
+                        Double destinationY = Double.parseDouble(lineParts[INDEX_DESTINATION_Y]);
+                        Double destinationZ = Double.parseDouble(lineParts[INDEX_DESTINATION_Z]);
+                        Location destination = new Location(world, destinationX, destinationY, destinationZ);
+                        port.setDestination(destination);
+
                         ports.put(port.getId(), port);
                     } else {
                         server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
@@ -344,6 +353,13 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         case INDEX_OWNER:
                             line.append(port.getOwner());
                             break;
+                        case INDEX_ALLOWED:
+                            if (port.isAllowedToEverybody()) {
+                                line.append("null");
+                            } else {
+                                line.append(StringHelper.encode(port.getAllowed()));
+                            }
+                            break;
                         case INDEX_PASSWORD:
                             line.append(port.getPassword());
                             break;
@@ -371,8 +387,14 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         case INDEX_EDGE2_Z:
                             line.append(port.getEdge2().getBlockY());
                             break;
-                        case INDEX_ALLOWED:
-                            line.append(StringHelper.encode(port.getAllowed()));
+                        case INDEX_DESTINATION_X:
+                            line.append(port.getDestination().getBlockX());
+                            break;
+                        case INDEX_DESTINATION_Y:
+                            line.append(port.getDestination().getBlockY());
+                            break;
+                        case INDEX_DESTINATION_Z:
+                            line.append(port.getDestination().getBlockY());
                             break;
                         default:
                             throw new RuntimeException(

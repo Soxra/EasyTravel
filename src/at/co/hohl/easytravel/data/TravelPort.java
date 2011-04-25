@@ -23,6 +23,9 @@ public class TravelPort {
     /** Second Edge. */
     private Location edge2;
 
+    /** The destination. */
+    private Location destination;
+
     /** Name of the travel port. */
     private String name;
 
@@ -161,6 +164,20 @@ public class TravelPort {
      */
     public final void setEdge2(Location edge2) {
         this.edge2 = edge2;
+    }
+
+    /** @return the destination */
+    public Location getDestination() {
+        return destination;
+    }
+
+    /**
+     * Sets the destination.
+     *
+     * @param destination the destination to set.
+     */
+    public void setDestination(Location destination) {
+        this.destination = destination;
     }
 
     /** @return the name of the travel point. */

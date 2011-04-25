@@ -4,8 +4,8 @@ format: "&d%s"
 
 # The greetings get shown when you enter a TravelPort.
 greeting:
-    free: "Welcome on board! Use /depart to begin your journey."
-    paid: "Welcome on board! This journey costs &a%.2f %s&e. Use /depart to begin your journey."
+    free: "Willkommen an Bord! Benutze /depart um deine Reise zu beginnen."
+    paid: "Willkommen an Bord! Diese Reise kostet &a%.2f %s&d. Benutze /depart um deine Reise zu beginnen."
 
 # Called when events occurred.
 event:
@@ -16,7 +16,7 @@ event:
 problem:
     little-money: "&cYou have not enough money for this journey!"
     not-allowed: "&cYou are not allowed to use begin this journey!"
-    not-inside-port: "&cYou can only depart, when you are on board!"
+    not-inside: "&cYou can only depart, when you are on board!"
     invalid-password: "&cThis journey is locked by with a magical key! Use &4/depart <password>&c to unlock it!"
     miss-economy: "&cSorry. You can not begin your journey, because of technical problems."
     miss-target: "&cThe port does not have a target! Link ports, before using /depart."
@@ -33,6 +33,7 @@ moderator:
          reloaded: "&2Reloaded Configuration and TravelPorts!"
          change-price: "&2Changed price successfully!"
          change-owner: "&2Changed owner successfully!"
+         change-destination: "&2Destination changed!"
          point-compass: "&2Your compass points to the TravelPort!"
     problem:
          not-allowed: "&cYou do not have the permissions for that!"

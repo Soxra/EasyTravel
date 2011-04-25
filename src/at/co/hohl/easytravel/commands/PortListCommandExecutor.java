@@ -57,16 +57,17 @@ public class PortListCommandExecutor extends SubCommandExecutor {
 
         int numberOfEntries = travelPorts.size();
         int startEntry = page * ENTRIES_PER_PAGE;
-        int endEntry = Math.min(startEntry + ENTRIES_PER_PAGE, travelPorts.size());
+        int endEntry = Math.min(startEntry + ENTRIES_PER_PAGE, travelPorts.size()) - 1;
 
-        sender.sendMessage(
-                ChatColor.GREEN + String.format("= = = Travel Ports [Page %d/%d] = = =", page, numberOfEntries));
-        for (int current = startEntry; current < endEntry; ++current) {
+        sender.sendMessage(ChatColor.GREEN +
+                String.format("= = = Travel Ports [Page %d/%d] = = =", page, numberOfEntries / ENTRIES_PER_PAGE));
+        for (int current = startEntry; current <= endEntry; ++current) {
             try {
                 TravelPort port = travelPorts.get(Integer.valueOf(current));
                 sender.sendMessage(String.format("[%s] %s (%s)", port.getId(), port.getName(), port.getOwner()));
             } catch (TravelPortNotFound travelPortNotFound) {
                 plugin.getLogger().fine("Leak in IDs of TravelPorts detected!");
+                sender.sendMessage(String.format("[%d] ---", current));
             }
         }
 
