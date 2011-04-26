@@ -6,6 +6,7 @@ import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,7 +47,10 @@ public class PortSearchCommandExecutor extends SubCommandExecutor {
 
         Collection<TravelPort> result = plugin.getTravelPorts().searchAll(keyword);
         for (TravelPort port : result) {
-            sender.sendMessage(String.format("[%s] %s (%s)", port.getId(), port.getName(), port.getOwner()));
+            Location destination = port.getDestination();
+            sender.sendMessage(
+                    String.format("[%s] %s (%s) - %.1f, %.1f, %.1f", port.getId(), port.getName(), port.getOwner(),
+                            destination.getX(), destination.getY(), destination.getZ()));
         }
 
         return true;

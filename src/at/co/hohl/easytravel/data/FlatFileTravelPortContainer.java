@@ -251,7 +251,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         private static final int INDEX_DESTINATION_X = 14;
         private static final int INDEX_DESTINATION_Y = 15;
         private static final int INDEX_DESTINATION_Z = 16;
-        private static final int CSV_COLUMNS = 17;
+        private static final int INDEX_DESTINATION_YAW = 17;
+        private static final int INDEX_DESTINATION_PITCH = 18;
+        private static final int CSV_COLUMNS = 19;
 
         /** Hidden default constructor. */
         private FlatFilePortStorage() {
@@ -310,6 +312,8 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         Double destinationY = Double.parseDouble(lineParts[INDEX_DESTINATION_Y]);
                         Double destinationZ = Double.parseDouble(lineParts[INDEX_DESTINATION_Z]);
                         Location destination = new Location(world, destinationX, destinationY, destinationZ);
+                        destination.setYaw(Float.parseFloat(lineParts[INDEX_DESTINATION_YAW]));
+                        destination.setPitch(Float.parseFloat(lineParts[INDEX_DESTINATION_PITCH]));
                         port.setDestination(destination);
 
                         ports.put(port.getId(), port);
@@ -345,7 +349,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             line.append(port.getId());
                             break;
                         case INDEX_NAME:
-                            line.append(port.getName());
+                            line.append(port.getName().replace(';', ','));
                             break;
                         case INDEX_TARGET:
                             line.append(port.getTargetId());
@@ -395,6 +399,12 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             break;
                         case INDEX_DESTINATION_Z:
                             line.append(port.getDestination().getZ());
+                            break;
+                        case INDEX_DESTINATION_YAW:
+                            line.append(port.getDestination().getYaw());
+                            break;
+                        case INDEX_DESTINATION_PITCH:
+                            line.append(port.getDestination().getPitch());
                             break;
                         default:
                             throw new RuntimeException(

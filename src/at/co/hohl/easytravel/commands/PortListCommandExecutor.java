@@ -8,6 +8,7 @@ import at.co.hohl.easytravel.data.TravelPortContainer;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -65,7 +66,10 @@ public class PortListCommandExecutor extends SubCommandExecutor {
         int current = 0;
         for (TravelPort port : ports) {
             if (current >= startEntry && current < endEntry) {
-                sender.sendMessage(String.format("[%s] %s (%s)", port.getId(), port.getName(), port.getOwner()));
+                Location destination = port.getDestination();
+                sender.sendMessage(
+                        String.format("[%s] %s (%s) - %.1f, %.1f, %.1f", port.getId(), port.getName(), port.getOwner(),
+                                destination.getX(), destination.getY(), destination.getZ()));
             }
             ++current;
         }

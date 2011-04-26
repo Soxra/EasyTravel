@@ -10,6 +10,7 @@ import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -59,6 +60,9 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
             } catch (Exception exception) {
                 // Ignore!
             }
+            Location destination = currentPort.getDestination();
+            sender.sendMessage(String.format("Location: %.1f, %.1f, %.1f", destination.getX(), destination.getY(),
+                    destination.getZ()));
             sender.sendMessage(String.format("Price: %s%.2f", ChatColor.GRAY, currentPort.getPrice()));
             sender.sendMessage(String.format("Password: %s%s", ChatColor.GRAY, currentPort.getPassword()));
             if (currentPort.isAllowedToEverybody()) {

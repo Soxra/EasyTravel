@@ -71,6 +71,6 @@ public class PortWarpCommandExecutor extends SubCommandExecutor {
     /** @return required permission for executing this command. */
     @Override
     public Permission getRequiredPermission() {
-        return TravelPermissions.WARP;
+        return TravelPermissions.PORT;
     }
 }
