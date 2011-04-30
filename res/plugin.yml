@@ -1,6 +1,6 @@
 name: EasyTravel
 main: at.co.hohl.easytravel.TravelPlugin
-version: 1.0-preview3
+version: 1.0
 authors:
  - 'Michael Hohl (miho)'
 commands:
