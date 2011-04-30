@@ -227,6 +227,11 @@ public class TravelPort {
         return password;
     }
 
+    /** @return true if the TravelPort is locked with a password. */
+    public final boolean isPasswordLocked() {
+        return password != null;
+    }
+
     /** @param password sets the password needed to travel */
     public final void setPassword(String password) {
         this.password = password;

@@ -7,6 +7,7 @@ import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.config.Configuration;
 
 import java.util.Collection;
 
@@ -93,14 +94,50 @@ public class TravelPlayerListener extends PlayerListener {
     }
 
     /**
+     * Called when player wants to depart and is ready for it.
+     *
+     * @param player the player who wants to depart.
+     * @param port   the port where the player is currently inside.
+     */
+    public void onPlayerDeparting(final Player player, final TravelPort port) {
+        Runnable departRunnable = new Runnable() {
+            public void run() {
+                try {
+                    plugin.teleportPlayer(player, port);
+                } catch (WarpException exception) {
+                    ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
+                    plugin.getLogger().info(String.format("TravelPort '%s' isn't linked correctly!", port.getName()));
+                }
+            }
+        };
+
+        Configuration config = plugin.getConfiguration();
+        long departDelay = config.getInt("depart-delay", 0);
+
+        if (departDelay > 0) {
+            ChatHelper.sendMessage(player, Messages.get("event.departing"));
+        }
+
+        plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, departRunnable, departDelay);
+    }
+
+    /**
      * Called when the player travels to a TravelPort.
      *
      * @param player the player which travels.
      * @param from   the travel port where to player comes from.
      * @param to     the target travel port where to player goes to.
      */
-    public void onPlayerTraveled(Player player, TravelPort from, TravelPort to) {
-        ChatHelper.sendMessage(player, String.format(Messages.get("event.arrived"), to.getName()));
+    public void onPlayerTraveled(final Player player, final TravelPort from, final TravelPort to) {
+        Runnable notifyRunnable = new Runnable() {
+            public void run() {
+                ChatHelper.sendMessage(player, String.format(Messages.get("event.arrived"), to.getName()));
+            }
+        };
+
+        long notificationDelay = plugin.getConfiguration().getInt("arrived-notification-delay", 10);
+
+        plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, notifyRunnable, notificationDelay);
     }
 
     /**
@@ -112,6 +149,42 @@ public class TravelPlayerListener extends PlayerListener {
     public void onPlayerPaidForTravelling(Player player, double amount) {
         String currency = plugin.getEconomyHandler().getCurrency();
         ChatHelper.sendMessage(player, String.format(Messages.get("event.money-paid"), amount, currency));
+    }
+
+    /**
+     * Called when player tries to depart, when not inside TravelPort
+     *
+     * @param player the player on which depends this event.
+     */
+    public void onNotInsideTravelPort(Player player) {
+        ChatHelper.sendMessage(player, Messages.get("problem.not-inside"));
+    }
+
+    /**
+     * Called when player is not allowed to travel.
+     *
+     * @param player the player on which depends this event.
+     */
+    public void onNotAllowedToDepart(Player player) {
+        ChatHelper.sendMessage(player, Messages.get("problem.not-allowed"));
+    }
+
+    /**
+     * Called when players password is wrong.
+     *
+     * @param player the player on which depends this event.
+     */
+    public void onInvalidPassword(Player player) {
+        ChatHelper.sendMessage(player, Messages.get("problem.invalid-password"));
+    }
+
+    /**
+     * Called when the player has to little money to depart.
+     *
+     * @param player the player on which depends this event.
+     */
+    public void onLittleMoney(Player player) {
+        ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
     }
 }
 
