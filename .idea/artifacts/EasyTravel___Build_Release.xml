@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="EasyTravel - Build Release">
+    <output-path>$PROJECT_DIR$/../Bukkit/plugins</output-path>
+    <root id="archive" name="EasyTravel.jar">
+      <element id="module-output" name="EasyTravel" />
+      <element id="library" level="application" name="Universal Permissions API" />
+      <element id="file-copy" path="$PROJECT_DIR$/res/plugin.yml" />
+    </root>
+  </artifact>
+</component>
