@@ -58,6 +58,10 @@ public class TravelPlugin extends JavaPlugin {
         setupEventHandler();
 
         logger.info(String.format("%s is enabled!", getDescription().getFullName()));
+
+        if (getDescription().getVersion().contains("preview")) {
+            logger.info("Notice: You are using a PREVIEW build! Not recommended for production server!");
+        }
     }
 
     /** Disables this plugin. */
