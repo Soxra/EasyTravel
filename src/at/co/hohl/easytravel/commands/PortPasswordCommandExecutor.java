@@ -6,8 +6,6 @@ import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.ports.TravelPort;
-import at.co.hohl.easytravel.ports.storage.TravelPortContainer;
-import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.command.Command;
@@ -28,7 +26,7 @@ public class PortPasswordCommandExecutor extends SubCommandExecutor {
      * @param parent the parent of this CommandExecutor.
      */
     public PortPasswordCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 1, -1);
+        super(plugin, parent, 0, -1);
     }
 
     /**
@@ -45,39 +43,23 @@ public class PortPasswordCommandExecutor extends SubCommandExecutor {
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         Player player = (Player) sender;
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
-        TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        TravelPort travelPortToChangePassword;
-        String passwordToSet;
-        try {
-            if (args.length == 3) {
-                try {
-                    travelPortToChangePassword = travelPorts.search(args[1]);
-                    passwordToSet = StringHelper.toSingleString(args, " ", 2);
-                } catch (TravelPortNotFound travelPortNotFound) {
-                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
-                    return true;
-                }
-            } else {
-                travelPortToChangePassword = playerInformation.getCurrentPort();
-                passwordToSet = StringHelper.toSingleString(args, " ", 1);
+        TravelPort travelPortToChangePassword = playerInformation.getCurrentPort();
+        String passwordToSet = StringHelper.toSingleString(args, " ", 1);
 
-                if (travelPortToChangePassword == null) {
-                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
-                    return true;
-                }
-            }
-        } catch (NumberFormatException exception) {
-            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-use"));
-
+        if (travelPortToChangePassword == null) {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
             return true;
         }
 
         boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
         boolean isOwner = player.getName().equals(travelPortToChangePassword.getOwner());
         if (isModerator || isOwner) {
-            if ("reset".equalsIgnoreCase(passwordToSet))
+            if (passwordToSet.length() < 1) {
+                travelPortToChangePassword.setPassword(null);
+            } else {
                 travelPortToChangePassword.setPassword(passwordToSet);
+            }
             ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-password"));
         } else {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
@@ -89,7 +71,7 @@ public class PortPasswordCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> password <text>|RESET";
+        return "/<command> password [<text>]";
     }
 
     /** @return description of the command. */
