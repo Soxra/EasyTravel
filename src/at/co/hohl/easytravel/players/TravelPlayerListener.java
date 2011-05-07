@@ -1,9 +1,9 @@
 package at.co.hohl.easytravel.players;
 
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.WarpException;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
@@ -40,9 +40,7 @@ public class TravelPlayerListener extends PlayerListener {
             if (currentTravelPort != null) {
                 // Check if players is now in TravelPort too!
                 if (!currentTravelPort.getArea().contains(player.getLocation())) {
-                    boolean traveledRecently = playerInformation.isAlreadyTravelled();
-                    onPlayerLeavedTravelPort(player, currentTravelPort, traveledRecently);
-                    playerInformation.setAlreadyTravelled(false);
+                    onPlayerLeavedTravelPort(player, currentTravelPort);
                     playerInformation.setCurrentPort(null);
                 }
             } else {
@@ -82,11 +80,10 @@ public class TravelPlayerListener extends PlayerListener {
     /**
      * Called when the players leaves a TravelPort.
      *
-     * @param player          the players which moves.
-     * @param port            the port which the players leaved.
-     * @param alreadyTraveled true, if the players leaves the travel port, after traveling.
+     * @param player the players which moves.
+     * @param port   the port which the players leaved.
      */
-    public void onPlayerLeavedTravelPort(Player player, TravelPort port, boolean alreadyTraveled) {
+    public void onPlayerLeavedTravelPort(Player player, TravelPort port) {
         //plugin.getLogger().info("Player leaved port!");
     }
 
@@ -100,10 +97,17 @@ public class TravelPlayerListener extends PlayerListener {
         Runnable departRunnable = new Runnable() {
             public void run() {
                 try {
-                    plugin.teleportPlayer(player, port);
-                } catch (WarpException exception) {
+                    TravelPort targetPort = plugin.getTravelPorts().get(port.getTargetId());
+                    targetPort.getDestination().teleport(player);
+
+                    PlayerInformation playerInformation = plugin.getPlayerInformation(player);
+                    playerInformation.setCurrentPort(targetPort);
+
+                    onPlayerTraveled(player, port, targetPort);
+                } catch (TravelPortNotFound exception) {
                     ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
-                    plugin.getLogger().info(String.format("TravelPort '%s' isn't linked correctly!", port.getName()));
+                    plugin.getLogger()
+                            .info(String.format("TravelPort '%s' isn't linked correctly!", port.getName()));
                 }
             }
         };
@@ -111,11 +115,19 @@ public class TravelPlayerListener extends PlayerListener {
         Configuration config = plugin.getConfiguration();
         long departDelay = config.getInt("depart-delay", 0);
 
-        if (departDelay > 0) {
+        if (departDelay > 0)
+
+        {
             ChatHelper.sendMessage(player, Messages.get("event.departing"));
         }
 
-        plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, departRunnable, departDelay);
+        plugin.getServer().
+
+                getScheduler()
+
+                .
+
+                        scheduleAsyncDelayedTask(plugin, departRunnable, departDelay);
     }
 
     /**
@@ -125,6 +137,7 @@ public class TravelPlayerListener extends PlayerListener {
      * @param from   the travel port where to players comes from.
      * @param to     the target travel port where to players goes to.
      */
+
     public void onPlayerTraveled(final Player player, final TravelPort from, final TravelPort to) {
         Runnable notifyRunnable = new Runnable() {
             public void run() {

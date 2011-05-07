@@ -5,6 +5,7 @@ import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.economy.EconomyHandler;
+import at.co.hohl.utils.StringHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -59,6 +60,11 @@ public class DepartCommandExecutor implements CommandExecutor {
         if (!port.isAllowed(plugin.getPermissionsHandler(), player)) {
             playerListener.onNotAllowedToDepart(player);
             return true;
+        }
+
+        // Passed any password?
+        if (args.length > 0) {
+            playerInformation.setEnteredPassword(StringHelper.toSingleString(args, " ", 0));
         }
 
         // Is password set and is it valid?

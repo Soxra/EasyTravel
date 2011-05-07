@@ -9,10 +9,8 @@ import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.Area;
 import at.co.hohl.easytravel.ports.CuboidArea;
-import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.easytravel.ports.storage.FlatFileTravelPortContainer;
 import at.co.hohl.easytravel.ports.storage.TravelPortContainer;
-import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -100,32 +98,6 @@ public class TravelPlugin extends JavaPlugin {
     public final void reload() {
         onReload();
         logger.info("EasyTravel reloaded!");
-    }
-
-    /**
-     * Teleports the players.
-     *
-     * @param player      the players to port.
-     * @param currentPort the current port to warp from.
-     * @throws WarpException thrown if the players couldn't get warped.
-     */
-    public void teleportPlayer(Player player, TravelPort currentPort) {
-        try {
-            Integer targetId = currentPort.getTargetId();
-
-            TravelPort targetPort = travelPortContainer.get(targetId);
-            targetPort.getDestination().teleport(player);
-
-            PlayerInformation playerInformation = getPlayerInformation(player);
-            playerInformation.setCurrentPort(targetPort);
-            playerInformation.setAlreadyTravelled(true);
-
-            playerListener.onPlayerTraveled(player, currentPort, targetPort);
-        } catch (TravelPortNotFound exception) {
-            String exceptionMessage = String.format("Port '%s' (ID:%d) is linked to an invalid port (ID:%d)!",
-                    currentPort.getName(), currentPort.getId(), currentPort.getTargetId());
-            throw new WarpException(exceptionMessage);
-        }
     }
 
     /**
