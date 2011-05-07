@@ -1,11 +1,13 @@
 package at.co.hohl.easytravel.data;
 
+import at.co.hohl.easytravel.TravelException;
+
 /**
  * Exception for invalid links.
  *
  * @author Michael Hohl
  */
-public class InvalidLinkException extends Exception {
+public class InvalidLinkException extends TravelException {
     public InvalidLinkException() {
         super();
     }

@@ -1,0 +1,7 @@
+#
+# EasyTravel Configuration
+#
+
+# A lower value means to check if the player is inside a TravelPort more often, but also means more CPU usage!
+location-update-interval: 25
+
