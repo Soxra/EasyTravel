@@ -7,7 +7,7 @@ import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.ports.Destination;
 import at.co.hohl.easytravel.ports.TravelPort;
-import at.co.hohl.easytravel.ports.storage.TravelPortContainer;
+import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.ChatColor;

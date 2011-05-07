@@ -1,7 +1,4 @@
-package at.co.hohl.easytravel.ports.storage;
-
-import at.co.hohl.easytravel.ports.InvalidLinkException;
-import at.co.hohl.easytravel.ports.TravelPort;
+package at.co.hohl.easytravel.ports;
 
 import java.util.Collection;
 

@@ -3,7 +3,7 @@ package at.co.hohl.easytravel.players;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
-import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
+import at.co.hohl.easytravel.ports.TravelPortNotFound;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;

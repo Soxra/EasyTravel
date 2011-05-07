@@ -1,10 +1,7 @@
 package at.co.hohl.easytravel.ports.storage;
 
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.ports.CuboidArea;
-import at.co.hohl.easytravel.ports.Destination;
-import at.co.hohl.easytravel.ports.InvalidLinkException;
-import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.easytravel.ports.*;
 import at.co.hohl.easytravel.storage.SyntaxException;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.Server;
