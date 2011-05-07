@@ -11,9 +11,9 @@ import org.bukkit.World;
  * @author Michael Hohl
  */
 public class CuboidArea implements Area {
-    private double highx, lowx;
-    private double highy, lowy;
-    private double highz, lowz;
+    private int highx, lowx;
+    private int highy, lowy;
+    private int highz, lowz;
     private String world;
 
     /**
@@ -23,14 +23,14 @@ public class CuboidArea implements Area {
      * @param edge2 the second location.
      */
     public CuboidArea(final Location edge1, final Location edge2) {
-        highx = Math.max(edge1.getX(), edge2.getX());
-        lowx = Math.min(edge1.getX(), edge2.getX());
+        highx = Math.max(edge1.getBlockX(), edge2.getBlockX());
+        lowx = Math.min(edge1.getBlockX(), edge2.getBlockX());
 
-        highy = Math.max(edge1.getY(), edge2.getY());
-        lowy = Math.min(edge1.getY(), edge2.getY());
+        highy = Math.max(edge1.getBlockY(), edge2.getBlockY());
+        lowy = Math.min(edge1.getBlockY(), edge2.getBlockY());
 
-        highz = Math.max(edge1.getZ(), edge2.getZ());
-        lowz = Math.min(edge1.getZ(), edge2.getZ());
+        highz = Math.max(edge1.getBlockZ(), edge2.getBlockZ());
+        lowz = Math.min(edge1.getBlockZ(), edge2.getBlockZ());
 
         world = edge1.getWorld().getName();
     }
@@ -46,7 +46,7 @@ public class CuboidArea implements Area {
      * @param z1    coord
      * @param z2    coord
      */
-    public CuboidArea(final World world, double x1, double x2, double y1, double y2, double z1, double z2) {
+    public CuboidArea(final World world, int x1, int x2, int y1, int y2, int z1, int z2) {
         highx = Math.max(x1, x2);
         lowx = Math.min(x1, x2);
 
@@ -68,12 +68,12 @@ public class CuboidArea implements Area {
         PropertiesParser parser = new PropertiesParser(string);
 
         if ("CuboidArea".equals(parser.getType())) {
-            highx = parser.getDouble("highx");
-            lowx = parser.getDouble("lowx");
-            highy = parser.getDouble("highy");
-            lowy = parser.getDouble("lowy");
-            highz = parser.getDouble("highz");
-            lowz = parser.getDouble("lowz");
+            highx = parser.getInt("highx");
+            lowx = parser.getInt("lowx");
+            highy = parser.getInt("highy");
+            lowy = parser.getInt("lowy");
+            highz = parser.getInt("highz");
+            lowz = parser.getInt("lowz");
             world = parser.getString("world");
         } else {
             throw new SyntaxException("String isn't a valid description for a CuboidArea!");
@@ -88,9 +88,9 @@ public class CuboidArea implements Area {
      */
     public boolean contains(final Location location) {
         return world.equalsIgnoreCase(location.getWorld().getName()) // Same World?
-                && (highx > location.getX() && lowx < location.getX()) // Inside X coords?
-                && (highy > location.getY() && lowy < location.getY()) // Inside Y coords?
-                && (highz > location.getZ() && lowz < location.getZ()); // Inside Z coords?
+                && (highx >= location.getBlockX() && lowx <= location.getBlockX()) // Inside X coords?
+                && (highy >= location.getBlockY() && lowy <= location.getBlockY()) // Inside Y coords?
+                && (highz >= location.getBlockZ() && lowz <= location.getBlockZ()); // Inside Z coords?
     }
 
     @Override
