@@ -3,13 +3,12 @@ package at.co.hohl.easytravel.commands;
 import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.data.CuboidArea;
+import at.co.hohl.easytravel.data.Area;
 import at.co.hohl.easytravel.data.Destination;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
-import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,14 +45,14 @@ public class PortCreateCommandExecutor extends SubCommandExecutor {
 
         if (plugin.getPermissionsHandler().hasPermission(sender, TravelPermissions.MODERATE)) {
             String name = StringHelper.toSingleString(args, " ", 1);
-            Selection playerSelection = plugin.getSelection(player);
+            Area playerSelection = plugin.getSelectedArea(player);
 
-            if (playerSelection != null && playerSelection.getArea() > 1) {
+            if (playerSelection != null) {
                 TravelPort port = plugin.getTravelPorts().create();
                 port.setName(name);
                 port.setOwner(player.getName());
                 port.setDestination(new Destination(player.getLocation()));
-                port.setArea(new CuboidArea(playerSelection.getMinimumPoint(), playerSelection.getMaximumPoint()));
+                port.setArea(playerSelection);
 
                 ChatHelper.sendMessage(sender, Messages.get("moderator.success.created"));
             } else {

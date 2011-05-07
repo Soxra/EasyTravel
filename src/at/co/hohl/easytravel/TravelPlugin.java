@@ -12,6 +12,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
@@ -126,8 +127,18 @@ public class TravelPlugin extends JavaPlugin {
      * @param player the player
      * @return the selection of the passed player.
      */
-    public Selection getSelection(Player player) {
-        return worldEditPlugin.getSelection(player);
+    public Area getSelectedArea(Player player) {
+        if (worldEditPlugin != null) {
+            Selection weSelection = worldEditPlugin.getSelection(player);
+
+            if (weSelection != null && weSelection.getArea() > 0) {
+                return new CuboidArea(weSelection.getMinimumPoint(), weSelection.getMaximumPoint());
+            } else {
+                return null;
+            }
+        } else {
+            return null; // ToDo: Implement own selection tool!
+        }
     }
 
     /** @return the current permissions handler. */
@@ -209,17 +220,19 @@ public class TravelPlugin extends JavaPlugin {
             worldEditPlugin = (WorldEditPlugin) plugin;
             logger.info(String.format("%s connected to WorldEdit successfully!", getDescription().getName()));
         } else {
-            logger.severe(String.format("%s requires WorldEdit! Please install first.", getDescription().getName()));
-            this.setEnabled(false);
+            logger.severe(String.format("%s requires WorldEdit! Please install first!", getDescription().getName()));
         }
     }
 
     /** Setups the economy system. */
     private void setupEconomy() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("iConomy");
-        if (plugin != null) {
+        PluginManager pm = getServer().getPluginManager();
+
+        if (pm.getPlugin("iConomy") != null) {
             economyHandler = new iConomyHandler();
             logger.info(String.format("%s connected to iConomy successfully!", getDescription().getName()));
+        } else {
+            logger.warning(String.format("No economy system found by %s!", getDescription().getName()));
         }
     }
 }
