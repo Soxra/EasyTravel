@@ -16,6 +16,7 @@ import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -155,6 +156,17 @@ public class TravelPlugin extends JavaPlugin {
         return playerInformationMap.get(player);
     }
 
+    /**
+     * Removes all information, connected to the passed player. (Like stored passwords, current port, and so on).
+     *
+     * @param player the player which information should be removed.
+     */
+    public void removePlayerInformation(Player player) {
+        if (!playerInformationMap.containsKey(player)) {
+            playerInformationMap.remove(player);
+        }
+    }
+
     /** @return the logger of this application. */
     public Logger getLogger() {
         return logger;
@@ -176,6 +188,10 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Setups all event handlers, used by this plugin. */
     private void setupEventHandler() {
+        // Remove player information on quit.
+        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
+
+        // Update player information controlled by an scheduler.
         int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 15);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
@@ -183,6 +199,7 @@ public class TravelPlugin extends JavaPlugin {
             }
         }, locationUpdateInterval * 3, locationUpdateInterval);
 
+        // Register commands.
         getCommand("port").setExecutor(new PortCommandExecutor(this));
         getCommand("depart").setExecutor(new DepartCommandExecutor(this));
     }

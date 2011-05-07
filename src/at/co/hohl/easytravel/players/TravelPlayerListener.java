@@ -7,6 +7,7 @@ import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.config.Configuration;
 
 import java.util.Collection;
@@ -27,6 +28,16 @@ public class TravelPlayerListener extends PlayerListener {
      */
     public TravelPlayerListener(TravelPlugin instance) {
         plugin = instance;
+    }
+
+    /**
+     * Called when player left the game.
+     *
+     * @param event details of the event.
+     */
+    @Override
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        plugin.removePlayerInformation(event.getPlayer());
     }
 
     /** Updates the information if the players is inside of a TravelPort. */
