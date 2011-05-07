@@ -63,13 +63,21 @@ public class TravelPort {
         boolean insideX = Math.min(edge1.getBlockX(), edge2.getBlockX()) <= location.getBlockX() &&
                 location.getBlockX() <= Math.max(edge1.getBlockX(), edge2.getBlockX());
 
-        boolean insideY = Math.min(edge1.getBlockY(), edge2.getBlockY()) <= location.getBlockY() &&
-                location.getBlockY() <= Math.max(edge1.getBlockY(), edge2.getBlockY());
+        if (insideX) {
+            boolean insideY = Math.min(edge1.getBlockY(), edge2.getBlockY()) <= location.getBlockY() &&
+                    location.getBlockY() <= Math.max(edge1.getBlockY(), edge2.getBlockY());
 
-        boolean insideZ = Math.min(edge1.getBlockZ(), edge2.getBlockZ()) - 1 <= location.getBlockZ() &&
-                location.getBlockZ() <= Math.max(edge1.getBlockZ(), edge2.getBlockZ()) + 1;
+            if (insideY) {
+                boolean insideZ = Math.min(edge1.getBlockZ(), edge2.getBlockZ()) - 1 <= location.getBlockZ() &&
+                        location.getBlockZ() <= Math.max(edge1.getBlockZ(), edge2.getBlockZ()) + 1;
 
-        return insideX && insideY && insideZ;
+                if (insideZ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
