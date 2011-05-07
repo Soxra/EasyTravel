@@ -6,7 +6,6 @@ import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.config.Configuration;
 
 import java.util.Collection;
@@ -29,33 +28,30 @@ public class TravelPlayerListener extends PlayerListener {
         plugin = instance;
     }
 
-    /**
-     * Called when the player moves. Here: Check if he moves inside a TravelPort.
-     *
-     * @param event detailed information about the event.
-     */
-    @Override
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        PlayerInformation playerInformation = plugin.getPlayerInformation(player);
-        TravelPort currentTravelPort = playerInformation.getCurrentPort();
+    /** Updates the information if the player is inside of a TravelPort. */
+    public void onPlayerLocationUpdate() {
+        Player[] players = plugin.getServer().getOnlinePlayers();
 
-        if (currentTravelPort != null) {
-            // Check if player is now in TravelPort too!
-            if (!currentTravelPort.getArea().contains(player.getLocation())) {
-                boolean traveledRecently = playerInformation.isAlreadyTravelled();
-                onPlayerLeavedTravelPort(player, currentTravelPort, traveledRecently);
-                playerInformation.setAlreadyTravelled(false);
-                playerInformation.setCurrentPort(null);
-            }
-        } else {
-            // Check if player now has entered one.
+        for (Player player : players) {
+            PlayerInformation playerInformation = plugin.getPlayerInformation(player);
+            TravelPort currentTravelPort = playerInformation.getCurrentPort();
 
-            Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
-            for (TravelPort port : ports) {
-                if (port.getArea().contains(player.getLocation())) {
-                    playerInformation.setCurrentPort(port);
-                    onPlayerEnteredTravelPort(player, port);
+            if (currentTravelPort != null) {
+                // Check if player is now in TravelPort too!
+                if (!currentTravelPort.getArea().contains(player.getLocation())) {
+                    boolean traveledRecently = playerInformation.isAlreadyTravelled();
+                    onPlayerLeavedTravelPort(player, currentTravelPort, traveledRecently);
+                    playerInformation.setAlreadyTravelled(false);
+                    playerInformation.setCurrentPort(null);
+                }
+            } else {
+                // Check if player now has entered one.
+                Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
+                for (TravelPort port : ports) {
+                    if (port.getArea().contains(player.getLocation())) {
+                        playerInformation.setCurrentPort(port);
+                        onPlayerEnteredTravelPort(player, port);
+                    }
                 }
             }
         }

@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  */
 public class Destination {
     /** Location of the destination. */
-    private Location location;
+    private final Location location;
 
     /**
      * Creates a destination with the passed Location.

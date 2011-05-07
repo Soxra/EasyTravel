@@ -11,9 +11,7 @@ import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
@@ -188,8 +186,12 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Setups all event handlers, used by this plugin. */
     private void setupEventHandler() {
-        PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Low, this);
+        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 25);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            public void run() {
+                playerListener.onPlayerLocationUpdate();
+            }
+        }, locationUpdateInterval * 3, locationUpdateInterval);
 
         getCommand("port").setExecutor(new PortCommandExecutor(this));
         getCommand("depart").setExecutor(new DepartCommandExecutor(this));
