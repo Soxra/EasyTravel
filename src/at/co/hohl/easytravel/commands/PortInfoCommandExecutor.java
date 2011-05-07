@@ -66,7 +66,7 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
             sender.sendMessage(String.format("Price: %s%.2f", ChatColor.GRAY, currentPort.getPrice()));
             sender.sendMessage(String.format("Password: %s%s", ChatColor.GRAY, currentPort.getPassword()));
             if (currentPort.isAllowedToEverybody()) {
-                sender.sendMessage("Allowed: " + ChatColor.GRAY + " EVERYONE");
+                sender.sendMessage("Allowed: " + ChatColor.GRAY + " EVERYBODY");
             } else {
                 sender.sendMessage(String.format("Allowed: %s%s", ChatColor.GRAY, StringHelper.encode(
                         currentPort.getAllowed())));

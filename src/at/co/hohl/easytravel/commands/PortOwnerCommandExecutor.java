@@ -73,7 +73,7 @@ public class PortOwnerCommandExecutor extends SubCommandExecutor {
         }
 
         travelPortToChangePrice.setOwner(newOwner);
-        ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-owner"));
+        ChatHelper.sendMessage(sender, Messages.get("moderator.success.add-member"));
 
         return true;
     }

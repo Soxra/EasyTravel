@@ -19,6 +19,9 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public class PortHelpCommandExecutor extends SubCommandExecutor {
+    /** Number of help entries per page. */
+    private static final int ENTRIES_PER_PAGE = 7;
+
     /**
      * Creates a new SubCommandExecutor.
      *
@@ -43,15 +46,26 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         PermissionsHandler permissionsHandler = plugin.getPermissionsHandler();
 
-        sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Version %s] = = =",
-                plugin.getDescription().getName(), plugin.getDescription().getVersion()));
-
         Map<String, SubCommandExecutor> commandMap = ((PortCommandExecutor) this.parent).getSubCommands();
         List<String> commands = new LinkedList<String>(commandMap.keySet());
         Collections.sort(commands);
 
-        for (String command : commands) {
-            SubCommandExecutor commandExecutor = commandMap.get(command);
+        int page = 1;
+        if (args.length == 2) {
+            try {
+                page = Integer.parseInt(args[1]);
+            } catch (NumberFormatException exception) {
+                sender.sendMessage(ChatColor.RED + "Invalid Page!");
+            }
+        }
+
+        sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Page %d/%d] = = =",
+                plugin.getDescription().getName(), page, (commands.size() / ENTRIES_PER_PAGE) + 1));
+
+        int start = (page - 1) * ENTRIES_PER_PAGE;
+        int end = Math.min(page * ENTRIES_PER_PAGE, commands.size());
+        for (int index = start; index < end; ++index) {
+            SubCommandExecutor commandExecutor = commandMap.get(commands.get(index));
             Permission permission = commandExecutor.getRequiredPermission();
             if (permission == null || permissionsHandler.hasPermission(sender, permission)) {
                 String helpLine = String.format("%s%s%s - %s", ChatColor.GRAY,
@@ -61,17 +75,13 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
             }
         }
 
-        sender.sendMessage(" ");
-        sender.sendMessage(
-                ChatColor.WHITE + "As <id> you can pass the unique id or a part of the name.");
-
         return true;
     }
 
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> help";
+        return "/<command> help [<page>]";
     }
 
     /** @return description of the command. */

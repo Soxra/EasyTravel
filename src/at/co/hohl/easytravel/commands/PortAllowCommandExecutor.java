@@ -6,27 +6,28 @@ import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.easytravel.ports.storage.TravelPortContainer;
+import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
 import at.co.hohl.utils.ChatHelper;
-import at.co.hohl.utils.StringHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * SubCommandExecutor for the command to change the password.
+ * SubCommandExecutor for the allow command.
  *
  * @author Michael Hohl
  */
-public class PortPasswordCommandExecutor extends SubCommandExecutor {
+public class PortAllowCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortPasswordCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
-        super(plugin, parent, 0, -1);
+    public PortAllowCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+        super(plugin, parent, 1, 2);
     }
 
     /**
@@ -43,24 +44,37 @@ public class PortPasswordCommandExecutor extends SubCommandExecutor {
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         Player player = (Player) sender;
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
+        TravelPortContainer travelPorts = plugin.getTravelPorts();
 
-        TravelPort travelPortToChangePassword = playerInformation.getCurrentPort();
-        String passwordToSet = StringHelper.toSingleString(args, " ", 1);
+        TravelPort travelPortToEdit;
+        String memberToAllow;
+        if (args.length == 3) {
+            try {
+                travelPortToEdit = travelPorts.search(args[1]);
+                memberToAllow = args[2].trim();
+            } catch (TravelPortNotFound travelPortNotFound) {
+                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
+                return true;
+            }
+        } else {
+            travelPortToEdit = playerInformation.getCurrentPort();
+            memberToAllow = args[1].trim();
 
-        if (travelPortToChangePassword == null) {
-            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
-            return true;
+            if (travelPortToEdit == null) {
+                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
+                return true;
+            }
         }
 
         boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
-        boolean isOwner = player.getName().equals(travelPortToChangePassword.getOwner());
+        boolean isOwner = player.getName().equals(travelPortToEdit.getOwner());
         if (isModerator || isOwner) {
-            if (passwordToSet.length() < 1) {
-                travelPortToChangePassword.setPassword(null);
+            if ("EVERYBODY".equalsIgnoreCase(memberToAllow)) {
+                travelPortToEdit.setAllowedToEverybody();
             } else {
-                travelPortToChangePassword.setPassword(passwordToSet);
+                travelPortToEdit.addAllowed(memberToAllow);
             }
-            ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-password"));
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-price"));
         } else {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
         }
@@ -71,13 +85,13 @@ public class PortPasswordCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> password [<text>]";
+        return "/<command> allow [<id>] <user>|<group>|EVERYBODY";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Sets a password for the port.";
+        return "Adds a member which is allowed to use the TravelPort.";
     }
 
     /** @return required permission for executing this command. */
