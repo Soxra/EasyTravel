@@ -48,7 +48,7 @@ public class PortWarpCommandExecutor extends SubCommandExecutor {
 
         try {
             TravelPort target = travelPorts.search(targetName);
-            player.teleport(target.getDestination());
+            target.getDestination().teleport(player);
         } catch (TravelPortNotFound travelPortNotFound) {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
         }

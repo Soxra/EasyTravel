@@ -42,7 +42,7 @@ public class TravelPlayerListener extends PlayerListener {
 
         if (currentTravelPort != null) {
             // Check if player is now in TravelPort too!
-            if (!currentTravelPort.contains(player.getLocation())) {
+            if (!currentTravelPort.getArea().contains(player.getLocation())) {
                 boolean traveledRecently = playerInformation.isAlreadyTravelled();
                 onPlayerLeavedTravelPort(player, currentTravelPort, traveledRecently);
                 playerInformation.setAlreadyTravelled(false);
@@ -53,7 +53,7 @@ public class TravelPlayerListener extends PlayerListener {
 
             Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
             for (TravelPort port : ports) {
-                if (port.contains(player.getLocation())) {
+                if (port.getArea().contains(player.getLocation())) {
                     playerInformation.setCurrentPort(port);
                     onPlayerEnteredTravelPort(player, port);
                 }

@@ -63,7 +63,7 @@ public class PortCompassCommandExecutor extends SubCommandExecutor {
             }
         }
 
-        player.setCompassTarget(travelPortToPoint.getEdge1());
+        player.setCompassTarget(travelPortToPoint.getDestination().getLocation());
         ChatHelper.sendMessage(sender, Messages.get("moderator.success.point-compass"));
 
         return true;

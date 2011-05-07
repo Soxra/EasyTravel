@@ -3,6 +3,8 @@ package at.co.hohl.easytravel.commands;
 import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.data.CuboidArea;
+import at.co.hohl.easytravel.data.Destination;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.utils.ChatHelper;
@@ -50,9 +52,8 @@ public class PortCreateCommandExecutor extends SubCommandExecutor {
                 TravelPort port = plugin.getTravelPorts().create();
                 port.setName(name);
                 port.setOwner(player.getName());
-                port.setDestination(player.getLocation());
-                port.setEdge1(playerSelection.getMinimumPoint());
-                port.setEdge2(playerSelection.getMaximumPoint());
+                port.setDestination(new Destination(player.getLocation()));
+                port.setArea(new CuboidArea(playerSelection.getMinimumPoint(), playerSelection.getMaximumPoint()));
 
                 ChatHelper.sendMessage(sender, Messages.get("moderator.success.created"));
             } else {

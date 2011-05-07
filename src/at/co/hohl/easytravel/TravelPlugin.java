@@ -108,7 +108,7 @@ public class TravelPlugin extends JavaPlugin {
             Integer targetId = currentPort.getTargetId();
 
             TravelPort targetPort = travelPortContainer.get(targetId);
-            player.teleport(targetPort.getDestination());
+            targetPort.getDestination().teleport(player);
 
             PlayerInformation playerInformation = getPlayerInformation(player);
             playerInformation.setCurrentPort(targetPort);

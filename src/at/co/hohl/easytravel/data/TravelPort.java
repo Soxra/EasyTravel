@@ -2,7 +2,6 @@ package at.co.hohl.easytravel.data;
 
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPermissions;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
@@ -17,14 +16,11 @@ public class TravelPort {
     /** Unique ID of the Travel Port. */
     private final Integer id;
 
-    /** First Edge. */
-    private Location edge1;
-
-    /** Second Edge. */
-    private Location edge2;
+    /** Area of the port. */
+    private Area area;
 
     /** The destination. */
-    private Location destination;
+    private Destination destination;
 
     /** Name of the travel port. */
     private String name;
@@ -51,33 +47,6 @@ public class TravelPort {
      */
     public TravelPort(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Checks if the location is inside the TravelPort.
-     *
-     * @param location the location to check.
-     * @return true, if the location is inside the TravelPoint.
-     */
-    public final boolean contains(Location location) {
-        boolean insideX = Math.min(edge1.getBlockX(), edge2.getBlockX()) <= location.getBlockX() &&
-                location.getBlockX() <= Math.max(edge1.getBlockX(), edge2.getBlockX());
-
-        if (insideX) {
-            boolean insideY = Math.min(edge1.getBlockY(), edge2.getBlockY()) <= location.getBlockY() &&
-                    location.getBlockY() <= Math.max(edge1.getBlockY(), edge2.getBlockY());
-
-            if (insideY) {
-                boolean insideZ = Math.min(edge1.getBlockZ(), edge2.getBlockZ()) - 1 <= location.getBlockZ() &&
-                        location.getBlockZ() <= Math.max(edge1.getBlockZ(), edge2.getBlockZ()) + 1;
-
-                if (insideZ) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -146,36 +115,22 @@ public class TravelPort {
         return id;
     }
 
-    /** @return the first edge. */
-    public final Location getEdge1() {
-        return edge1;
+    /** @return area of the port. */
+    public Area getArea() {
+        return area;
     }
 
     /**
-     * Sets the first edge.
+     * Sets the area of the port.
      *
-     * @param edge1 the first edge.
+     * @param area the area to set.
      */
-    public final void setEdge1(Location edge1) {
-        this.edge1 = edge1;
-    }
-
-    /** @return the second edge. */
-    public final Location getEdge2() {
-        return edge2;
-    }
-
-    /**
-     * Sets the second edge.
-     *
-     * @param edge2 the second edge.
-     */
-    public final void setEdge2(Location edge2) {
-        this.edge2 = edge2;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     /** @return the destination */
-    public Location getDestination() {
+    public Destination getDestination() {
         return destination;
     }
 
@@ -184,7 +139,7 @@ public class TravelPort {
      *
      * @param destination the destination to set.
      */
-    public void setDestination(Location destination) {
+    public void setDestination(Destination destination) {
         this.destination = destination;
     }
 

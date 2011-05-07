@@ -3,6 +3,7 @@ package at.co.hohl.easytravel.commands;
 import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.data.Destination;
 import at.co.hohl.easytravel.data.PlayerInformation;
 import at.co.hohl.easytravel.data.TravelPort;
 import at.co.hohl.easytravel.messages.Messages;
@@ -48,7 +49,7 @@ public class PortDestinationCommandExecutor extends SubCommandExecutor {
         boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
         boolean isOwner = player.getName().equals(currentPort.getOwner());
         if (isModerator || isOwner) {
-            currentPort.setDestination(player.getLocation());
+            currentPort.setDestination(new Destination(player.getLocation()));
             ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-destination"));
         } else {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));

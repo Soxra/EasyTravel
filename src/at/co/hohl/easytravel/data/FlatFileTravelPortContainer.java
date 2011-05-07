@@ -2,9 +2,7 @@ package at.co.hohl.easytravel.data;
 
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.utils.StringHelper;
-import org.bukkit.Location;
 import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.io.*;
@@ -241,19 +239,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         private static final int INDEX_ALLOWED = 4;
         private static final int INDEX_PASSWORD = 5;
         private static final int INDEX_PRICE = 6;
-        private static final int INDEX_WORLD = 7;
-        private static final int INDEX_EDGE1_X = 8;
-        private static final int INDEX_EDGE1_Y = 9;
-        private static final int INDEX_EDGE1_Z = 10;
-        private static final int INDEX_EDGE2_X = 11;
-        private static final int INDEX_EDGE2_Y = 12;
-        private static final int INDEX_EDGE2_Z = 13;
-        private static final int INDEX_DESTINATION_X = 14;
-        private static final int INDEX_DESTINATION_Y = 15;
-        private static final int INDEX_DESTINATION_Z = 16;
-        private static final int INDEX_DESTINATION_YAW = 17;
-        private static final int INDEX_DESTINATION_PITCH = 18;
-        private static final int CSV_COLUMNS = 19;
+        private static final int INDEX_AREA = 7;
+        private static final int INDEX_DESTINATION = 8;
+        private static final int CSV_COLUMNS = 9;
 
         /** Hidden default constructor. */
         private FlatFilePortStorage() {
@@ -281,6 +269,8 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                     if (lineParts.length == CSV_COLUMNS) {
                         TravelPort port = new TravelPort(Integer.valueOf((lineParts[INDEX_ID])));
                         port.setName(lineParts[INDEX_NAME]);
+                        port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
+
                         if (!"null".equals(lineParts[INDEX_TARGET])) {
                             port.setTargetId(Integer.valueOf((lineParts[INDEX_TARGET])));
                         }
@@ -293,33 +283,20 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         if (!"null".equals(lineParts[INDEX_ALLOWED])) {
                             port.setAllowed(StringHelper.decode(lineParts[INDEX_ALLOWED]));
                         }
-                        port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
-
-                        World world = server.getWorld(lineParts[INDEX_WORLD]);
-                        Double edge1X = Double.parseDouble(lineParts[INDEX_EDGE1_X]);
-                        Double edge1Y = Double.parseDouble(lineParts[INDEX_EDGE1_Y]);
-                        Double edge1Z = Double.parseDouble(lineParts[INDEX_EDGE1_Z]);
-                        Location edge1 = new Location(world, edge1X, edge1Y, edge1Z);
-                        port.setEdge1(edge1);
-
-                        Double edge2X = Double.parseDouble(lineParts[INDEX_EDGE2_X]);
-                        Double edge2Y = Double.parseDouble(lineParts[INDEX_EDGE2_Y]);
-                        Double edge2Z = Double.parseDouble(lineParts[INDEX_EDGE2_Z]);
-                        Location edge2 = new Location(world, edge2X, edge2Y, edge2Z);
-                        port.setEdge2(edge2);
-
-                        Double destinationX = Double.parseDouble(lineParts[INDEX_DESTINATION_X]);
-                        Double destinationY = Double.parseDouble(lineParts[INDEX_DESTINATION_Y]);
-                        Double destinationZ = Double.parseDouble(lineParts[INDEX_DESTINATION_Z]);
-                        Location destination = new Location(world, destinationX, destinationY, destinationZ);
-                        destination.setYaw(Float.parseFloat(lineParts[INDEX_DESTINATION_YAW]));
-                        destination.setPitch(Float.parseFloat(lineParts[INDEX_DESTINATION_PITCH]));
-                        port.setDestination(destination);
+                        if (!"null".equals(lineParts[INDEX_AREA])) {
+                            port.setArea(new CuboidArea(lineParts[INDEX_AREA]));
+                        }
+                        if (!"null".equals(lineParts[INDEX_DESTINATION])) {
+                            port.setDestination(new Destination(server, lineParts[INDEX_DESTINATION]));
+                        }
 
                         ports.put(port.getId(), port);
                     } else {
                         server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
                     }
+                } catch (SyntaxException e) {
+                    server.getLogger()
+                            .warning(String.format("Syntax exception in TravelPort configuration line! '%s'", line));
                 } catch (NumberFormatException e) {
                     server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
                 }
@@ -370,41 +347,11 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         case INDEX_PRICE:
                             line.append(port.getPrice());
                             break;
-                        case INDEX_WORLD:
-                            line.append(port.getEdge1().getWorld().getName());
+                        case INDEX_AREA:
+                            line.append(port.getArea().toString());
                             break;
-                        case INDEX_EDGE1_X:
-                            line.append(port.getEdge1().getX());
-                            break;
-                        case INDEX_EDGE1_Y:
-                            line.append(port.getEdge1().getY());
-                            break;
-                        case INDEX_EDGE1_Z:
-                            line.append(port.getEdge1().getZ());
-                            break;
-                        case INDEX_EDGE2_X:
-                            line.append(port.getEdge2().getX());
-                            break;
-                        case INDEX_EDGE2_Y:
-                            line.append(port.getEdge2().getY());
-                            break;
-                        case INDEX_EDGE2_Z:
-                            line.append(port.getEdge2().getZ());
-                            break;
-                        case INDEX_DESTINATION_X:
-                            line.append(port.getDestination().getX());
-                            break;
-                        case INDEX_DESTINATION_Y:
-                            line.append(port.getDestination().getY());
-                            break;
-                        case INDEX_DESTINATION_Z:
-                            line.append(port.getDestination().getZ());
-                            break;
-                        case INDEX_DESTINATION_YAW:
-                            line.append(port.getDestination().getYaw());
-                            break;
-                        case INDEX_DESTINATION_PITCH:
-                            line.append(port.getDestination().getPitch());
+                        case INDEX_DESTINATION:
+                            line.append(port.getDestination().toString());
                             break;
                         default:
                             throw new RuntimeException(
