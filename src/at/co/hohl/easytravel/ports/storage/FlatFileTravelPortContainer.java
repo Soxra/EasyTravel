@@ -1,6 +1,11 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.ports.storage;
 
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.ports.CuboidArea;
+import at.co.hohl.easytravel.ports.Destination;
+import at.co.hohl.easytravel.ports.InvalidLinkException;
+import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.easytravel.storage.SyntaxException;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -27,10 +32,10 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     /** Contains all travel ports. */
     private final Map<Integer, TravelPort> travelPorts = new HashMap<Integer, TravelPort>();
 
-    /** The travel port, where a player is inside. */
+    /** The travel port, where a players is inside. */
     private final Map<Player, TravelPort> playerInsideTravelPort = new HashMap<Player, TravelPort>();
 
-    /** true, if the passed player traveled recently. */
+    /** true, if the passed players traveled recently. */
     private final Map<Player, Boolean> playerTraveledRecently = new HashMap<Player, Boolean>();
 
 
@@ -93,8 +98,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
      * @param id could be a part of the name or the id.
      * @return the founded TravelPort.
      *
-     * @throws at.co.hohl.easytravel.data.TravelPortNotFound
-     *          thrown when there is no match for the id.
+     * @throws TravelPortNotFound thrown when there is no match for the id.
      */
     public TravelPort search(String id) throws TravelPortNotFound {
         try {
@@ -297,6 +301,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                 } catch (SyntaxException e) {
                     server.getLogger()
                             .warning(String.format("Syntax exception in TravelPort configuration line! '%s'", line));
+                    server.getLogger().info("Exception: " + e.getMessage());
                 } catch (NumberFormatException e) {
                     server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
                 }

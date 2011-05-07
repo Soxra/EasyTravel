@@ -1,21 +1,23 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.players;
+
+import at.co.hohl.easytravel.ports.TravelPort;
 
 /**
- * Contains information about the player.
+ * Contains information about the players.
  *
  * @author Michael Hohl
  */
 public class PlayerInformation {
-    /** The current TravelPort of the player. */
+    /** The current TravelPort of the players. */
     private TravelPort currentPort;
 
-    /** True, if the player is already at the target. */
+    /** True, if the players is already at the target. */
     private boolean alreadyTravelled;
 
     /** The last entered password by this user. */
     private String enteredPassword;
 
-    /** Creates a new player information. */
+    /** Creates a new players information. */
     public PlayerInformation() {
     }
 

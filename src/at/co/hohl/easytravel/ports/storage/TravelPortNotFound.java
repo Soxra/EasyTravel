@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.ports.storage;
 
 import at.co.hohl.easytravel.TravelException;
 

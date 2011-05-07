@@ -1,9 +1,9 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.storage;
 
 import at.co.hohl.easytravel.TravelException;
 
 /**
- * Called when EasyTravel isn't able to restore data on reload.s
+ * Called when EasyTravel isn't able to restore ports on reload.s
  *
  * @author Michael Hohl
  */

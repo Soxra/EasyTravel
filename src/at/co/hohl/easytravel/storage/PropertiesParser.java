@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.storage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public class PropertiesParser {
-    /** Contains the type of the parsed data. (Like in the example it is "CuboidArea") */
+    /** Contains the type of the parsed ports. (Like in the example it is "CuboidArea") */
     private final String type;
 
     /** Parsed properties. */
@@ -26,13 +26,13 @@ public class PropertiesParser {
         if (lineToParse.matches("[A-Za-z0-9]+\\{.*\\}")) {
             type = lineToParse.split("\\{")[0];
             String[] propertyStrings =
-                    lineToParse.substring(type.length() + 1, lineToParse.length() - (type.length() + 1)).split(",");
+                    lineToParse.substring(type.length() + 1, lineToParse.length() - 1).split(",");
 
             for (String propertyString : propertyStrings) {
                 String[] splittedLine = propertyString.split("=");
 
                 if (splittedLine.length == 2) {
-                    properties.put(splittedLine[0], splittedLine[1]);
+                    properties.put(splittedLine[0].trim(), splittedLine[1].trim());
                 } else {
                     throw new SyntaxException("Invalid formatted properties!");
                 }
@@ -42,7 +42,7 @@ public class PropertiesParser {
         }
     }
 
-    /** @return type of the parsed data. */
+    /** @return type of the parsed ports. */
     public String getType() {
         return type;
     }

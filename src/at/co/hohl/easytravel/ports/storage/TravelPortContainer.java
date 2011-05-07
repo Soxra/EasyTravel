@@ -1,4 +1,7 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.ports.storage;
+
+import at.co.hohl.easytravel.ports.InvalidLinkException;
+import at.co.hohl.easytravel.ports.TravelPort;
 
 import java.util.Collection;
 
@@ -65,7 +68,8 @@ public interface TravelPortContainer {
      *
      * @param port1 the first port to link.
      * @param port2 another port to link.
-     * @throws InvalidLinkException thrown when the ports are already linked.
+     * @throws at.co.hohl.easytravel.ports.InvalidLinkException
+     *          thrown when the ports are already linked.
      */
     void link(TravelPort port1, TravelPort port2) throws InvalidLinkException;
 
@@ -73,7 +77,8 @@ public interface TravelPortContainer {
      * Unlink the passed TravelPort
      *
      * @param port the port to unlink
-     * @throws InvalidLinkException thrown when port isn't linked to another.
+     * @throws at.co.hohl.easytravel.ports.InvalidLinkException
+     *          thrown when port isn't linked to another.
      */
     void unlink(TravelPort port) throws InvalidLinkException;
 

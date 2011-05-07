@@ -4,8 +4,15 @@ import at.co.hohl.Permissions.Permission;
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.commands.DepartCommandExecutor;
 import at.co.hohl.easytravel.commands.PortCommandExecutor;
-import at.co.hohl.easytravel.data.*;
 import at.co.hohl.easytravel.messages.Messages;
+import at.co.hohl.easytravel.players.PlayerInformation;
+import at.co.hohl.easytravel.players.TravelPlayerListener;
+import at.co.hohl.easytravel.ports.Area;
+import at.co.hohl.easytravel.ports.CuboidArea;
+import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.easytravel.ports.storage.FlatFileTravelPortContainer;
+import at.co.hohl.easytravel.ports.storage.TravelPortContainer;
+import at.co.hohl.easytravel.ports.storage.TravelPortNotFound;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -27,7 +34,7 @@ import java.util.logging.Logger;
  * @author hohl
  */
 public class TravelPlugin extends JavaPlugin {
-    /** Listener for player events. */
+    /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
 
     /** Player Information storage. */
@@ -96,11 +103,11 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /**
-     * Teleports the player.
+     * Teleports the players.
      *
-     * @param player      the player to port.
+     * @param player      the players to port.
      * @param currentPort the current port to warp from.
-     * @throws WarpException thrown if the player couldn't get warped.
+     * @throws WarpException thrown if the players couldn't get warped.
      */
     public void teleportPlayer(Player player, TravelPort currentPort) {
         try {
@@ -122,10 +129,10 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /**
-     * Returns the selection of the player.
+     * Returns the selection of the players.
      *
-     * @param player the player
-     * @return the selection of the passed player.
+     * @param player the players
+     * @return the selection of the passed players.
      */
     public Area getSelectedArea(Player player) {
         if (worldEditPlugin != null) {
@@ -156,16 +163,16 @@ public class TravelPlugin extends JavaPlugin {
         return travelPortContainer;
     }
 
-    /** @return the used player listener. */
+    /** @return the used players listener. */
     public TravelPlayerListener getPlayerListener() {
         return playerListener;
     }
 
     /**
-     * Returns the PlayerInformation data holder, for the passed player. Automatically creates a new one, if the player
-     * isn't in database yet.
+     * Returns the PlayerInformation ports holder, for the passed players. Automatically creates a new one, if the
+     * players isn't in database yet.
      *
-     * @param player the player.
+     * @param player the players.
      * @return the PlayerInformation.
      */
     public PlayerInformation getPlayerInformation(Player player) {
@@ -197,7 +204,7 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Setups all event handlers, used by this plugin. */
     private void setupEventHandler() {
-        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 25);
+        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 15);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 playerListener.onPlayerLocationUpdate();

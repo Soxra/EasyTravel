@@ -1,5 +1,7 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.ports;
 
+import at.co.hohl.easytravel.storage.PropertiesParser;
+import at.co.hohl.easytravel.storage.SyntaxException;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -33,7 +35,7 @@ public class Destination {
     public Destination(final Server server, final String description) throws SyntaxException {
         PropertiesParser parser = new PropertiesParser(description);
 
-        if ("CuboidArea".equals(parser.getType())) {
+        if ("Destination".equals(parser.getType())) {
             double locx = parser.getDouble("locx");
             double locy = parser.getDouble("locy");
             double locz = parser.getDouble("locz");
@@ -55,7 +57,7 @@ public class Destination {
     }
 
     /**
-     * Teleports the passed player to the location.
+     * Teleports the passed players to the location.
      *
      * @param player the location to teleport to.
      */

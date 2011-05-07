@@ -1,5 +1,7 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.ports;
 
+import at.co.hohl.easytravel.storage.PropertiesParser;
+import at.co.hohl.easytravel.storage.SyntaxException;
 import org.bukkit.Location;
 import org.bukkit.World;
 

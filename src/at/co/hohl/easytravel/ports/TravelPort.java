@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.data;
+package at.co.hohl.easytravel.ports;
 
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPermissions;
@@ -68,11 +68,11 @@ public class TravelPort {
     }
 
     /**
-     * Checks if the player is allowed to use the TravelPort.
+     * Checks if the players is allowed to use the TravelPort.
      *
      * @param permissions needed to check if the user is in group.
-     * @param player      the player to check.
-     * @return true, if the player is allowed to.
+     * @param player      the players to check.
+     * @return true, if the players is allowed to.
      */
     public boolean isAllowed(PermissionsHandler permissions, Player player) {
         if (permissions.hasPermission(player, TravelPermissions.DEPART)) {
@@ -200,7 +200,7 @@ public class TravelPort {
         this.password = password;
     }
 
-    /** @return a list of allowed groups and player. If null everybody is allowed to use that TravelPort. */
+    /** @return a list of allowed groups and players. If null everybody is allowed to use that TravelPort. */
     public List<String> getAllowed() {
         return allowed;
     }

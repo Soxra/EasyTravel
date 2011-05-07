@@ -1,9 +1,9 @@
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.easytravel.TravelPlayerListener;
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.data.PlayerInformation;
-import at.co.hohl.easytravel.data.TravelPort;
+import at.co.hohl.easytravel.players.PlayerInformation;
+import at.co.hohl.easytravel.players.TravelPlayerListener;
+import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.economy.EconomyHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,22 +40,22 @@ public class DepartCommandExecutor implements CommandExecutor {
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         TravelPlayerListener playerListener = plugin.getPlayerListener();
 
-        // Is sender a player?
+        // Is sender a players?
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Only use the /depart command as player! Doesn't make sense anyway for you ;)");
+            sender.sendMessage("Only use the /depart command as players! Doesn't make sense anyway for you ;)");
             return true;
         }
         Player player = (Player) sender;
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-        // Is player inside TravelPort?
+        // Is players inside TravelPort?
         TravelPort port = playerInformation.getCurrentPort();
         if (port == null) {
             playerListener.onNotInsideTravelPort(player);
             return true;
         }
 
-        // Is player allowed to use TravelPort?
+        // Is players allowed to use TravelPort?
         if (!port.isAllowed(plugin.getPermissionsHandler(), player)) {
             playerListener.onNotAllowedToDepart(player);
             return true;

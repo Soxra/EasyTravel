@@ -3,10 +3,10 @@ package at.co.hohl.easytravel.commands;
 import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
-import at.co.hohl.easytravel.data.Destination;
-import at.co.hohl.easytravel.data.TravelPort;
-import at.co.hohl.easytravel.data.TravelPortContainer;
 import at.co.hohl.easytravel.messages.Messages;
+import at.co.hohl.easytravel.ports.Destination;
+import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.easytravel.ports.storage.TravelPortContainer;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,7 +35,7 @@ public class PortListCommandExecutor extends SubCommandExecutor {
     }
 
     /**
-     * Called when the player uses the parentCommand.
+     * Called when the players uses the parentCommand.
      *
      * @param sender        the sender of the command.
      * @param parentCommand the parent command.

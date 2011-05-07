@@ -1,7 +1,7 @@
 package at.co.hohl.easytravel;
 
 /**
- * Exception thrown, when the plugin can't warp the player because of an internal error.
+ * Exception thrown, when the plugin can't warp the players because of an internal error.
  *
  * @author Michael Hohl
  */

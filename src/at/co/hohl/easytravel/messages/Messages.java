@@ -3,7 +3,7 @@ package at.co.hohl.easytravel.messages;
 import org.bukkit.util.config.Configuration;
 
 /**
- * Static container for the localized strings. Sadly, Bukkit doesn't support ResourceBundle inside the data directory.
+ * Static container for the localized strings. Sadly, Bukkit doesn't support ResourceBundle inside the ports directory.
  *
  * @author Michael Hohl
  */

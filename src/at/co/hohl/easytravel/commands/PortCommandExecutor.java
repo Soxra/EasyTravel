@@ -53,7 +53,7 @@ public class PortCommandExecutor implements CommandExecutor {
     }
 
     /**
-     * Called when the player use the port command.
+     * Called when the players use the port command.
      *
      * @param sender  the sender of the command.
      * @param command the command itself.
@@ -63,7 +63,7 @@ public class PortCommandExecutor implements CommandExecutor {
      */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Only use the /depart command as player! Doesn't make sense anyway for you ;)");
+            sender.sendMessage("Only use the /depart command as players! Doesn't make sense anyway for you ;)");
 
             return true;
         }

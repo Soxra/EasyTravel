@@ -48,7 +48,7 @@ public abstract class SubCommandExecutor implements CommandExecutor {
     }
 
     /**
-     * Called when the player uses the parentCommand.
+     * Called when the players uses the parentCommand.
      *
      * @param sender        the sender of the command.
      * @param parentCommand the parent command.
