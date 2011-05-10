@@ -10,7 +10,7 @@ import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.Area;
 import at.co.hohl.easytravel.ports.CuboidArea;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
-import at.co.hohl.easytravel.ports.impl.FlatFileTravelPortContainer;
+import at.co.hohl.easytravel.ports.implementation.file.FlatFileTravelPortContainer;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -42,7 +42,7 @@ public class TravelPlugin extends JavaPlugin {
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
 
-    /** Player Information impl. */
+    /** Player Information implementation. */
     private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
 
     /** Logger used for outputting debug information. */

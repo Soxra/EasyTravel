@@ -19,7 +19,7 @@ public interface TravelPortContainer {
     TravelPlugin getPlugin();
 
     /**
-     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to impl.)
+     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to implementation.)
      *
      * @return the created TravelPort
      */

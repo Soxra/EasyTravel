@@ -1,10 +1,11 @@
-package at.co.hohl.easytravel.ports.impl;
+package at.co.hohl.easytravel.ports.implementation.file;
 
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.ports.*;
 import at.co.hohl.easytravel.ports.depart.Departure;
 import at.co.hohl.easytravel.ports.depart.ManualDeparture;
+import at.co.hohl.easytravel.ports.implementation.AbstractTravelPort;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author Michael Hohl
  */
-public class SimpleTravelPort extends TravelPort {
+public class FlatFileTravelPort extends AbstractTravelPort {
     /** Unique ID of the Travel Port. */
     private final Integer id;
 
@@ -52,7 +53,7 @@ public class SimpleTravelPort extends TravelPort {
      * @param container container which holds the instance.
      * @param id        id used for this port.
      */
-    public SimpleTravelPort(TravelPortContainer container, Integer id) {
+    public FlatFileTravelPort(TravelPortContainer container, Integer id) {
         super(container);
 
         this.id = id;

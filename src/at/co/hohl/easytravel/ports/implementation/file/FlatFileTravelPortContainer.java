@@ -1,7 +1,8 @@
-package at.co.hohl.easytravel.ports.impl;
+package at.co.hohl.easytravel.ports.implementation.file;
 
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.ports.*;
+import at.co.hohl.easytravel.ports.depart.DepartureHelper;
 import at.co.hohl.easytravel.storage.SyntaxException;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.Server;
@@ -16,6 +17,19 @@ import java.util.logging.Logger;
  * @author Michael Hohl
  */
 public class FlatFileTravelPortContainer implements TravelPortContainer {
+    // Constants for loading/saving
+    private static final int INDEX_ID = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_TARGET = 2;
+    private static final int INDEX_OWNER = 3;
+    private static final int INDEX_ALLOWED = 4;
+    private static final int INDEX_PASSWORD = 5;
+    private static final int INDEX_PRICE = 6;
+    private static final int INDEX_AREA = 7;
+    private static final int INDEX_DESTINATION = 8;
+    private static final int INDEX_DEPARTURE = 9;
+    private static final int CSV_COLUMNS = 10;
+
     /** The plugin which holds this instance. */
     private final Server server;
 
@@ -43,31 +57,6 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         this.logger = plugin.getLogger();
         this.server = plugin.getServer();
         this.plugin = plugin;
-    }
-
-    /** Loads the TravelPorts. */
-    public void load() {
-        if (csvFile.exists()) {
-            try {
-                FlatFilePortStorage.loadPorts(server, this, csvFile);
-            } catch (IOException exception) {
-                logger.severe("Error occurred when loading TravelPorts!");
-                logger.severe(exception.getMessage());
-            }
-        } else {
-            logger.warning("TravelPorts file didn't exist! Create new one...");
-            travelPorts.clear();
-        }
-    }
-
-    /** Saves the TravelPorts. */
-    public void save() {
-        try {
-            FlatFilePortStorage.savePorts(this, csvFile);
-        } catch (IOException exception) {
-            logger.severe("Error occurred when saving TravelPorts!");
-            logger.severe(exception.getMessage());
-        }
     }
 
     /**
@@ -138,12 +127,12 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     }
 
     /**
-     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to impl.)
+     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to implementation.)
      *
      * @return the created TravelPort
      */
     public TravelPort create() {
-        TravelPort createdPort = new SimpleTravelPort(this, findUnusedId());
+        TravelPort createdPort = new FlatFileTravelPort(this, findUnusedId());
         add(createdPort);
         return createdPort;
     }
@@ -227,106 +216,77 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         return plugin;
     }
 
-    /** @return the next free travel port id. */
-    private Integer findUnusedId() {
-        Integer currentId = Integer.valueOf(0);
+    /** Loads the TravelPorts. */
+    public void load() {
+        if (csvFile.exists()) {
+            try {
+                // Remove TravelPorts in RAM before!
+                travelPorts.clear();
 
-        while (travelPorts.containsKey(currentId)) {
-            currentId++;
+                // Parse the CSV file.
+                FileReader reader = new FileReader(csvFile);
+                Scanner scanner = new Scanner(reader);
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    try {
+                        String[] lineParts = line.split(";");
+                        if (lineParts.length == CSV_COLUMNS) {
+                            TravelPort port = new FlatFileTravelPort(this, Integer.valueOf((lineParts[INDEX_ID])));
+                            port.setName(lineParts[INDEX_NAME]);
+                            port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
+
+                            if (!"null".equals(lineParts[INDEX_TARGET])) {
+                                port.setTargetId(Integer.valueOf((lineParts[INDEX_TARGET])));
+                            }
+                            if (!"null".equals(lineParts[INDEX_OWNER])) {
+                                port.setOwner(lineParts[INDEX_OWNER]);
+                            }
+                            if (!"null".equals(lineParts[INDEX_PASSWORD])) {
+                                port.setPassword(lineParts[INDEX_PASSWORD]);
+                            }
+                            if (!"null".equals(lineParts[INDEX_ALLOWED])) {
+                                port.setAllowed(StringHelper.decode(lineParts[INDEX_ALLOWED]));
+                            }
+                            if (!"null".equals(lineParts[INDEX_AREA])) {
+                                port.setArea(new CuboidArea(lineParts[INDEX_AREA]));
+                            }
+                            if (!"null".equals(lineParts[INDEX_DESTINATION])) {
+                                port.setDestination(new Destination(server, lineParts[INDEX_DESTINATION]));
+                            }
+                            if (!"null".equals(lineParts[INDEX_DEPARTURE])) {
+                                port.setDeparture(DepartureHelper.load(port, lineParts[INDEX_DESTINATION]));
+                            }
+
+                            travelPorts.put(port.getId(), port);
+                        } else {
+                            server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
+                        }
+                    } catch (SyntaxException e) {
+                        server.getLogger()
+                                .warning(
+                                        String.format("Syntax exception in TravelPort configuration line! '%s'", line));
+                        server.getLogger().info("Exception: " + e.getMessage());
+                    } catch (NumberFormatException e) {
+                        server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
+                    }
+                }
+                scanner.close();
+                reader.close();
+
+                server.getLogger().info(String.format("Loaded %d TravelPorts!", travelPorts.size()));
+            } catch (IOException exception) {
+                logger.severe("Error occurred when loading TravelPorts!");
+                logger.severe(exception.getMessage());
+            }
+        } else {
+            logger.warning("TravelPorts file didn't exist! Create new one...");
+            travelPorts.clear();
         }
-
-        return currentId;
     }
 
-    /** Load and saves TravelPorts out of a flat file. */
-    private static final class FlatFilePortStorage {
-        private static final int INDEX_ID = 0;
-        private static final int INDEX_NAME = 1;
-        private static final int INDEX_TARGET = 2;
-        private static final int INDEX_OWNER = 3;
-        private static final int INDEX_ALLOWED = 4;
-        private static final int INDEX_PASSWORD = 5;
-        private static final int INDEX_PRICE = 6;
-        private static final int INDEX_AREA = 7;
-        private static final int INDEX_DESTINATION = 8;
-        private static final int CSV_COLUMNS = 9;
-
-        /** Hidden default constructor. */
-        private FlatFilePortStorage() {
-            throw new RuntimeException("Don't call the hidden default constructor! " +
-                    "This is a static helper class, not build for creating an instance of it.");
-        }
-
-        /**
-         * Loads TravelPorts out of a file into the passed Map.
-         *
-         * @param server    the server used for searching the worlds.
-         * @param csvFile   the file to load.
-         * @param container the container to load into.
-         * @throws java.io.IOException thrown when there are problems in reading the file.
-         */
-        static void loadPorts(Server server, FlatFileTravelPortContainer container, File csvFile) throws IOException {
-            Map<Integer, TravelPort> ports = container.travelPorts;
-            ports.clear();
-
-            FileReader reader = new FileReader(csvFile);
-            Scanner scanner = new Scanner(reader);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                try {
-                    String[] lineParts = line.split(";");
-                    if (lineParts.length == CSV_COLUMNS) {
-                        TravelPort port =
-                                new SimpleTravelPort(container, Integer.valueOf((lineParts[INDEX_ID])));
-                        port.setName(lineParts[INDEX_NAME]);
-                        port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
-
-                        if (!"null".equals(lineParts[INDEX_TARGET])) {
-                            port.setTargetId(Integer.valueOf((lineParts[INDEX_TARGET])));
-                        }
-                        if (!"null".equals(lineParts[INDEX_OWNER])) {
-                            port.setOwner(lineParts[INDEX_OWNER]);
-                        }
-                        if (!"null".equals(lineParts[INDEX_PASSWORD])) {
-                            port.setPassword(lineParts[INDEX_PASSWORD]);
-                        }
-                        if (!"null".equals(lineParts[INDEX_ALLOWED])) {
-                            port.setAllowed(StringHelper.decode(lineParts[INDEX_ALLOWED]));
-                        }
-                        if (!"null".equals(lineParts[INDEX_AREA])) {
-                            port.setArea(new CuboidArea(lineParts[INDEX_AREA]));
-                        }
-                        if (!"null".equals(lineParts[INDEX_DESTINATION])) {
-                            port.setDestination(new Destination(server, lineParts[INDEX_DESTINATION]));
-                        }
-
-                        ports.put(port.getId(), port);
-                    } else {
-                        server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
-                    }
-                } catch (SyntaxException e) {
-                    server.getLogger()
-                            .warning(String.format("Syntax exception in TravelPort configuration line! '%s'", line));
-                    server.getLogger().info("Exception: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
-                }
-            }
-            scanner.close();
-            reader.close();
-
-            server.getLogger().info(String.format("Loaded %d TravelPorts!", ports.size()));
-        }
-
-        /**
-         * Puts the TravelPorts into a csv file.
-         *
-         * @param container the container to save.
-         * @param csvFile   the file to save.
-         * @throws java.io.IOException thrown when there is an error during writing.
-         */
-        static void savePorts(FlatFileTravelPortContainer container, File csvFile) throws IOException {
-            Map<Integer, TravelPort> travelPorts = container.travelPorts;
+    /** Saves the TravelPorts. */
+    public void save() {
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
 
             for (TravelPort port : travelPorts.values()) {
@@ -365,6 +325,8 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         case INDEX_DESTINATION:
                             line.append(port.getDestination().toString());
                             break;
+                        case INDEX_DEPARTURE:
+                            line.append(port.getDeparture().toString());
                         default:
                             throw new RuntimeException(
                                     "This Code should never get reached! Error in program, please contact the developer.");
@@ -380,6 +342,20 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
             }
 
             writer.close();
+        } catch (IOException exception) {
+            logger.severe("Error occurred during saving TravelPorts!");
+            logger.severe(exception.getMessage());
         }
+    }
+
+    /** @return the next free travel port id. */
+    private Integer findUnusedId() {
+        Integer currentId = Integer.valueOf(0);
+
+        while (travelPorts.containsKey(currentId)) {
+            currentId++;
+        }
+
+        return currentId;
     }
 }
