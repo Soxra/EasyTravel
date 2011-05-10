@@ -16,14 +16,18 @@ public final class StringHelper {
      * @return the decoded list of strings.
      */
     public static List<String> decode(String encodedList) {
-        String[] stringParts = encodedList.split(",");
-        List<String> decodedList = new LinkedList<String>();
+        if (encodedList != null) {
+            String[] stringParts = encodedList.split(",");
+            List<String> decodedList = new LinkedList<String>();
 
-        for (String part : stringParts) {
-            decodedList.add(part.trim());
+            for (String part : stringParts) {
+                decodedList.add(part.trim());
+            }
+
+            return decodedList;
+        } else {
+            return new LinkedList<String>();
         }
-
-        return decodedList;
     }
 
     /**
@@ -33,18 +37,22 @@ public final class StringHelper {
      * @return encoded strings.
      */
     public static String encode(List<String> decodedList) {
-        StringBuilder builder = new StringBuilder();
+        if (decodedList != null) {
+            StringBuilder builder = new StringBuilder();
 
-        int listSize = decodedList.size();
-        for (int index = 0; index < listSize; ++index) {
-            builder.append(decodedList.get(index));
+            int listSize = decodedList.size();
+            for (int index = 0; index < listSize; ++index) {
+                builder.append(decodedList.get(index));
 
-            if (index != listSize - 1) {
-                builder.append(",");
+                if (index != listSize - 1) {
+                    builder.append(",");
+                }
             }
-        }
 
-        return builder.toString();
+            return builder.toString();
+        } else {
+            return null;
+        }
     }
 
     /**

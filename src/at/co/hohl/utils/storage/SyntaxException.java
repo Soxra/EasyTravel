@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.storage;
+package at.co.hohl.utils.storage;
 
 /**
  * Called when EasyTravel isn't able to restore ports on reload.s

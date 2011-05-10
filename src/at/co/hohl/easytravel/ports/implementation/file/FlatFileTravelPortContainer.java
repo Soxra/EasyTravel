@@ -3,8 +3,9 @@ package at.co.hohl.easytravel.ports.implementation.file;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.ports.*;
 import at.co.hohl.easytravel.ports.depart.DepartureHelper;
-import at.co.hohl.easytravel.storage.SyntaxException;
 import at.co.hohl.utils.StringHelper;
+import at.co.hohl.utils.storage.CsvLineParser;
+import at.co.hohl.utils.storage.SyntaxException;
 import org.bukkit.Server;
 
 import java.io.*;
@@ -229,42 +230,30 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     try {
-                        String[] lineParts = line.split(";");
-                        if (lineParts.length == CSV_COLUMNS) {
-                            TravelPort port = new FlatFileTravelPort(this, Integer.valueOf((lineParts[INDEX_ID])));
-                            port.setName(lineParts[INDEX_NAME]);
-                            port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
+                        CsvLineParser parser = new CsvLineParser(line);
+                        TravelPort port = new FlatFileTravelPort(this, parser.getInt(INDEX_ID));
+                        port.setName(parser.getString(INDEX_NAME));
+                        port.setPrice(parser.getDouble(INDEX_PRICE));
+                        port.setTargetId(parser.getInt(INDEX_TARGET));
+                        port.setPassword(parser.getString(INDEX_PASSWORD));
+                        port.setOwner(parser.getString(INDEX_OWNER));
+                        port.setAllowed(StringHelper.decode(parser.getString(INDEX_ALLOWED)));
+                        port.setDeparture(DepartureHelper.load(port, parser.getString(INDEX_DEPARTURE)));
 
-                            if (!"null".equals(lineParts[INDEX_TARGET])) {
-                                port.setTargetId(Integer.valueOf((lineParts[INDEX_TARGET])));
-                            }
-                            if (!"null".equals(lineParts[INDEX_OWNER])) {
-                                port.setOwner(lineParts[INDEX_OWNER]);
-                            }
-                            if (!"null".equals(lineParts[INDEX_PASSWORD])) {
-                                port.setPassword(lineParts[INDEX_PASSWORD]);
-                            }
-                            if (!"null".equals(lineParts[INDEX_ALLOWED])) {
-                                port.setAllowed(StringHelper.decode(lineParts[INDEX_ALLOWED]));
-                            }
-                            if (!"null".equals(lineParts[INDEX_AREA])) {
-                                port.setArea(new CuboidArea(lineParts[INDEX_AREA]));
-                            }
-                            if (!"null".equals(lineParts[INDEX_DESTINATION])) {
-                                port.setDestination(new Destination(server, lineParts[INDEX_DESTINATION]));
-                            }
-                            if (!"null".equals(lineParts[INDEX_DEPARTURE])) {
-                                port.setDeparture(DepartureHelper.load(port, lineParts[INDEX_DESTINATION]));
-                            }
-
-                            travelPorts.put(port.getId(), port);
-                        } else {
-                            server.getLogger().warning(String.format("Invalid number of columns! '%s'", line));
+                        String areaString = parser.getString(INDEX_AREA);
+                        if (areaString != null) {
+                            port.setArea(new CuboidArea(areaString));
                         }
+
+                        String destinationString = parser.getString(INDEX_DESTINATION);
+                        if (destinationString != null) {
+                            port.setDestination(new Destination(server, destinationString));
+                        }
+
+                        travelPorts.put(port.getId(), port);
                     } catch (SyntaxException e) {
-                        server.getLogger()
-                                .warning(
-                                        String.format("Syntax exception in TravelPort configuration line! '%s'", line));
+                        server.getLogger().warning(
+                                String.format("Corrupt TravelPort configuration line! '%s'", line));
                         server.getLogger().info("Exception: " + e.getMessage());
                     } catch (NumberFormatException e) {
                         server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
@@ -298,7 +287,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             line.append(port.getId());
                             break;
                         case INDEX_NAME:
-                            line.append(port.getName().replace(';', ','));
+                            line.append(port.getName().replace(";", "&#59"));
                             break;
                         case INDEX_TARGET:
                             line.append(port.getTargetId());
@@ -327,6 +316,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             break;
                         case INDEX_DEPARTURE:
                             line.append(port.getDeparture().toString());
+                            break;
                         default:
                             throw new RuntimeException(
                                     "This Code should never get reached! Error in program, please contact the developer.");

@@ -1,4 +1,4 @@
-package at.co.hohl.easytravel.storage;
+package at.co.hohl.utils.storage;
 
 import java.util.HashMap;
 import java.util.Map;
