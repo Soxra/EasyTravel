@@ -1,144 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="EasyTravel" default="all">
-  
-  
-  <property file="EasyTravel.properties"/>
-  <!-- Uncomment the following property if no tests compilation is needed -->
-  <!-- 
-  <property name="skip.tests" value="true"/>
-   -->
-  
-  <!-- Compiler options -->
-  
-  <property name="compiler.debug" value="on"/>
-  <property name="compiler.generate.no.warnings" value="off"/>
-  <property name="compiler.args" value=""/>
-  <property name="compiler.max.memory" value="128m"/>
-  <patternset id="ignored.files">
-    <exclude name="**/CVS/**"/>
-    <exclude name="**/SCCS/**"/>
-    <exclude name="**/RCS/**"/>
-    <exclude name="**/rcs/**"/>
-    <exclude name="**/.DS_Store/**"/>
-    <exclude name="**/.svn/**"/>
-    <exclude name="**/.pyc/**"/>
-    <exclude name="**/.pyo/**"/>
-    <exclude name="**/*.pyc/**"/>
-    <exclude name="**/*.pyo/**"/>
-    <exclude name="**/.git/**"/>
-    <exclude name="**/*.hprof/**"/>
-    <exclude name="**/_svn/**"/>
-    <exclude name="**/.hg/**"/>
-    <exclude name="**/*.lib/**"/>
-    <exclude name="**/*~/**"/>
-  </patternset>
-  <patternset id="library.patterns">
-    <include name="*.zip"/>
-    <include name="*.war"/>
-    <include name="*.egg"/>
-    <include name="*.ear"/>
-    <include name="*.swc"/>
-    <include name="*.jar"/>
-  </patternset>
-  <patternset id="compiler.resources">
-    <include name="**/?*.properties"/>
-    <include name="**/?*.xml"/>
-    <include name="**/?*.gif"/>
-    <include name="**/?*.png"/>
-    <include name="**/?*.jpeg"/>
-    <include name="**/?*.jpg"/>
-    <include name="**/?*.html"/>
-    <include name="**/?*.dtd"/>
-    <include name="**/?*.tld"/>
-    <include name="**/?*.ftl"/>
-  </patternset>
-  
-  
-  <!-- Project Libraries -->
-  
-  <!-- Modules -->
-  
-  
-  <!-- Module EasyTravel -->
-  
-  <dirname property="module.EasyTravel.basedir" file="${ant.file}"/>
-  
-  
-  
-  <property name="compiler.args.EasyTravel" value="${compiler.args}"/>
-  
-  <property name="EasyTravel.output.dir" value="${module.EasyTravel.basedir}/out/production/EasyTravel"/>
-  <property name="EasyTravel.testoutput.dir" value="${module.EasyTravel.basedir}/out/test/EasyTravel"/>
-  
-  <path id="EasyTravel.module.bootclasspath">
-    <!-- Paths to be included in compilation bootclasspath -->
-  </path>
-  
-  <path id="EasyTravel.module.production.classpath"/>
-  
-  <path id="EasyTravel.runtime.production.module.classpath">
-    <pathelement location="${EasyTravel.output.dir}"/>
-  </path>
-  
-  <path id="EasyTravel.module.classpath">
-    <pathelement location="${EasyTravel.output.dir}"/>
-  </path>
-  
-  <path id="EasyTravel.runtime.module.classpath">
-    <pathelement location="${EasyTravel.testoutput.dir}"/>
-    <pathelement location="${EasyTravel.output.dir}"/>
-  </path>
-  
-  
-  <patternset id="excluded.from.module.EasyTravel">
-    <patternset refid="ignored.files"/>
-  </patternset>
-  
-  <patternset id="excluded.from.compilation.EasyTravel">
-    <patternset refid="excluded.from.module.EasyTravel"/>
-  </patternset>
-  
-  <path id="EasyTravel.module.sourcepath">
-    <dirset dir="${module.EasyTravel.basedir}">
-      <include name="src"/>
-    </dirset>
-  </path>
-  
-  
-  <target name="compile.module.EasyTravel" depends="compile.module.EasyTravel.production,compile.module.EasyTravel.tests" description="Compile module EasyTravel"/>
-  
-  <target name="compile.module.EasyTravel.production" description="Compile module EasyTravel; production classes">
-    <mkdir dir="${EasyTravel.output.dir}"/>
-    <javac destdir="${EasyTravel.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
-      <compilerarg line="${compiler.args.EasyTravel}"/>
-      <bootclasspath refid="EasyTravel.module.bootclasspath"/>
-      <classpath refid="EasyTravel.module.production.classpath"/>
-      <src refid="EasyTravel.module.sourcepath"/>
-      <patternset refid="excluded.from.compilation.EasyTravel"/>
-    </javac>
-    
-    <copy todir="${EasyTravel.output.dir}">
-      <fileset dir="${module.EasyTravel.basedir}/src">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
-    </copy>
-  </target>
-  
-  <target name="compile.module.EasyTravel.tests" depends="compile.module.EasyTravel.production" description="compile module EasyTravel; test classes" unless="skip.tests"/>
-  
-  <target name="clean.module.EasyTravel" description="cleanup module">
-    <delete dir="${EasyTravel.output.dir}"/>
-    <delete dir="${EasyTravel.testoutput.dir}"/>
-  </target>
-  
-  <target name="init" description="Build initialization">
-    <!-- Perform any build initialization in this target -->
-  </target>
-  
-  <target name="clean" depends="clean.module.EasyTravel" description="cleanup all"/>
-  
-  <target name="build.modules" depends="init, clean, compile.module.EasyTravel" description="build all modules"/>
-  
-  <target name="all" depends="build.modules" description="build all"/>
+
+
+    <property file="EasyTravel.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+   <property name="skip.tests" value="true"/>
+    -->
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="128m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.pyc/**"/>
+        <exclude name="**/.pyo/**"/>
+        <exclude name="**/*.pyc/**"/>
+        <exclude name="**/*.pyo/**"/>
+        <exclude name="**/.git/**"/>
+        <exclude name="**/*.hprof/**"/>
+        <exclude name="**/_svn/**"/>
+        <exclude name="**/.hg/**"/>
+        <exclude name="**/*.lib/**"/>
+        <exclude name="**/*~/**"/>
+    </patternset>
+    <patternset id="library.patterns">
+        <include name="*.zip"/>
+        <include name="*.war"/>
+        <include name="*.egg"/>
+        <include name="*.ear"/>
+        <include name="*.swc"/>
+        <include name="*.jar"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <include name="**/?*.properties"/>
+        <include name="**/?*.xml"/>
+        <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
+        <include name="**/?*.jpeg"/>
+        <include name="**/?*.jpg"/>
+        <include name="**/?*.html"/>
+        <include name="**/?*.dtd"/>
+        <include name="**/?*.tld"/>
+        <include name="**/?*.ftl"/>
+    </patternset>
+
+
+    <!-- Project Libraries -->
+
+    <!-- Modules -->
+
+
+    <!-- Module EasyTravel -->
+
+    <dirname property="module.EasyTravel.basedir" file="${ant.file}"/>
+
+
+    <property name="compiler.args.EasyTravel" value="${compiler.args}"/>
+
+    <property name="EasyTravel.output.dir" value="${module.EasyTravel.basedir}/out/production/EasyTravel"/>
+    <property name="EasyTravel.testoutput.dir" value="${module.EasyTravel.basedir}/out/test/EasyTravel"/>
+
+    <path id="EasyTravel.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="EasyTravel.module.production.classpath"/>
+
+    <path id="EasyTravel.runtime.production.module.classpath">
+        <pathelement location="${EasyTravel.output.dir}"/>
+    </path>
+
+    <path id="EasyTravel.module.classpath">
+        <pathelement location="${EasyTravel.output.dir}"/>
+    </path>
+
+    <path id="EasyTravel.runtime.module.classpath">
+        <pathelement location="${EasyTravel.testoutput.dir}"/>
+        <pathelement location="${EasyTravel.output.dir}"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.EasyTravel">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.EasyTravel">
+        <patternset refid="excluded.from.module.EasyTravel"/>
+    </patternset>
+
+    <path id="EasyTravel.module.sourcepath">
+        <dirset dir="${module.EasyTravel.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.EasyTravel"
+            depends="compile.module.EasyTravel.production,compile.module.EasyTravel.tests"
+            description="Compile module EasyTravel"/>
+
+    <target name="compile.module.EasyTravel.production" description="Compile module EasyTravel; production classes">
+        <mkdir dir="${EasyTravel.output.dir}"/>
+        <javac destdir="${EasyTravel.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+               memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.EasyTravel}"/>
+            <bootclasspath refid="EasyTravel.module.bootclasspath"/>
+            <classpath refid="EasyTravel.module.production.classpath"/>
+            <src refid="EasyTravel.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.EasyTravel"/>
+        </javac>
+
+        <copy todir="${EasyTravel.output.dir}">
+            <fileset dir="${module.EasyTravel.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.EasyTravel.tests" depends="compile.module.EasyTravel.production"
+            description="compile module EasyTravel; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.EasyTravel" description="cleanup module">
+        <delete dir="${EasyTravel.output.dir}"/>
+        <delete dir="${EasyTravel.testoutput.dir}"/>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="clean" depends="clean.module.EasyTravel" description="cleanup all"/>
+
+    <target name="build.modules" depends="init, clean, compile.module.EasyTravel" description="build all modules"/>
+
+    <target name="all" depends="build.modules" description="build all"/>
 </project>

@@ -1,5 +1,6 @@
 package at.co.hohl.easytravel.ports;
 
+import at.co.hohl.easytravel.TravelException;
 import at.co.hohl.easytravel.TravelPlugin;
 import org.bukkit.Server;
 
@@ -74,7 +75,7 @@ public interface TravelPortContainer {
      *
      * @param port1 the first port to link.
      * @param port2 another port to link.
-     * @throws at.co.hohl.easytravel.ports.InvalidLinkException
+     * @throws TravelPortContainer.InvalidLinkException
      *          thrown when the ports are already linked.
      */
     void link(TravelPort port1, TravelPort port2) throws InvalidLinkException;
@@ -83,11 +84,23 @@ public interface TravelPortContainer {
      * Unlink the passed TravelPort
      *
      * @param port the port to unlink
-     * @throws at.co.hohl.easytravel.ports.InvalidLinkException
+     * @throws TravelPortContainer.InvalidLinkException
      *          thrown when port isn't linked to another.
      */
     void unlink(TravelPort port) throws InvalidLinkException;
 
     /** @return number of available entries. */
     int size();
+
+    /** Exception for invalid links. */
+    public class InvalidLinkException extends TravelException {
+        /**
+         * Creates a new InvalidLinkException.
+         *
+         * @param message details
+         */
+        public InvalidLinkException(String message) {
+            super(message);
+        }
+    }
 }

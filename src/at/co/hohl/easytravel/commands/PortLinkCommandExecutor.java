@@ -5,7 +5,6 @@ import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.players.PlayerInformation;
-import at.co.hohl.easytravel.ports.InvalidLinkException;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.easytravel.ports.TravelPortNotFound;
@@ -71,7 +70,7 @@ public class PortLinkCommandExecutor extends SubCommandExecutor {
             }
         } catch (TravelPortNotFound exception) {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-id"));
-        } catch (InvalidLinkException e) {
+        } catch (TravelPortContainer.InvalidLinkException e) {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.already-linked"));
         }
 

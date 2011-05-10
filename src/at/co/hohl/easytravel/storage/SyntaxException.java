@@ -1,13 +1,11 @@
 package at.co.hohl.easytravel.storage;
 
-import at.co.hohl.easytravel.TravelException;
-
 /**
  * Called when EasyTravel isn't able to restore ports on reload.s
  *
  * @author Michael Hohl
  */
-public class SyntaxException extends TravelException {
+public class SyntaxException extends Exception {
     public SyntaxException() {
     }
 
