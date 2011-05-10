@@ -1,5 +1,8 @@
 package at.co.hohl.easytravel.ports;
 
+import at.co.hohl.easytravel.TravelPlugin;
+import org.bukkit.Server;
+
 import java.util.Collection;
 
 /**
@@ -8,8 +11,14 @@ import java.util.Collection;
  * @author Michael Hohl
  */
 public interface TravelPortContainer {
+    /** @return the server which holds the container. */
+    Server getServer();
+
+    /** @return the plugin, which holds the container. */
+    TravelPlugin getPlugin();
+
     /**
-     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to storage.)
+     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to impl.)
      *
      * @return the created TravelPort
      */

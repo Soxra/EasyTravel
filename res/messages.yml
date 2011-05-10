@@ -4,8 +4,9 @@ format: "&d%s"
 
 # The greetings get shown when you enter a TravelPort.
 greeting:
-    free: "Welcome on board! Use /depart to begin your journey."
-    paid: "Welcome on board! This journey costs &a%.2f %s&d. Use /depart to begin your journey."
+    free: "Welcome on board!"
+    paid: "Welcome on board! This journey costs &a%.2f %s&d."
+    depart: "Use /depart to begin your journey."
 
 # Called when events occurred.
 event:

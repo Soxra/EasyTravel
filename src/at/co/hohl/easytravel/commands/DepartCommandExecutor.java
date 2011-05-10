@@ -1,10 +1,11 @@
 package at.co.hohl.easytravel.commands;
 
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.TravelPort;
-import at.co.hohl.economy.EconomyHandler;
+import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -46,19 +47,14 @@ public class DepartCommandExecutor implements CommandExecutor {
             sender.sendMessage("Only use the /depart command as players! Doesn't make sense anyway for you ;)");
             return true;
         }
+
+        // Is players inside TravelPort?
         Player player = (Player) sender;
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-        // Is players inside TravelPort?
         TravelPort port = playerInformation.getCurrentPort();
         if (port == null) {
-            playerListener.onNotInsideTravelPort(player);
-            return true;
-        }
-
-        // Is players allowed to use TravelPort?
-        if (!port.isAllowed(plugin.getPermissionsHandler(), player)) {
-            playerListener.onNotAllowedToDepart(player);
+            ChatHelper.sendMessage(player, Messages.get("problem.not-inside"));
             return true;
         }
 
@@ -67,28 +63,8 @@ public class DepartCommandExecutor implements CommandExecutor {
             playerInformation.setEnteredPassword(StringHelper.toSingleString(args, " ", 0));
         }
 
-        // Is password set and is it valid?
-        if (port.isPasswordLocked()) {
-            if (!port.getPassword().equals(playerInformation.getEnteredPassword())) {
-                playerListener.onInvalidPassword(player);
-                return true;
-            }
-        }
-
-        // Is TravelPort paid? Pay money than!
-        double price = port.getPrice();
-        if (price > 0) {
-            EconomyHandler economyHandler = plugin.getEconomyHandler();
-            if (economyHandler != null && economyHandler.pay(player.getName(), price)) {
-                playerListener.onPlayerPaidForTravelling(player, price);
-            } else {
-                playerListener.onLittleMoney(player);
-                return true;
-            }
-        }
-
         // Everything checked? Then depart the user now.
-        playerListener.onPlayerDeparting(player, port);
+        port.getDeparture().onDepartCommand(player, playerInformation.getEnteredPassword());
         return true;
     }
 }

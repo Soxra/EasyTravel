@@ -1,11 +1,10 @@
-package at.co.hohl.easytravel.ports.storage;
+package at.co.hohl.easytravel.ports.impl;
 
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.ports.*;
 import at.co.hohl.easytravel.storage.SyntaxException;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.Server;
-import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.util.*;
@@ -20,6 +19,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     /** The plugin which holds this instance. */
     private final Server server;
 
+    /** Plugin which holds the container. */
+    private final TravelPlugin plugin;
+
     /** The file used for storing the TravelPorts. */
     private final File csvFile;
 
@@ -28,12 +30,6 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
 
     /** Contains all travel ports. */
     private final Map<Integer, TravelPort> travelPorts = new HashMap<Integer, TravelPort>();
-
-    /** The travel port, where a players is inside. */
-    private final Map<Player, TravelPort> playerInsideTravelPort = new HashMap<Player, TravelPort>();
-
-    /** true, if the passed players traveled recently. */
-    private final Map<Player, Boolean> playerTraveledRecently = new HashMap<Player, Boolean>();
 
 
     /**
@@ -46,13 +42,14 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         this.csvFile = csvFile;
         this.logger = plugin.getLogger();
         this.server = plugin.getServer();
+        this.plugin = plugin;
     }
 
     /** Loads the TravelPorts. */
     public void load() {
         if (csvFile.exists()) {
             try {
-                FlatFilePortStorage.loadPorts(server, travelPorts, csvFile);
+                FlatFilePortStorage.loadPorts(server, this, csvFile);
             } catch (IOException exception) {
                 logger.severe("Error occurred when loading TravelPorts!");
                 logger.severe(exception.getMessage());
@@ -66,7 +63,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     /** Saves the TravelPorts. */
     public void save() {
         try {
-            FlatFilePortStorage.savePorts(travelPorts, csvFile);
+            FlatFilePortStorage.savePorts(this, csvFile);
         } catch (IOException exception) {
             logger.severe("Error occurred when saving TravelPorts!");
             logger.severe(exception.getMessage());
@@ -141,12 +138,12 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     }
 
     /**
-     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to storage.)
+     * Creates a new TravelPort. (This will automatically creates an unique ID for it and adds it to impl.)
      *
      * @return the created TravelPort
      */
     public TravelPort create() {
-        TravelPort createdPort = new TravelPort(findUnusedId());
+        TravelPort createdPort = new SimpleTravelPort(this, findUnusedId());
         add(createdPort);
         return createdPort;
     }
@@ -220,6 +217,16 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         return travelPorts.size();
     }
 
+    /** @return the server which holds the container. */
+    public Server getServer() {
+        return server;
+    }
+
+    /** @return the plugin, which holds the container. */
+    public TravelPlugin getPlugin() {
+        return plugin;
+    }
+
     /** @return the next free travel port id. */
     private Integer findUnusedId() {
         Integer currentId = Integer.valueOf(0);
@@ -253,12 +260,13 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         /**
          * Loads TravelPorts out of a file into the passed Map.
          *
-         * @param server  the server used for searching the worlds.
-         * @param csvFile the file to load.
-         * @param ports   the Map used to store the loaded TravelPorts.
+         * @param server    the server used for searching the worlds.
+         * @param csvFile   the file to load.
+         * @param container the container to load into.
          * @throws java.io.IOException thrown when there are problems in reading the file.
          */
-        static void loadPorts(Server server, Map<Integer, TravelPort> ports, File csvFile) throws IOException {
+        static void loadPorts(Server server, FlatFileTravelPortContainer container, File csvFile) throws IOException {
+            Map<Integer, TravelPort> ports = container.travelPorts;
             ports.clear();
 
             FileReader reader = new FileReader(csvFile);
@@ -268,7 +276,8 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                 try {
                     String[] lineParts = line.split(";");
                     if (lineParts.length == CSV_COLUMNS) {
-                        TravelPort port = new TravelPort(Integer.valueOf((lineParts[INDEX_ID])));
+                        TravelPort port =
+                                new SimpleTravelPort(container, Integer.valueOf((lineParts[INDEX_ID])));
                         port.setName(lineParts[INDEX_NAME]);
                         port.setPrice(Double.parseDouble(lineParts[INDEX_PRICE]));
 
@@ -312,11 +321,12 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         /**
          * Puts the TravelPorts into a csv file.
          *
-         * @param travelPorts the ports to save.
-         * @param csvFile     the file to save.
+         * @param container the container to save.
+         * @param csvFile   the file to save.
          * @throws java.io.IOException thrown when there is an error during writing.
          */
-        static void savePorts(Map<Integer, TravelPort> travelPorts, File csvFile) throws IOException {
+        static void savePorts(FlatFileTravelPortContainer container, File csvFile) throws IOException {
+            Map<Integer, TravelPort> travelPorts = container.travelPorts;
             BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
 
             for (TravelPort port : travelPorts.values()) {

@@ -10,7 +10,7 @@ import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.Area;
 import at.co.hohl.easytravel.ports.CuboidArea;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
-import at.co.hohl.easytravel.ports.storage.FlatFileTravelPortContainer;
+import at.co.hohl.easytravel.ports.impl.FlatFileTravelPortContainer;
 import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.economy.iConomyHandler;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -33,10 +33,16 @@ import java.util.logging.Logger;
  * @author hohl
  */
 public class TravelPlugin extends JavaPlugin {
+    /** Ticks used for waiting after sending the arrived notification. */
+    public static int ARRIVED_NOTIFICATION_DELAY;
+
+    /** Ticks waited after departing. */
+    public static int DEPART_DELAY;
+
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
 
-    /** Player Information storage. */
+    /** Player Information impl. */
     private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
 
     /** Logger used for outputting debug information. */
@@ -78,7 +84,6 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Called when forcing a reload. */
     public void onReload() {
-        getConfiguration().load();
         loadConfiguration();
     }
 
@@ -175,7 +180,9 @@ public class TravelPlugin extends JavaPlugin {
     /** Loads the configuration. */
     private void loadConfiguration() {
         // Properties...
-        Configuration configuration = getConfiguration();
+        getConfiguration().load();
+        ARRIVED_NOTIFICATION_DELAY = getConfiguration().getInt("arrived-notification-delay", 10);
+        DEPART_DELAY = getConfiguration().getInt("depart-delay", 0);
 
         // Messages...
         Configuration messages = new Configuration(new File(getDataFolder(), "messages.yml"));
