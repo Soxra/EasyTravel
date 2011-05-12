@@ -6,7 +6,7 @@ format: "&d%s"
 greeting:
     free: "Willkommen an Bord!"
     paid: "Willkommen an Bord! Diese Fahrt kostet &a%s&d."
-    depart: "Um deine Reise anzutreten, verwende &7/depart&d."
+    departure: "Um deine Reise anzutreten, verwende &7/depart&d."
 
 # Called when events occurred.
 event:
