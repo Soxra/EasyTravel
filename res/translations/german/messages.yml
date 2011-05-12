@@ -1,0 +1,52 @@
+# General Message Format:
+# You could set a prefix here and it will used for all output by this plugin. (Except the Help)
+format: "&d%s"
+
+# The greetings get shown when you enter a TravelPort.
+greeting:
+    free: "Willkommen an Bord!"
+    paid: "Willkommen an Bord! Diese Fahrt kostet &a%s&d."
+    depart: "Um deine Reise anzutreten, verwende &7/depart&d."
+
+# Called when events occurred.
+event:
+    departing: "Alle an Bord, wir fahren ab!"
+    arrived: "Angekommen, &a%s&d!"
+    money-paid: "Dir wurden &a%s&d fuer diese Fahrt in Rechnung gestellt!"
+
+# Messages which are shown to the player when there are problems, or they have made a mistake.
+problem:
+    little-money: "&cDu hast nicht genug Geld fuer diese Fahrt!"
+    not-allowed: "&cDir ist es nicht erlaubt, diese Fahrt anzutreten!"
+    not-inside: "&cDu kannst nur abfahren, wenn du an Bord bist!"
+    invalid-password: "&cFuer diese Fahrt musst du das geheime Passwort kennen! Verwende &4/depart <password>&c zum Entsperren!"
+    miss-economy: "&cTut mir leid. Diese Route ist wegen technischer Schwierigkeiten derzeit nicht verwendbar."
+    miss-target: "&cKein Ziel! Verbinde 2 TravelPorts zuerst mithilfe des Befehls '/port link'."
+    internal-error: "&cInterner Fehler aufgetreten! Bitte kontaktiere einen Administrator"
+
+# This messages are only shown in the moderator backend.
+moderator:
+    success:
+         created: "&2TravelPort erfolgreich angelegt!"
+         removed: "&2TravelPort erfolgreich entfernt!"
+         linked: "&2TravelPort erfolgreich verbunden!"
+         unlinked: "&2Verbindung erfolgreich getrennt!"
+         saved: "&2Speichervorgang abgeschlossen!"
+         reloaded: "&2Einstellungen und TravelPorts neu geladen!"
+         change-price: "&2Preis erfolgreich geaendert!"
+         change-owner: "&2Besitzer erfolgreich geandert!"
+         change-destination: "&2Ankunftsort erfolgreich geaendert!"
+         change-password: "&2Passwort erfolgreich gesetzt!"
+         add-member: "&2Berechtigung hinzugefuegt!"
+         point-compass: "&2Dein Kompass zeigt zum gewaehlten TravelPort!"
+    problem:
+         not-allowed: "&cDu besitzt nicht die benoetigten Berechtigungen!"
+         not-own: "&cDir ist es nicht erlaubt, diesen TravelPort zu veraendern!"
+         invalid-num-args: "&cUngueltige Argumente!"
+         invalid-use: "&cUngueltige Verwendung! Benutze &4/port help&c fuer Informationen zur richtigen Benutzung."
+         invalid-page: "&cUngueltige Seitennummer!"
+         select-area: "&cDu musst zuerst eine gueltige WorldEdit Auswahl treffen!"
+         not-inside: "&cDu bist nicht innerhalb eines TravelPorts!"
+         already-linked: "&cMindestens einer der TravelPorts ist bereits verknuepft! Trenne zuerst andere Verbindungen!"
+         not-linked: "&cTravelPort ist nicht verknuept!"
+         invalid-id: "&cAngegebener TravelPort nicht gefunden!"
