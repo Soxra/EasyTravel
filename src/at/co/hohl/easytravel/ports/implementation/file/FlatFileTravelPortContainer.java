@@ -234,7 +234,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         TravelPort port = new FlatFileTravelPort(this, parser.getInt(INDEX_ID));
                         port.setName(parser.getString(INDEX_NAME));
                         port.setPrice(parser.getDouble(INDEX_PRICE));
-                        port.setTargetId(parser.getInt(INDEX_TARGET));
+                        port.setTargetId(Integer.valueOf(parser.getString(INDEX_TARGET)));
                         port.setPassword(parser.getString(INDEX_PASSWORD));
                         port.setOwner(parser.getString(INDEX_OWNER));
                         port.setAllowed(StringHelper.decode(parser.getString(INDEX_ALLOWED)));
