@@ -64,7 +64,7 @@ public abstract class AbstractTravelPort implements TravelPort {
                 EconomyHandler economyHandler = container.getPlugin().getEconomyHandler();
                 if (economyHandler != null && economyHandler.pay(player.getName(), getPrice())) {
                     ChatHelper.sendMessage(player,
-                            String.format(Messages.get("event.money-paid"), getPrice(), economyHandler.getCurrency()));
+                            String.format(Messages.get("event.money-paid"), economyHandler.format(getPrice())));
                 } else {
                     ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
                     players.remove(players);
@@ -111,8 +111,8 @@ public abstract class AbstractTravelPort implements TravelPort {
         if (getPrice() > 0) {
             EconomyHandler economyHandler = container.getPlugin().getEconomyHandler();
             if (economyHandler != null) {
-                ChatHelper.sendMessage(player, String.format(Messages.get("greeting.paid"), getPrice(),
-                        economyHandler.getCurrency()));
+                ChatHelper.sendMessage(player, String.format(Messages.get("greeting.paid"), economyHandler.format(
+                        getPrice())));
             } else {
                 ChatHelper.sendMessage(player, Messages.get("problem.miss-economy"));
             }

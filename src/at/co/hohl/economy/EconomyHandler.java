@@ -6,8 +6,14 @@ package at.co.hohl.economy;
  * @author Michael Hohl
  */
 public interface EconomyHandler {
-    /** @return the currency of the economy system. */
-    String getCurrency();
+    /**
+     * Formats the passed amount to a string with the currency. For example passing 20.0 will return a "20.0 Coins" or
+     * "20.0 $" depending on server config.
+     *
+     * @param amount the amount of money.
+     * @return the formatted string.
+     */
+    String format(double amount);
 
     /**
      * Returns the balance of the account of the passed account.
