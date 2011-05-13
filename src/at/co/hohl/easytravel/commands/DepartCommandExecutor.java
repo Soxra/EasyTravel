@@ -3,7 +3,6 @@ package at.co.hohl.easytravel.commands;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.players.PlayerInformation;
-import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
@@ -40,8 +39,6 @@ public class DepartCommandExecutor implements CommandExecutor {
      * @return true, if the Executor could handle the command.
      */
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        TravelPlayerListener playerListener = plugin.getPlayerListener();
-
         // Is sender a players?
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only use the /depart command as players! Doesn't make sense anyway for you ;)");
@@ -63,8 +60,12 @@ public class DepartCommandExecutor implements CommandExecutor {
             playerInformation.setEnteredPassword(StringHelper.toSingleString(args, " ", 0));
         }
 
-        // Everything checked? Then depart the user now.
-        port.getDeparture().onDepartCommand(player, playerInformation.getEnteredPassword());
+        // Check if port has a target.
+        if (port.getTargetId() != null) {
+            port.getDeparture().onDepartCommand(player, playerInformation.getEnteredPassword());
+        } else {
+            ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
+        }
         return true;
     }
 }
