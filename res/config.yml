@@ -3,12 +3,12 @@
 #
 
 # A lower value means to check if the player is inside a TravelPort more often, but also means more CPU usage!
-location-update-interval: 25
+location-update-interval: 40
 
 # Time to wait, until departing after depart command.
 # (Like a warm-up)
 depart-delay: 0
 
 # Delay waited until the arrived at TravelPort message is send after starting the teleport.
-# If your server is slow and laggy you should set the value to 25 or something else.
+# If your server is slow and laggy you should set the value to 25 or abouve.
 arrived-notification-delay: 10

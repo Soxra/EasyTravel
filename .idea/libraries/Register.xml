@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="iConomy">
+  <library name="Register">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/iConomy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Register.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

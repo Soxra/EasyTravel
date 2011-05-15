@@ -1,8 +1,8 @@
 package at.co.hohl.easytravel.commands;
 
+import at.co.hohl.easytravel.PlayerInformation;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
-import at.co.hohl.easytravel.players.PlayerInformation;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
@@ -57,12 +57,12 @@ public class DepartCommandExecutor implements CommandExecutor {
 
         // Passed any password?
         if (args.length > 0) {
-            playerInformation.setEnteredPassword(StringHelper.toSingleString(args, " ", 0));
+            playerInformation.addPassword(StringHelper.toSingleString(args, " ", 0));
         }
 
         // Check if port has a target.
         if (port.getTargetId() != null) {
-            port.getDeparture().onDepartCommand(player, playerInformation.getEnteredPassword());
+            port.getDeparture().onDepartCommand(player, playerInformation);
         } else {
             ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
         }

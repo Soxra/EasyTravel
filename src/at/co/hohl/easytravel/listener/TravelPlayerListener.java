@@ -1,5 +1,6 @@
-package at.co.hohl.easytravel.players;
+package at.co.hohl.easytravel.listener;
 
+import at.co.hohl.easytravel.PlayerInformation;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.ports.TravelPort;
 import org.bukkit.entity.Player;

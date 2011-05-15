@@ -1,5 +1,6 @@
 package at.co.hohl.easytravel.ports.depart;
 
+import at.co.hohl.easytravel.PlayerInformation;
 import org.bukkit.entity.Player;
 
 /**
@@ -11,10 +12,10 @@ public interface Departure {
     /**
      * Called when player uses depart command, when inside the TravelPort.
      *
-     * @param player   the player which called the depart command.
-     * @param password the password entered by the user.
+     * @param player            the player which called the depart command.
+     * @param playerInformation information about the player.
      */
-    void onDepartCommand(final Player player, final String password);
+    void onDepartCommand(final Player player, final PlayerInformation playerInformation);
 
     /** Periodic called, when the player is inside a TravelPort. */
     void onPlayersInside();

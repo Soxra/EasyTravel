@@ -1,5 +1,6 @@
 package at.co.hohl.easytravel.ports.depart;
 
+import at.co.hohl.easytravel.PlayerInformation;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.utils.ChatHelper;
@@ -29,12 +30,12 @@ public class ManualDeparture implements Departure {
     /**
      * Called when player uses depart command, when inside the TravelPort.
      *
-     * @param player   the player which called the depart command.
-     * @param password the password entered by the user.
+     * @param player            the player which called the depart command.
+     * @param playerInformation information about the player.
      */
-    public void onDepartCommand(final Player player, final String password) {
+    public void onDepartCommand(final Player player, final PlayerInformation playerInformation) {
         // Is password set and is it valid?
-        if (port.isPasswordLocked() && !port.getPassword().equals(password)) {
+        if (port.isPasswordLocked() && !playerInformation.hasPassword(port.getPassword())) {
             ChatHelper.sendMessage(player, Messages.get("problem.invalid-password"));
         } else {
             List<Player> playerList = new LinkedList<Player>();

@@ -5,14 +5,14 @@ format: "&d%s"
 # The greetings get shown when you enter a TravelPort.
 greeting:
     free: "Welcome on board!"
-    paid: "Welcome on board! This journey costs &a%s&d."
+    paid: "Welcome on board! This journey costs &a<amount>&d."
     departure: "Use /depart to begin your journey."
 
 # Called when events occurred.
 event:
     departing: "All aboard, we leave!"
-    arrived: "You arrived at &a%s&d!"
-    money-paid: "You have been charged &a%s&d for this trip!"
+    arrived: "You arrived at &a<target>&d!"
+    money-paid: "You have been charged &a<amount>&d for this trip!"
 
 # Messages which are shown to the player when there are problems, or they have made a mistake.
 problem:

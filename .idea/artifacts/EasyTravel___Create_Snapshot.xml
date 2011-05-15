@@ -3,8 +3,9 @@
     <output-path>$PROJECT_DIR$/bin</output-path>
     <root id="archive" name="EasyTravel.jar">
       <element id="module-output" name="EasyTravel" />
-      <element id="library" level="application" name="Universal Permissions API" />
       <element id="file-copy" path="$PROJECT_DIR$/res/plugin.yml" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Register.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/UniversalPermissions.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

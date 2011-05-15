@@ -2,6 +2,8 @@ package at.co.hohl.easytravel.messages;
 
 import org.bukkit.util.config.Configuration;
 
+import java.util.Map;
+
 /**
  * Static container for the localized strings. Sadly, Bukkit doesn't support ResourceBundle inside the ports directory.
  *
@@ -49,6 +51,7 @@ public final class Messages {
      * Gets the localized string with the passed message id.
      *
      * @param messageId the id of the message to get.
+     * @return the localized string.
      */
     public static String get(String messageId) {
         String missTranslation;
@@ -60,6 +63,34 @@ public final class Messages {
 
         if (configuration != null) {
             return configuration.getString(messageId, missTranslation);
+        } else {
+            return missTranslation;
+        }
+    }
+
+    /**
+     * Like get(String), but replaces variables like <amount> with it's values.
+     *
+     * @param messageId the id of the message to get.
+     * @param variables the variables to replace.
+     * @return the localized string.
+     */
+    public static String get(String messageId, Map<String, String> variables) {
+        String missTranslation;
+        if (messageId != "format") {
+            missTranslation = String.format("Miss translation for '%s'", messageId);
+        } else {
+            missTranslation = "%s";
+        }
+
+        if (configuration != null) {
+            String localizedString = configuration.getString(messageId, missTranslation);
+
+            for (String variable : variables.keySet()) {
+                localizedString = localizedString.replaceAll("<" + variable + ">", variables.get(variable));
+            }
+
+            return localizedString;
         } else {
             return missTranslation;
         }

@@ -4,11 +4,13 @@ import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
-import at.co.hohl.economy.EconomyHandler;
 import at.co.hohl.utils.ChatHelper;
+import com.nijikokun.register.payment.Method;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the base class for all implementations of TravelPorts. Implement all storage independent stuff.
@@ -50,9 +52,11 @@ public abstract class AbstractTravelPort implements TravelPort {
 
         for (int index = 0; index < players.size(); ++index) {
             Player player = players.get(index);
+            String playerAccount = player.getName();
+            TravelPlugin plugin = container.getPlugin();
 
             // Is players allowed to use TravelPort?
-            if (!isAllowed(container.getPlugin().getPermissionsHandler(), player)) {
+            if (!isAllowed(plugin.getPermissionsHandler(), player)) {
                 ChatHelper.sendMessage(player, Messages.get("problem.not-allowed"));
                 players.remove(players);
                 --index;
@@ -61,12 +65,25 @@ public abstract class AbstractTravelPort implements TravelPort {
 
             // Has player enough money?
             if (getPrice() > 0) {
-                EconomyHandler economyHandler = container.getPlugin().getEconomyHandler();
-                if (economyHandler != null && economyHandler.pay(player.getName(), getPrice())) {
-                    ChatHelper.sendMessage(player,
-                            String.format(Messages.get("event.money-paid"), economyHandler.format(getPrice())));
+                if (plugin.hasPaymentMethods()) {
+                    Method method = plugin.getPaymentMethod();
+
+                    if (method.hasAccount(playerAccount) && method.getAccount(playerAccount).hasEnough(getPrice())) {
+                        method.getAccount(playerAccount).subtract(getPrice());
+
+                        Map<String, String> variables = new HashMap<String, String>();
+                        variables.put("account", playerAccount);
+                        variables.put("player", player.getName());
+                        variables.put("amount", method.format(getPrice()));
+                        ChatHelper.sendMessage(player, Messages.get("event.money-paid", variables));
+                    } else {
+                        ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
+                        players.remove(players);
+                        --index;
+                        break;
+                    }
                 } else {
-                    ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
+                    ChatHelper.sendMessage(player, Messages.get("problem.miss-economy"));
                     players.remove(players);
                     --index;
                     break;
@@ -79,8 +96,8 @@ public abstract class AbstractTravelPort implements TravelPort {
             }
         }
 
-        container.getServer().getScheduler()
-                .scheduleAsyncDelayedTask(container.getPlugin(), departRunnable, TravelPlugin.DEPART_DELAY);
+        container.getServer().getScheduler().scheduleAsyncDelayedTask(container.getPlugin(), departRunnable,
+                TravelPlugin.DEPART_DELAY);
     }
 
     /**
@@ -95,7 +112,9 @@ public abstract class AbstractTravelPort implements TravelPort {
         // Notify user about arriving.
         Runnable notifyRunnable = new Runnable() {
             public void run() {
-                ChatHelper.sendMessage(player, String.format(Messages.get("event.arrived"), getName()));
+                Map<String, String> variables = new HashMap<String, String>();
+                variables.put("target", getName());
+                ChatHelper.sendMessage(player, Messages.get("event.arrived", variables));
             }
         };
         container.getServer().getScheduler().scheduleAsyncDelayedTask(container.getPlugin(), notifyRunnable,
@@ -108,16 +127,21 @@ public abstract class AbstractTravelPort implements TravelPort {
      * @param player the player which enters the TravelPort.
      */
     public final void onPlayerEntered(final Player player) {
+        Map<String, String> variables = new HashMap<String, String>();
+        variables.put("player", player.getName());
+
         if (getPrice() > 0) {
-            EconomyHandler economyHandler = container.getPlugin().getEconomyHandler();
-            if (economyHandler != null) {
-                ChatHelper.sendMessage(player, String.format(Messages.get("greeting.paid"), economyHandler.format(
-                        getPrice())));
+            if (container.getPlugin().hasPaymentMethods()) {
+                Method method = container.getPlugin().getPaymentMethod();
+
+
+                variables.put("amount", method.format(getPrice()));
+                ChatHelper.sendMessage(player, Messages.get("greeting.paid", variables));
             } else {
-                ChatHelper.sendMessage(player, Messages.get("problem.miss-economy"));
+                ChatHelper.sendMessage(player, Messages.get("problem.miss-economy", variables));
             }
         } else {
-            ChatHelper.sendMessage(player, Messages.get("greeting.free"));
+            ChatHelper.sendMessage(player, Messages.get("greeting.free", variables));
         }
 
         getDeparture().onPlayerEntered(player);

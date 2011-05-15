@@ -4,15 +4,15 @@ import at.co.hohl.Permissions.Permission;
 import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.commands.DepartCommandExecutor;
 import at.co.hohl.easytravel.commands.PortCommandExecutor;
+import at.co.hohl.easytravel.listener.EconomyPluginListener;
+import at.co.hohl.easytravel.listener.TravelPlayerListener;
 import at.co.hohl.easytravel.messages.Messages;
-import at.co.hohl.easytravel.players.PlayerInformation;
-import at.co.hohl.easytravel.players.TravelPlayerListener;
 import at.co.hohl.easytravel.ports.Area;
 import at.co.hohl.easytravel.ports.CuboidArea;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.easytravel.ports.implementation.file.FlatFileTravelPortContainer;
-import at.co.hohl.economy.EconomyHandler;
-import at.co.hohl.economy.iConomyHandler;
+import com.nijikokun.register.payment.Method;
+import com.nijikokun.register.payment.Methods;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.entity.Player;
@@ -42,6 +42,9 @@ public class TravelPlugin extends JavaPlugin {
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
 
+    /** Listener for economy plugins. */
+    private final EconomyPluginListener economyPluginListener = new EconomyPluginListener(this);
+
     /** Player Information implementation. */
     private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
 
@@ -52,7 +55,7 @@ public class TravelPlugin extends JavaPlugin {
     private PermissionsHandler permissionsHandler;
 
     /** The economy handler. */
-    private EconomyHandler economyHandler;
+    private Methods methods = new Methods();
 
     /** The WorldEdit plugin. */
     private WorldEditPlugin worldEditPlugin;
@@ -64,7 +67,6 @@ public class TravelPlugin extends JavaPlugin {
     public void onEnable() {
         loadConfiguration();
         setupWorldEdit();
-        setupEconomy();
         setupPermissions();
         setupEventHandler();
 
@@ -131,19 +133,24 @@ public class TravelPlugin extends JavaPlugin {
         return permissionsHandler;
     }
 
-    /** @return the current economy handler. */
-    public EconomyHandler getEconomyHandler() {
-        return economyHandler;
+    /** @return the payment method. */
+    public Methods getMethods() {
+        return methods;
+    }
+
+    /** @return true, if there is at least one payment method! */
+    public boolean hasPaymentMethods() {
+        return methods.hasMethod();
+    }
+
+    /** @return the payment method. */
+    public Method getPaymentMethod() {
+        return methods.getMethod();
     }
 
     /** @return the container for the travel ports. */
     public TravelPortContainer getTravelPorts() {
         return travelPortContainer;
-    }
-
-    /** @return the used players listener. */
-    public TravelPlayerListener getPlayerListener() {
-        return playerListener;
     }
 
     /**
@@ -195,11 +202,18 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Setups all event handlers, used by this plugin. */
     private void setupEventHandler() {
+        // Get the plugin manager.
+        PluginManager pluginManager = getServer().getPluginManager();
+
+        // Listen to plugins enabling, used for finding an economy plugin.
+        pluginManager.registerEvent(Event.Type.PLUGIN_ENABLE, economyPluginListener, Event.Priority.Monitor, this);
+        pluginManager.registerEvent(Event.Type.PLUGIN_DISABLE, economyPluginListener, Event.Priority.Monitor, this);
+
         // Remove player information on quit.
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
+        pluginManager.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
 
         // Update player information controlled by an scheduler.
-        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 15);
+        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 40);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 playerListener.onPlayerLocationUpdate();
@@ -224,18 +238,6 @@ public class TravelPlugin extends JavaPlugin {
             logger.info(String.format("%s connected to WorldEdit successfully!", getDescription().getName()));
         } else {
             logger.severe(String.format("%s requires WorldEdit! Please install first!", getDescription().getName()));
-        }
-    }
-
-    /** Setups the economy system. */
-    private void setupEconomy() {
-        PluginManager pm = getServer().getPluginManager();
-
-        if (pm.getPlugin("iConomy") != null) {
-            economyHandler = new iConomyHandler();
-            logger.info(String.format("%s connected to iConomy successfully!", getDescription().getName()));
-        } else {
-            logger.warning(String.format("No economy system found by %s!", getDescription().getName()));
         }
     }
 }
