@@ -63,6 +63,7 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
             Destination destination = currentPort.getDestination();
             sender.sendMessage(String.format("Location: %.1f, %.1f, %.1f", destination.getX(), destination.getY(),
                     destination.getZ()));
+            sender.sendMessage(String.format("Departure-Mode: %s%s", ChatColor.GRAY, currentPort.getDeparture()));
             sender.sendMessage(String.format("Price: %s%.2f", ChatColor.GRAY, currentPort.getPrice()));
             sender.sendMessage(String.format("Password: %s%s", ChatColor.GRAY, currentPort.getPassword()));
             if (currentPort.isAllowedToEverybody()) {
