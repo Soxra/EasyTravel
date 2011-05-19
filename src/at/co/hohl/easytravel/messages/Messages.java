@@ -28,30 +28,6 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public final class Messages {
-    // TRAVEL
-    public static String portCreatedSuccessfully = "&2Port created successfully!";
-
-    public static String linkedSuccessfully = "&2Ports linked successfully!";
-
-    public static String unlinkedSuccessfully = "&2Port unlinked successfully!";
-
-    public static String removedSuccessfully = "&2Port removed successfully!";
-
-    public static String needToPassNameForPort = "&cYou need to pass a name, when creating a TravelPort!";
-
-    public static String needToSelectArea = "&cYou need to select an area with you WorldEdit wand!";
-
-    public static String notInsideTravelPort = "&cYou are not inside a TravelPort!";
-
-    public static String portAlreadyLinked = "&cAt least one of the port is already linked! Do unlink before!";
-
-    public static String portNotLinked = "&cPort isn't linked to another!";
-
-    public static String invalidUseOfCommand =
-            "&cInvalid use of this command! Use /travel help for information how to use it.";
-
-    public static String invalidPortId = "&cPassed ID isn't a valid port id!";
-
     /** Configuration which stores the messages. */
     private static Configuration configuration;
 
@@ -73,7 +49,7 @@ public final class Messages {
      */
     public static String get(String messageId) {
         String missTranslation;
-        if (messageId != "format") {
+        if ("format".equals(messageId)) {
             missTranslation = String.format("Miss translation for '%s'", messageId);
         } else {
             missTranslation = "%s";
@@ -95,7 +71,7 @@ public final class Messages {
      */
     public static String get(String messageId, Map<String, String> variables) {
         String missTranslation;
-        if (messageId != "format") {
+        if ("format".equals(messageId)) {
             missTranslation = String.format("Miss translation for '%s'", messageId);
         } else {
             missTranslation = "%s";
@@ -104,8 +80,8 @@ public final class Messages {
         if (configuration != null) {
             String localizedString = configuration.getString(messageId, missTranslation);
 
-            for (String variable : variables.keySet()) {
-                localizedString = localizedString.replaceAll("<" + variable + ">", variables.get(variable));
+            for (Map.Entry<String, String> variable : variables.entrySet()) {
+                localizedString = localizedString.replaceAll("<" + variable.getKey() + ">", variable.getValue());
             }
 
             return localizedString;

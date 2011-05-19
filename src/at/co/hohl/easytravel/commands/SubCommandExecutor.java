@@ -28,13 +28,13 @@ import org.bukkit.command.CommandSender;
 /** Abstract class for all subclasses. */
 public abstract class SubCommandExecutor implements CommandExecutor {
     /** Plugin which holds the instance of the subcommand. */
-    protected TravelPlugin plugin;
+    protected final TravelPlugin plugin;
 
     /** Parent CommandExecutor which holds this SubCommandExecutor. */
-    protected CommandExecutor parent;
+    protected final CommandExecutor parent;
 
     /** The permissions handler of the plugin. */
-    protected PermissionsHandler permissionsHandler;
+    protected final PermissionsHandler permissionsHandler;
 
     /** Number of arguments which are allowed. */
     private int minimumNumberOfArguments, maximumNumberOfArguments;

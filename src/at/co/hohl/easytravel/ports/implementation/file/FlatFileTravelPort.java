@@ -90,11 +90,7 @@ public class FlatFileTravelPort extends AbstractTravelPort {
     /** @return true, if this TravelPort is allowed to everybody. */
     @Override
     public boolean isAllowedToEverybody() {
-        if (allowed == null || allowed.size() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return allowed == null || allowed.size() == 0;
     }
 
     /**

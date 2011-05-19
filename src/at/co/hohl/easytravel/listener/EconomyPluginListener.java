@@ -72,12 +72,10 @@ public class EconomyPluginListener extends ServerListener {
         Methods methods = plugin.getMethods();
 
         // Check to see if we need a payment method
-        if (!methods.hasMethod()) {
-            if (methods.setMethod(event.getPlugin())) {
-                plugin.getLogger().info(
-                        String.format("[%s] Payment method found (%s %s)", plugin.getDescription().getName(),
-                                methods.getMethod().getName(), methods.getMethod().getVersion()));
-            }
+        if (!methods.hasMethod() && methods.setMethod(event.getPlugin())) {
+            plugin.getLogger().info(
+                    String.format("[%s] Payment method found (%s %s)", plugin.getDescription().getName(),
+                            methods.getMethod().getName(), methods.getMethod().getVersion()));
         }
     }
 }

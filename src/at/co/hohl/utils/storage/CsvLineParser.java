@@ -64,7 +64,7 @@ public class CsvLineParser {
      * @param index the index of the value.
      * @return the parsed value.
      */
-    public double getDouble(int index) throws NumberFormatException {
+    public double getDouble(int index) {
         if (index < parsedColumns.length) {
             return Double.parseDouble(parsedColumns[index]);
         } else {
@@ -78,7 +78,7 @@ public class CsvLineParser {
      * @param index the index of the value.
      * @return the parsed value.
      */
-    public int getInt(int index) throws NumberFormatException {
+    public int getInt(int index) {
         if (index < parsedColumns.length) {
             return Integer.parseInt(parsedColumns[index]);
         } else {

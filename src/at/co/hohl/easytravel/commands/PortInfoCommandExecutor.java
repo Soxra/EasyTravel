@@ -25,7 +25,6 @@ import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.Destination;
 import at.co.hohl.easytravel.ports.TravelPort;
-import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
 import org.bukkit.ChatColor;
@@ -63,7 +62,6 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
         PlayerInformation playerInformation = plugin.getPlayerInformation((Player) sender);
-        TravelPortContainer ports = plugin.getTravelPorts();
         TravelPort currentPort = playerInformation.getCurrentPort();
 
         if (currentPort != null) {
@@ -72,12 +70,7 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
             sender.sendMessage(String.format("Name: %s%s", ChatColor.GRAY, currentPort.getName()));
             sender.sendMessage(String.format("Owner: %s%s", ChatColor.GRAY, currentPort.getOwner()));
             sender.sendMessage(String.format("Target ID: %s%d", ChatColor.GRAY, currentPort.getTargetId()));
-            try {
-                sender.sendMessage(
-                        String.format("Target Name: %s%s", ChatColor.GRAY, ports.get(currentPort.getTargetId())));
-            } catch (Exception exception) {
-                // Ignore!
-            }
+            sender.sendMessage(String.format("Target Name: %s%s", ChatColor.GRAY, currentPort.getTarget()));
             Destination destination = currentPort.getDestination();
             sender.sendMessage(String.format("Location: %.1f, %.1f, %.1f", destination.getX(), destination.getY(),
                     destination.getZ()));
