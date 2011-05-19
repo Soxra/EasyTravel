@@ -49,10 +49,7 @@ public class IntervalScheduledDeparture implements Departure {
      */
     @Override
     public void onDepartCommand(Player player, PlayerInformation playerInformation) {
-        Map<String, String> variables = new HashMap<String, String>();
-        variables.put("time", new BukkitTime((lastDepart + interval) % 24000).getDayTime12());
-        variables.put("current", new BukkitTime(player.getWorld().getTime()).getDayTime12());
-        ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
+        sendGreeting(player);
     }
 
     /**
@@ -81,10 +78,7 @@ public class IntervalScheduledDeparture implements Departure {
     @Override
     public void onPlayerEntered(Player player) {
         // Send Greeting.
-        Map<String, String> variables = new HashMap<String, String>();
-        variables.put("time", new BukkitTime((lastDepart + interval) % 24000).getDayTime12());
-        variables.put("current", new BukkitTime(player.getWorld().getTime()).getDayTime12());
-        ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
+        sendGreeting(player);
 
         // Add to player inside list.
         playerInside.add(player);
@@ -104,5 +98,17 @@ public class IntervalScheduledDeparture implements Departure {
     @Override
     public String toString() {
         return String.format("every %d", interval);
+    }
+
+    /**
+     * Sends a greeting to the player.
+     *
+     * @param player the player to send to.
+     */
+    private void sendGreeting(Player player) {
+        Map<String, String> variables = new HashMap<String, String>();
+        variables.put("current", new BukkitTime(player.getWorld().getTime()).getDayTime12());
+        variables.put("time", new BukkitTime((lastDepart + interval) % 24000).getDayTime12());
+        ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
     }
 }
