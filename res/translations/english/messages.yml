@@ -41,7 +41,8 @@ moderator:
          change-owner: "&2Changed owner successfully!"
          change-destination: "&2Destination changed!"
          change-password: "&2Password changed!"
-         change-depart-mode: "Changed depart mode successfully!"
+         change-depart-mode: "&2Changed depart mode successfully!"
+         change-name: "&2Changed name successfully!"
          add-member: "&2Added allowed player/group!"
          point-compass: "&2Your compass points to the TravelPort!"
     problem:

@@ -6,28 +6,26 @@ import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
-import at.co.hohl.easytravel.ports.depart.DepartureHelper;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
-import at.co.hohl.utils.storage.SyntaxException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * SubCommandExecutor for the port depart command.
+ * SubCommandExecutor which implements a command, to rename a existing TravelPort.
  *
  * @author Michael Hohl
  */
-public class PortDepartCommandExecutor extends SubCommandExecutor {
+public class PortRenameCommandExecutor extends SubCommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
      * @param plugin the plugin which holds this command.
      * @param parent the parent of this CommandExecutor.
      */
-    public PortDepartCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
+    public PortRenameCommandExecutor(TravelPlugin plugin, CommandExecutor parent) {
         super(plugin, parent, 1, -1);
     }
 
@@ -46,22 +44,20 @@ public class PortDepartCommandExecutor extends SubCommandExecutor {
         Player player = (Player) sender;
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-        if (playerInformation.isInsideTravelPort()) {
-            TravelPort port = playerInformation.getCurrentPort();
-            try {
-                boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
-                boolean isOwner = player.getName().equals(port.getOwner());
-                if (isModerator || isOwner) {
-                    port.setDeparture(DepartureHelper.load(port, StringHelper.toSingleString(args, " ", 1)));
-                    ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-depart-mode"));
-                } else {
-                    ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
-                }
-            } catch (SyntaxException exception) {
-                ChatHelper.sendMessage(sender, Messages.get("moderator.problem.invalid-use"));
-            }
-        } else {
+        if (!playerInformation.isInsideTravelPort()) {
             ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-inside"));
+            return true;
+        }
+
+        TravelPort port = playerInformation.getCurrentPort();
+
+        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+        boolean isOwner = player.getName().equals(port.getOwner());
+        if (isModerator || isOwner) {
+            port.setName(StringHelper.toSingleString(args, " ", 1));
+            ChatHelper.sendMessage(sender, Messages.get("moderator.success.change-name"));
+        } else {
+            ChatHelper.sendMessage(sender, Messages.get("moderator.problem.not-own"));
         }
 
         return true;
@@ -70,13 +66,13 @@ public class PortDepartCommandExecutor extends SubCommandExecutor {
     /** @return string which describes the valid usage. */
     @Override
     public String getUsage() {
-        return "/<command> depart MANUAL|<time>";
+        return "/<command> rename <new name>";
     }
 
     /** @return description of the command. */
     @Override
     public String getDescription() {
-        return "Changes the departure mode.";
+        return "Renames your current TravelPort.";
     }
 
     /** @return required permission for executing this command. */
