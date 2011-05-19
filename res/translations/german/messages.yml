@@ -42,7 +42,7 @@ moderator:
          change-destination: "&2Ankunftsort erfolgreich geaendert!"
          change-password: "&2Passwort erfolgreich gesetzt!"
          change-depart-mode: "&2Depart Mode erfolgreich gesetzt!"
-         change-name: "&2Name erfolgreich geaendert!"
+         rename: "&2Name erfolgreich geaendert!"
          add-member: "&2Berechtigung hinzugefuegt!"
          point-compass: "&2Dein Kompass zeigt zum gewaehlten TravelPort!"
     problem:
