@@ -9,6 +9,7 @@ import com.nijikokun.register.payment.Method;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +30,13 @@ public abstract class AbstractTravelPort implements TravelPort {
     /**
      * Called when departing all passed players is needed.
      *
-     * @param players the player to depart.
+     * @param playersToDepart the player to depart.
      */
-    public final void depart(final List<Player> players) {
+    public final void depart(final List<Player> playersToDepart) {
+        // Create copy, so list don't get manipulated from outside.
+        // (Like when a player moved outside, during delay time!)
+        final List<Player> players = new LinkedList<Player>(playersToDepart);
+
         // Own runnable, for delaying the teleport.
         Runnable departRunnable = new Runnable() {
             public void run() {
