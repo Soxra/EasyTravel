@@ -43,6 +43,7 @@ moderator:
          change-password: "&2Passwort erfolgreich gesetzt!"
          change-depart-mode: "&2Depart Mode erfolgreich gesetzt!"
          rename: "&2Name erfolgreich geaendert!"
+         redefine: "&2Auswahl des TravelPorts aktualisiert!"
          add-member: "&2Berechtigung hinzugefuegt!"
          point-compass: "&2Dein Kompass zeigt zum gewaehlten TravelPort!"
     problem:

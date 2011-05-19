@@ -40,6 +40,8 @@ public class PortCommandExecutor implements CommandExecutor {
         subCommands.put("link", new PortLinkCommandExecutor(plugin, this));
         subCommands.put("unlink", new PortUnlinkCommandExecutor(plugin, this));
         subCommands.put("destination", new PortDestinationCommandExecutor(plugin, this));
+        subCommands.put("redefine", new PortRedefineCommandExecutor(plugin, this));
+        subCommands.put("rename", new PortRenameCommandExecutor(plugin, this));
         subCommands.put("info", new PortInfoCommandExecutor(plugin, this));
         subCommands.put("list", new PortListCommandExecutor(plugin, this));
         subCommands.put("search", new PortSearchCommandExecutor(plugin, this));

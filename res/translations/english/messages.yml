@@ -43,6 +43,7 @@ moderator:
          change-password: "&2Password changed!"
          change-depart-mode: "&2Changed depart mode successfully!"
          rename: "&2Changed name successfully!"
+         redefine: "&2Redefined area successfully!"
          add-member: "&2Added allowed player/group!"
          point-compass: "&2Your compass points to the TravelPort!"
     problem:
