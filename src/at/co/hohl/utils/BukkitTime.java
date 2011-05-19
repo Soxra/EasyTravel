@@ -110,6 +110,6 @@ public class BukkitTime implements Comparable<BukkitTime> {
 
     @Override
     public String toString() {
-        return String.format("%ld %lh %lm", getDays(), getHours() % 24, getMinutes() % 60);
+        return String.format("%dd %dh %dm", getDays(), getHours() % 24, getMinutes() % 60);
     }
 }

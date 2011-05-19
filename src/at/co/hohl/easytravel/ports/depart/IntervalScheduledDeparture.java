@@ -51,6 +51,7 @@ public class IntervalScheduledDeparture implements Departure {
     public void onDepartCommand(Player player, PlayerInformation playerInformation) {
         Map<String, String> variables = new HashMap<String, String>();
         variables.put("time", new BukkitTime((lastDepart + interval) % 24000).getDayTime12());
+        variables.put("current", new BukkitTime(player.getWorld().getTime()).getDayTime12());
         ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
     }
 
@@ -82,6 +83,7 @@ public class IntervalScheduledDeparture implements Departure {
         // Send Greeting.
         Map<String, String> variables = new HashMap<String, String>();
         variables.put("time", new BukkitTime((lastDepart + interval) % 24000).getDayTime12());
+        variables.put("current", new BukkitTime(player.getWorld().getTime()).getDayTime12());
         ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
 
         // Add to player inside list.

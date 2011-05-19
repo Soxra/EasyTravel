@@ -10,7 +10,8 @@ greeting:
 
 # Messages shown to normal players.
 messages:
-    next-departure: "Next departure at &a<time>&d."
+    next-departure: "Next departure at &a<time>&d. It is &a<current>&d."
+    no-more-departure-today: "No more departures today!"
 
 # Called when events occurred.
 event:

@@ -48,9 +48,8 @@ public class TimeScheduledDeparture implements Departure {
      */
     @Override
     public void onDepartCommand(Player player, PlayerInformation playerInformation) {
-        Map<String, String> variables = new HashMap<String, String>();
-        variables.put("time", nextDeparture.getDayTime12());
-        ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
+        // Send greeting with next depart time!
+        sendGreeting(player);
     }
 
     /**
@@ -75,12 +74,16 @@ public class TimeScheduledDeparture implements Departure {
      */
     @Override
     public void onPlayerEntered(Player player) {
-        playerInside.add(player);
-
         // Get next departure if needed!
         if (nextDeparture == null) {
             nextDeparture = getNextDeparture(player.getWorld().getTime());
         }
+
+        // Send Greeting.
+        sendGreeting(player);
+
+        // Add player to inside watch list.
+        playerInside.add(player);
     }
 
     /**
@@ -90,6 +93,7 @@ public class TimeScheduledDeparture implements Departure {
      */
     @Override
     public void onPlayerLeft(Player player) {
+        // Remove player from watch list!
         playerInside.add(player);
 
         // Remove next departure, when there isn't any inside.
@@ -112,13 +116,8 @@ public class TimeScheduledDeparture implements Departure {
             }
         }
 
-        // Return the first on the next day, if there isn't anyone today anymore.
-        if (departureTimes.size() > 0) {
-            return departureTimes.get(0);
-            // Or null if there isn't anyone at all!
-        } else {
-            return null;
-        }
+        // Any depart today anymore? :(
+        return null;
     }
 
     @Override
@@ -135,5 +134,22 @@ public class TimeScheduledDeparture implements Departure {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Sends a greeting to the player.
+     *
+     * @param player the player to send to.
+     */
+    private void sendGreeting(Player player) {
+        Map<String, String> variables = new HashMap<String, String>();
+        variables.put("current", new BukkitTime(player.getWorld().getTime()).getDayTime12());
+
+        if (nextDeparture != null) {
+            variables.put("time", nextDeparture.getDayTime12());
+            ChatHelper.sendMessage(player, Messages.get("messages.next-departure", variables));
+        } else {
+            ChatHelper.sendMessage(player, Messages.get("messages.no-more-departure-today", variables));
+        }
     }
 }
