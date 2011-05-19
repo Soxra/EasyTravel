@@ -42,16 +42,19 @@ public class TravelPlayerListener extends PlayerListener {
         Player[] players = plugin.getServer().getOnlinePlayers();
 
         for (Player player : players) {
+            // Get Information about player.
             PlayerInformation playerInformation = plugin.getPlayerInformation(player);
-            TravelPort currentTravelPort = playerInformation.getCurrentPort();
 
-            if (currentTravelPort != null) {
+            if (playerInformation.isInsideTravelPort()) {
                 // Check if players is now in TravelPort too!
+                TravelPort currentTravelPort = playerInformation.getCurrentPort();
+
                 if (!currentTravelPort.getArea().contains(player.getLocation())) {
                     currentTravelPort.onPlayerLeft(player);
                     playerInformation.setCurrentPort(null);
                 } else {
-                    currentTravelPort.getDeparture().onPlayersInside();
+                    long currentTime = currentTravelPort.getDestination().getLocation().getWorld().getTime();
+                    currentTravelPort.getDeparture().onPlayersInside(currentTime);
                 }
             } else {
                 // Check if players now has entered one.

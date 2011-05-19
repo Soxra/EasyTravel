@@ -17,8 +17,12 @@ public interface Departure {
      */
     void onDepartCommand(final Player player, final PlayerInformation playerInformation);
 
-    /** Periodic called, when the player is inside a TravelPort. */
-    void onPlayersInside();
+    /**
+     * Periodic called, when the player is inside a TravelPort.
+     *
+     * @param daytime current time of day.
+     */
+    void onPlayersInside(long daytime);
 
     /**
      * Called when player entered the TravelPort.

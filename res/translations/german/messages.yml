@@ -8,6 +8,10 @@ greeting:
     paid: "Willkommen an Bord! Diese Fahrt kostet &a<amount>&d."
     departure: "Um deine Reise anzutreten, verwende &7/depart&d."
 
+# Messages shown to normal players.
+message:
+    next-departure: "Naechste Abfahrt um &a<depart>&d. Derzeit ist es &a<time>&d!"
+
 # Called when events occurred.
 event:
     departing: "Alle an Bord, wir fahren ab!"
@@ -37,6 +41,7 @@ moderator:
          change-owner: "&2Besitzer erfolgreich geandert!"
          change-destination: "&2Ankunftsort erfolgreich geaendert!"
          change-password: "&2Passwort erfolgreich gesetzt!"
+         change-depart-mode: "Depart Mode erfolgreich gesetzt!"
          add-member: "&2Berechtigung hinzugefuegt!"
          point-compass: "&2Dein Kompass zeigt zum gewaehlten TravelPort!"
     problem:

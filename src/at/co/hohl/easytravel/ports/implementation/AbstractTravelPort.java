@@ -42,6 +42,7 @@ public abstract class AbstractTravelPort implements TravelPort {
                     if (targetPort != null) {
                         targetPort.getDestination().teleport(player);
 
+                        onPlayerLeft(player);
                         targetPort.onPlayerArrived(player);
                     } else {
                         ChatHelper.sendMessage(player, Messages.get("problem.miss-target"));
@@ -58,7 +59,7 @@ public abstract class AbstractTravelPort implements TravelPort {
             // Is players allowed to use TravelPort?
             if (!isAllowed(plugin.getPermissionsHandler(), player)) {
                 ChatHelper.sendMessage(player, Messages.get("problem.not-allowed"));
-                players.remove(players);
+                players.remove(player);
                 --index;
                 break;
             }
@@ -78,13 +79,13 @@ public abstract class AbstractTravelPort implements TravelPort {
                         ChatHelper.sendMessage(player, Messages.get("event.money-paid", variables));
                     } else {
                         ChatHelper.sendMessage(player, Messages.get("problem.little-money"));
-                        players.remove(players);
+                        players.remove(player);
                         --index;
                         break;
                     }
                 } else {
                     ChatHelper.sendMessage(player, Messages.get("problem.miss-economy"));
-                    players.remove(players);
+                    players.remove(player);
                     --index;
                     break;
                 }

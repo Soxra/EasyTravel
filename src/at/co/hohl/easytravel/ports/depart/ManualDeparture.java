@@ -45,8 +45,13 @@ public class ManualDeparture implements Departure {
         }
     }
 
-    /** Periodic called, when the player is inside a TravelPort. */
-    public void onPlayersInside() {
+    /**
+     * Periodic called, when the player is inside a TravelPort.
+     *
+     * @param daytime current time of day.
+     */
+    @Override
+    public void onPlayersInside(long daytime) {
         return; // Do nothing...
     }
 

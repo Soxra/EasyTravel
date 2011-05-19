@@ -1,6 +1,7 @@
 package at.co.hohl.easytravel;
 
 import at.co.hohl.easytravel.ports.TravelPort;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ public class PlayerInformation {
     /** Maximum number of passwords stored for each player. */
     private static final int MAX_STORED_PASSWORDS = 3;
 
+    /** Player which is the owner of the information. */
+    private final Player player;
+
     /** The current TravelPort of the players. */
     private TravelPort currentPort;
 
@@ -20,7 +24,13 @@ public class PlayerInformation {
     private List<String> enteredPasswords;
 
     /** Creates a new players information. */
-    public PlayerInformation() {
+    public PlayerInformation(Player player) {
+        this.player = player;
+    }
+
+    /** @return player which holds the information. */
+    public Player getPlayer() {
+        return player;
     }
 
     /** @return true, if the player is currently inside a TravelPort. */

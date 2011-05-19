@@ -162,7 +162,7 @@ public class TravelPlugin extends JavaPlugin {
      */
     public PlayerInformation getPlayerInformation(Player player) {
         if (!playerInformationMap.containsKey(player)) {
-            playerInformationMap.put(player, new PlayerInformation());
+            playerInformationMap.put(player, new PlayerInformation(player));
         }
 
         return playerInformationMap.get(player);

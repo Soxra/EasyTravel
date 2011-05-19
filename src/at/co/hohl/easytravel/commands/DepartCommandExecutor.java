@@ -44,13 +44,11 @@ public class DepartCommandExecutor implements CommandExecutor {
             sender.sendMessage("Only use the /depart command as players! Doesn't make sense anyway for you ;)");
             return true;
         }
-
-        // Is players inside TravelPort?
         Player player = (Player) sender;
         PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-        TravelPort port = playerInformation.getCurrentPort();
-        if (port == null) {
+        // Is players inside TravelPort?
+        if (!playerInformation.isInsideTravelPort()) {
             ChatHelper.sendMessage(player, Messages.get("problem.not-inside"));
             return true;
         }
@@ -61,6 +59,7 @@ public class DepartCommandExecutor implements CommandExecutor {
         }
 
         // Check if port has a target.
+        TravelPort port = playerInformation.getCurrentPort();
         if (port.getTargetId() != null) {
             port.getDeparture().onDepartCommand(player, playerInformation);
         } else {

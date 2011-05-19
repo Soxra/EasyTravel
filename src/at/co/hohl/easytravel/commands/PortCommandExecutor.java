@@ -50,6 +50,7 @@ public class PortCommandExecutor implements CommandExecutor {
         subCommands.put("owner", new PortOwnerCommandExecutor(plugin, this));
         subCommands.put("allow", new PortAllowCommandExecutor(plugin, this));
         subCommands.put("save", new PortSaveCommandExecutor(plugin, this));
+        subCommands.put("depart", new PortDepartCommandExecutor(plugin, this));
         subCommands.put("reload", new PortReloadCommandExecutor(plugin, this));
     }
 

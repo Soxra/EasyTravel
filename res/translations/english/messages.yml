@@ -8,6 +8,10 @@ greeting:
     paid: "Welcome on board! This journey costs &a<amount>&d."
     departure: "Use /depart to begin your journey."
 
+# Messages shown to normal players.
+messages:
+    next-departure: "Next departure at &a<time>&d."
+
 # Called when events occurred.
 event:
     departing: "All aboard, we leave!"
@@ -37,6 +41,7 @@ moderator:
          change-owner: "&2Changed owner successfully!"
          change-destination: "&2Destination changed!"
          change-password: "&2Password changed!"
+         change-depart-mode: "Changed depart mode successfully!"
          add-member: "&2Added allowed player/group!"
          point-compass: "&2Your compass points to the TravelPort!"
     problem:

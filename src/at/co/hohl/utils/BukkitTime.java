@@ -2,12 +2,19 @@ package at.co.hohl.utils;
 
 import at.co.hohl.utils.storage.SyntaxException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Represents the bukkit time as datatype.
  *
  * @author Michael
  */
-public class BukkitTime {
+public class BukkitTime implements Comparable<BukkitTime> {
+    /** DateFormatter for 24h da */
+    private final DateFormat dayTimeFormat = new SimpleDateFormat("h:mm a");
+
     /** The ticks, represented by the time. */
     private final long ticks;
 
@@ -83,8 +90,22 @@ public class BukkitTime {
     }
 
     /** @return formatted string with 24 hours day time. */
-    public String getDayTime24() {
-        return String.format("%d:%d", getHours() % 24, getMinutes() % 60);
+    public String getDayTime12() {
+        Date dateTime = new Date();
+        dateTime.setMinutes((int) getMinutes() % 60);
+        dateTime.setHours((int) getHours() % 24);
+        return dayTimeFormat.format(dateTime);
+    }
+
+    @Override
+    public int compareTo(BukkitTime bukkitTime) {
+        if (ticks > bukkitTime.ticks) {
+            return 1;
+        } else if (ticks < bukkitTime.ticks) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
