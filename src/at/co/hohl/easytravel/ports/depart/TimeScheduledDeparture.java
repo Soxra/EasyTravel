@@ -48,6 +48,11 @@ public class TimeScheduledDeparture implements Departure {
      */
     @Override
     public void onDepartCommand(Player player, PlayerInformation playerInformation) {
+        // Get next departure if needed!
+        if (nextDeparture == null) {
+            nextDeparture = getNextDeparture(player.getWorld().getTime());
+        }
+
         // Send greeting with next depart time!
         sendGreeting(player);
     }
@@ -94,7 +99,7 @@ public class TimeScheduledDeparture implements Departure {
     @Override
     public void onPlayerLeft(Player player) {
         // Remove player from watch list!
-        playerInside.add(player);
+        playerInside.remove(player);
 
         // Remove next departure, when there isn't any inside.
         if (playerInside.size() == 0) {
