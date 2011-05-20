@@ -9,7 +9,7 @@ greeting:
     departure: "Um deine Reise anzutreten, verwende &7/depart&d."
 
 # Messages shown to normal players.
-message:
+messages:
     next-departure: "Naechste Abfahrt um &a<time>&d. Derzeit ist es &a<current>&d!"
     no-more-departure-today: "Du hast die letzte Abfahrt verpasst! Versuch es Morgen wieder."
 
