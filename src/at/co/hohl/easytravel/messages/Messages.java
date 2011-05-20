@@ -81,7 +81,7 @@ public final class Messages {
             String localizedString = configuration.getString(messageId, missTranslation);
 
             for (Map.Entry<String, String> variable : variables.entrySet()) {
-                localizedString = localizedString.replaceAll("<" + variable.getKey() + ">", variable.getValue());
+                localizedString = localizedString.replaceAll("\\<" + variable.getKey() + "\\>", variable.getValue());
             }
 
             return localizedString;
