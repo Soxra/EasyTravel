@@ -62,7 +62,7 @@ public class TravelPlugin extends JavaPlugin {
 
     /** URL to check for updates. */
     private static final String RELEASE_REPOSITORY_INFORMATION =
-            "https://github.com/hohl/EasyTravel/raw/master/res/versions.yml";
+            "https://github.com/hohl/EasyTravel/raw/master/res/updates.yml";
 
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
@@ -306,7 +306,7 @@ public class TravelPlugin extends JavaPlugin {
                  */
                 @Override
                 public void onComplete(File downloadedFile) {
-                    logger.info("[EasyTravel] Connect to update server.");
+                    logger.info("[EasyTravel] Connected to update server.");
                     releaseRepository = new Configuration(downloadedFile);
                 }
 
