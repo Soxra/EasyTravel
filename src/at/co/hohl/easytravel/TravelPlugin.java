@@ -306,8 +306,13 @@ public class TravelPlugin extends JavaPlugin {
                  */
                 @Override
                 public void onComplete(File downloadedFile) {
-                    logger.info("[EasyTravel] Connected to update server.");
                     releaseRepository = new Configuration(downloadedFile);
+
+                    if (isVersionOutdated()) {
+                        logger.info("[EasyTravel] version outdated date.");
+                    } else {
+                        logger.info("[EasyTravel] version is up to date.");
+                    }
                 }
 
                 /** Called when an error occurs on downloading. */
