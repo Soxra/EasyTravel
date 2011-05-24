@@ -19,9 +19,12 @@
 package at.co.hohl.easytravel.listener;
 
 import at.co.hohl.easytravel.PlayerInformation;
+import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.ports.TravelPort;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -43,6 +46,26 @@ public class TravelPlayerListener extends PlayerListener {
      */
     public TravelPlayerListener(TravelPlugin instance) {
         plugin = instance;
+    }
+
+    /**
+     * Called when a user joins the game.
+     *
+     * @param event information about the event which occurred.
+     */
+    @Override
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (plugin.getPermissionsHandler().hasPermission(event.getPlayer(), TravelPermissions.ADMINISTRATE)) {
+            if (plugin.isVersionPreview()) {
+                event.getPlayer().sendMessage(ChatColor.GREEN +
+                        "[EasyTravel] You are using a NON PRODUCTION BUILD!");
+            }
+
+            if (plugin.isVersionOutdated()) {
+                event.getPlayer().sendMessage(ChatColor.GREEN + "[EasyTravel] Your plugin version is outdated!");
+            }
+        }
+
     }
 
     /**

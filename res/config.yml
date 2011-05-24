@@ -12,3 +12,7 @@ depart-delay: 0
 # Delay waited until the arrived at TravelPort message is send after starting the teleport.
 # If your server is slow and laggy you should set the value to 25 or abouve.
 arrived-notification-delay: 10
+
+# Set to true, will check for updates on server start and notifying users with the 'lwc.admin' permission
+# when the plugin version is outdated.
+check-for-update: true

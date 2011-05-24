@@ -29,6 +29,7 @@ import at.co.hohl.easytravel.ports.Area;
 import at.co.hohl.easytravel.ports.CuboidArea;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.easytravel.ports.implementation.file.FlatFileTravelPortContainer;
+import at.co.hohl.utils.network.Download;
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Methods;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -41,6 +42,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -56,6 +59,10 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Ticks waited after departing. */
     public static int DEPART_DELAY;
+
+    /** URL to check for updates. */
+    private static final String RELEASE_REPOSITORY_INFORMATION =
+            "https://github.com/hohl/EasyTravel/raw/master/res/versions.yml";
 
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
@@ -81,6 +88,9 @@ public class TravelPlugin extends JavaPlugin {
     /** The container which holds the TravelPorts. */
     private FlatFileTravelPortContainer travelPortContainer;
 
+    /** Downloaded configuration file which contains information about the latest version. */
+    private Configuration releaseRepository;
+
     /** Enables this plugin. */
     public void onEnable() {
         loadConfiguration();
@@ -90,8 +100,10 @@ public class TravelPlugin extends JavaPlugin {
 
         logger.info(String.format("%s is enabled!", getDescription().getFullName()));
 
-        if (getDescription().getVersion().contains("preview")) {
+        if (isVersionPreview()) {
             logger.info("Notice: You are using a PREVIEW build! Not recommended for production server!");
+        } else if (getConfiguration().getBoolean("check-for-updates", true)) {
+            checkForNewVersions();
         }
     }
 
@@ -127,6 +139,29 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /**
+     * Checks if the server software is a preview version.
+     *
+     * @return true, if this is a preview version.
+     */
+    public final boolean isVersionPreview() {
+        return getDescription().getVersion().contains("preview");
+    }
+
+    /**
+     * Checks if the server software outdated.
+     *
+     * @return true, if the server software is outdated.
+     */
+    public final boolean isVersionOutdated() {
+        if (!isVersionPreview() && releaseRepository != null) {
+            String currentVersion = getDescription().getVersion();
+            return !currentVersion.equals(releaseRepository.getString("latest.version", currentVersion));
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Returns the selection of the players.
      *
      * @param player the players
@@ -149,6 +184,11 @@ public class TravelPlugin extends JavaPlugin {
     /** @return the current permissions handler. */
     public PermissionsHandler getPermissionsHandler() {
         return permissionsHandler;
+    }
+
+    /** @return the logger of this application. */
+    public Logger getLogger() {
+        return logger;
     }
 
     /** @return the payment method. */
@@ -197,11 +237,6 @@ public class TravelPlugin extends JavaPlugin {
         }
     }
 
-    /** @return the logger of this application. */
-    public Logger getLogger() {
-        return logger;
-    }
-
     /** Loads the configuration. */
     private void loadConfiguration() {
         // Properties...
@@ -228,6 +263,7 @@ public class TravelPlugin extends JavaPlugin {
         pluginManager.registerEvent(Event.Type.PLUGIN_DISABLE, economyPluginListener, Event.Priority.Monitor, this);
 
         // Remove player information on quit.
+        pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Low, this);
         pluginManager.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
 
         // Update player information controlled by an scheduler.
@@ -256,6 +292,33 @@ public class TravelPlugin extends JavaPlugin {
             logger.info(String.format("%s connected to WorldEdit successfully!", getDescription().getName()));
         } else {
             logger.severe(String.format("%s requires WorldEdit! Please install first!", getDescription().getName()));
+        }
+    }
+
+    /** Downloads information about latest release. */
+    private void checkForNewVersions() {
+        try {
+            new Download(new URL(RELEASE_REPOSITORY_INFORMATION), new File(getDataFolder(), "updates.yml")) {
+                /**
+                 * Called when the download completed.
+                 *
+                 * @param downloadedFile the downloaded file.
+                 */
+                @Override
+                public void onComplete(File downloadedFile) {
+                    logger.info("[EasyTravel] Connect to update server.");
+                    releaseRepository = new Configuration(downloadedFile);
+                }
+
+                /** Called when an error occurs on downloading. */
+                @Override
+                public void onError() {
+                    logger.warning("[EasyTravel] Can't connect to update server.");
+                }
+            };
+        } catch (MalformedURLException e) {
+            logger.severe("[EasyTravel] Error when creating url for checking for updates!" +
+                    "Please contact the developer of this plugin.");
         }
     }
 }
