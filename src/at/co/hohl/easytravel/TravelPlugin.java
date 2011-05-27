@@ -267,10 +267,9 @@ public class TravelPlugin extends JavaPlugin {
         pluginManager.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
 
         // Update player information controlled by an scheduler.
-        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 40);
+        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 60);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
                     public void run() {
-                        logger.info("Update Player Location...");
                         playerListener.onPlayerLocationUpdate();
                     }
                 }, locationUpdateInterval * 3, locationUpdateInterval);

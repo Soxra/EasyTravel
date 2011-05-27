@@ -3,7 +3,7 @@
 #
 
 # A lower value means to check if the player is inside a TravelPort more often, but also means more CPU usage!
-location-update-interval: 40
+location-update-interval: 60
 
 # Time to wait, until departing after depart command.
 # (Like a warm-up)
