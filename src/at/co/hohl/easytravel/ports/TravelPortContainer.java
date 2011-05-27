@@ -20,9 +20,11 @@ package at.co.hohl.easytravel.ports;
 
 import at.co.hohl.easytravel.TravelException;
 import at.co.hohl.easytravel.TravelPlugin;
+import org.bukkit.Location;
 import org.bukkit.Server;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface for the TravelPortContainer.
@@ -53,6 +55,9 @@ public interface TravelPortContainer {
      */
     TravelPort get(Integer id) throws TravelPortNotFound;
 
+    /** @return list of TravelPorts. */
+    Collection<TravelPort> getAll();
+
     /**
      * Searches a TravelPort.
      *
@@ -63,8 +68,13 @@ public interface TravelPortContainer {
      */
     TravelPort search(String keyword) throws TravelPortNotFound;
 
-    /** @return list of TravelPorts. */
-    Collection<TravelPort> getAll();
+    /**
+     * Searches a TravelPort at the Location.
+     *
+     * @param location the location to search for.
+     * @return search result.
+     */
+    List<TravelPort> search(Location location);
 
     /**
      * Searches the TravelPorts.

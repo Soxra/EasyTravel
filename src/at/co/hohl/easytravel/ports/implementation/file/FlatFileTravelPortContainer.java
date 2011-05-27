@@ -24,6 +24,7 @@ import at.co.hohl.easytravel.ports.depart.DepartureHelper;
 import at.co.hohl.utils.StringHelper;
 import at.co.hohl.utils.storage.CsvLineParser;
 import at.co.hohl.utils.storage.SyntaxException;
+import org.bukkit.Location;
 import org.bukkit.Server;
 
 import java.io.*;
@@ -94,6 +95,11 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         }
     }
 
+    /** @return list of TravelPorts. */
+    public Collection<TravelPort> getAll() {
+        return travelPorts.values();
+    }
+
     /**
      * Searches a TravelPort.
      *
@@ -122,9 +128,24 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         }
     }
 
-    /** @return list of TravelPorts. */
-    public Collection<TravelPort> getAll() {
-        return travelPorts.values();
+    /**
+     * Searches a TravelPort at the Location.
+     *
+     * @param location the location to search for.
+     * @return search result.
+     */
+    @Override
+    public List<TravelPort> search(Location location) {
+        LinkedList<TravelPort> result = new LinkedList<TravelPort>();
+        Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
+
+        for (TravelPort port : ports) {
+            if (port.getArea().contains(location)) {
+                result.add(port);
+            }
+        }
+
+        return result;
     }
 
     /**

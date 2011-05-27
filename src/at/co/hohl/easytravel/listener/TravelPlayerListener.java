@@ -83,29 +83,37 @@ public class TravelPlayerListener extends PlayerListener {
         Player[] players = plugin.getServer().getOnlinePlayers();
 
         for (Player player : players) {
-            // Get Information about player.
-            PlayerInformation playerInformation = plugin.getPlayerInformation(player);
+            updatePlayerLocation(player);
+        }
+    }
 
-            if (playerInformation.isInsideTravelPort()) {
-                // Check if players is now in TravelPort too!
-                TravelPort currentTravelPort = playerInformation.getCurrentPort();
+    /**
+     * Updates the location information of a player.
+     *
+     * @param player player to locate.
+     */
+    private void updatePlayerLocation(Player player) {
+        // Get Information about player.
+        PlayerInformation playerInformation = plugin.getPlayerInformation(player);
 
-                if (!currentTravelPort.getArea().contains(player.getLocation())) {
-                    currentTravelPort.onPlayerLeft(player);
-                    playerInformation.setCurrentPort(null);
-                } else {
-                    long currentTime = currentTravelPort.getDestination().getLocation().getWorld().getTime();
-                    currentTravelPort.getDeparture().onPlayersInside(currentTime);
-                }
+        // Check if players is now in TravelPort too!
+        if (playerInformation.isInsideTravelPort()) {
+            TravelPort currentTravelPort = playerInformation.getCurrentPort();
+
+            if (!currentTravelPort.getArea().contains(player.getLocation())) {
+                currentTravelPort.onPlayerLeft(player);
+                playerInformation.setCurrentPort(null);
             } else {
-                // Check if players now has entered one.
-                Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
-                for (TravelPort port : ports) {
-                    if (port.getArea().contains(player.getLocation())) {
-                        playerInformation.setCurrentPort(port);
-                        port.onPlayerEntered(player);
-                    }
-                }
+                long currentTime = currentTravelPort.getDestination().getLocation().getWorld().getTime();
+                currentTravelPort.getDeparture().onPlayersInside(currentTime);
+            }
+        } else {
+            // Check if players now has entered one.
+            Collection<TravelPort> ports = plugin.getTravelPorts().search(player.getLocation());
+
+            for (TravelPort port : ports) {
+                playerInformation.setCurrentPort(port);
+                port.onPlayerEntered(player);
             }
         }
     }
