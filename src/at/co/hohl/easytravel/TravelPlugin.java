@@ -103,7 +103,7 @@ public class TravelPlugin extends JavaPlugin {
         if (isVersionPreview()) {
             logger.info("Notice: You are using a PREVIEW build! Not recommended for production server!");
         } else if (getConfiguration().getBoolean("check-for-updates", true)) {
-            checkForNewVersions();
+            checkForOutdated();
         }
     }
 
@@ -269,10 +269,11 @@ public class TravelPlugin extends JavaPlugin {
         // Update player information controlled by an scheduler.
         int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 40);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                playerListener.onPlayerLocationUpdate();
-            }
-        }, locationUpdateInterval * 3, locationUpdateInterval);
+                    public void run() {
+                        logger.info("Update Player Location...");
+                        playerListener.onPlayerLocationUpdate();
+                    }
+                }, locationUpdateInterval * 3, locationUpdateInterval);
 
         // Register commands.
         getCommand("port").setExecutor(new PortCommandExecutor(this));
@@ -296,7 +297,7 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /** Downloads information about latest release. */
-    private void checkForNewVersions() {
+    private void checkForOutdated() {
         try {
             new Download(new URL(RELEASE_REPOSITORY_INFORMATION), new File(getDataFolder(), "updates.yml")) {
                 /**
