@@ -18,23 +18,23 @@
 
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.Permissions.Permission;
-import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.permissions.Permission;
+import at.co.hohl.permissions.PermissionHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 /** Abstract class for all subclasses. */
 public abstract class SubCommandExecutor implements CommandExecutor {
-    /** Plugin which holds the instance of the subcommand. */
+    /** Plugin which holds the instance of the sub command. */
     protected final TravelPlugin plugin;
 
     /** Parent CommandExecutor which holds this SubCommandExecutor. */
     protected final CommandExecutor parent;
 
     /** The permissions handler of the plugin. */
-    protected final PermissionsHandler permissionsHandler;
+    protected final PermissionHandler permissionHandler;
 
     /** Number of arguments which are allowed. */
     private int minimumNumberOfArguments, maximumNumberOfArguments;
@@ -42,8 +42,10 @@ public abstract class SubCommandExecutor implements CommandExecutor {
     /**
      * Creates a new SubCommandExecutor.
      *
-     * @param plugin the plugin which holds this command.
-     * @param parent the parent of this CommandExecutor.
+     * @param plugin                   the plugin which holds this command.
+     * @param parent                   the parent of this CommandExecutor.
+     * @param minimumNumberOfArguments minimum required number of arguments.
+     * @param maximumNumberOfArguments maximum allowed number of arguments.
      */
     public SubCommandExecutor(TravelPlugin plugin, CommandExecutor parent, int minimumNumberOfArguments,
                               int maximumNumberOfArguments) {
@@ -51,7 +53,7 @@ public abstract class SubCommandExecutor implements CommandExecutor {
         this.parent = parent;
         this.minimumNumberOfArguments = minimumNumberOfArguments;
         this.maximumNumberOfArguments = maximumNumberOfArguments;
-        this.permissionsHandler = plugin.getPermissionsHandler();
+        this.permissionHandler = plugin.getPermissionsHandler();
     }
 
     /**

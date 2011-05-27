@@ -18,13 +18,13 @@
 
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.PlayerInformation;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.easytravel.ports.depart.DepartureHelper;
+import at.co.hohl.permissions.Permission;
 import at.co.hohl.utils.ChatHelper;
 import at.co.hohl.utils.StringHelper;
 import at.co.hohl.utils.storage.SyntaxException;
@@ -67,7 +67,7 @@ public class PortDepartCommandExecutor extends SubCommandExecutor {
         if (playerInformation.isInsideTravelPort()) {
             TravelPort port = playerInformation.getCurrentPort();
             try {
-                boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+                boolean isModerator = permissionHandler.hasPermission(player, TravelPermissions.MODERATE);
                 boolean isOwner = player.getName().equals(port.getOwner());
                 if (isModerator || isOwner) {
                     port.setDeparture(DepartureHelper.load(port, StringHelper.toSingleString(args, " ", 1)));

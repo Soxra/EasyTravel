@@ -18,12 +18,12 @@
 
 package at.co.hohl.easytravel.ports.implementation.file;
 
-import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.ports.*;
 import at.co.hohl.easytravel.ports.depart.Departure;
 import at.co.hohl.easytravel.ports.depart.ManualDeparture;
 import at.co.hohl.easytravel.ports.implementation.AbstractTravelPort;
+import at.co.hohl.permissions.PermissionHandler;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
@@ -101,17 +101,20 @@ public class FlatFileTravelPort extends AbstractTravelPort {
      * @return true, if the players is allowed to.
      */
     @Override
-    public boolean isAllowed(PermissionsHandler permissions, Player player) {
+    public boolean isAllowed(PermissionHandler permissions, Player player) {
         if (permissions.hasPermission(player, TravelPermissions.DEPART)) {
             if (isAllowedToEverybody() || allowed.contains(player.getName())) {
                 return true;
             } else {
-                String group = permissions.getGroup(player);
-                return allowed.contains(group);
+                for (String group : permissions.getGroups(player)) {
+                    if (allowed.contains(group)) {
+                        return true;
+                    }
+                }
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /** Allows this TravelPort to everybody. */

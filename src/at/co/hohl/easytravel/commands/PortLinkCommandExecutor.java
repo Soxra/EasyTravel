@@ -18,7 +18,6 @@
 
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.PlayerInformation;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
@@ -26,6 +25,7 @@ import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.TravelPort;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.easytravel.ports.TravelPortNotFound;
+import at.co.hohl.permissions.Permission;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -78,7 +78,7 @@ public class PortLinkCommandExecutor extends SubCommandExecutor {
                 }
             }
 
-            boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+            boolean isModerator = permissionHandler.hasPermission(player, TravelPermissions.MODERATE);
             boolean isOwner = player.getName().equals(port1.getOwner()) && player.getName().equals(port2.getOwner());
             if (isModerator || isOwner) {
                 travelPorts.link(port1, port2);

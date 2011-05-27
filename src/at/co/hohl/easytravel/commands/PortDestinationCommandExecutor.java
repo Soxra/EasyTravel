@@ -18,13 +18,13 @@
 
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.Permissions.Permission;
 import at.co.hohl.easytravel.PlayerInformation;
 import at.co.hohl.easytravel.TravelPermissions;
 import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.Destination;
 import at.co.hohl.easytravel.ports.TravelPort;
+import at.co.hohl.permissions.Permission;
 import at.co.hohl.utils.ChatHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -64,7 +64,7 @@ public class PortDestinationCommandExecutor extends SubCommandExecutor {
 
         TravelPort currentPort = playerInformation.getCurrentPort();
 
-        boolean isModerator = permissionsHandler.hasPermission(player, TravelPermissions.MODERATE);
+        boolean isModerator = permissionHandler.hasPermission(player, TravelPermissions.MODERATE);
         boolean isOwner = player.getName().equals(currentPort.getOwner());
         if (isModerator || isOwner) {
             currentPort.setDestination(new Destination(player.getLocation()));

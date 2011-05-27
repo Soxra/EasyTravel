@@ -18,7 +18,7 @@
 
 package at.co.hohl.easytravel;
 
-import at.co.hohl.Permissions.Permission;
+import at.co.hohl.permissions.Permission;
 
 /**
  * Static holder for permissions.

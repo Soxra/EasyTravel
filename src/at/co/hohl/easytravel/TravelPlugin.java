@@ -18,8 +18,6 @@
 
 package at.co.hohl.easytravel;
 
-import at.co.hohl.Permissions.Permission;
-import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.commands.DepartCommandExecutor;
 import at.co.hohl.easytravel.commands.PortCommandExecutor;
 import at.co.hohl.easytravel.listener.EconomyPluginListener;
@@ -29,6 +27,7 @@ import at.co.hohl.easytravel.ports.Area;
 import at.co.hohl.easytravel.ports.CuboidArea;
 import at.co.hohl.easytravel.ports.TravelPortContainer;
 import at.co.hohl.easytravel.ports.implementation.file.FlatFileTravelPortContainer;
+import at.co.hohl.permissions.PermissionHandler;
 import at.co.hohl.utils.network.Download;
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Methods;
@@ -77,7 +76,7 @@ public class TravelPlugin extends JavaPlugin {
     private final Logger logger = Logger.getLogger("Minecraft.EasyTravel");
 
     /** The permissions handler. */
-    private PermissionsHandler permissionsHandler;
+    private PermissionHandler permissionHandler;
 
     /** The economy handler. */
     private Methods methods = new Methods();
@@ -182,8 +181,8 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /** @return the current permissions handler. */
-    public PermissionsHandler getPermissionsHandler() {
-        return permissionsHandler;
+    public PermissionHandler getPermissionsHandler() {
+        return permissionHandler;
     }
 
     /** @return the logger of this application. */
@@ -281,7 +280,7 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Setups the permissions handler. */
     private void setupPermissions() {
-        permissionsHandler = Permission.getHandler(this);
+        permissionHandler = new PermissionHandler(this);
     }
 
     /** Setups the WorldEdit client. */

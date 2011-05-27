@@ -18,9 +18,9 @@
 
 package at.co.hohl.easytravel.commands;
 
-import at.co.hohl.Permissions.Permission;
-import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.TravelPlugin;
+import at.co.hohl.permissions.Permission;
+import at.co.hohl.permissions.PermissionHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -62,7 +62,7 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args) {
-        PermissionsHandler permissionsHandler = plugin.getPermissionsHandler();
+        PermissionHandler permissionsHandler = plugin.getPermissionsHandler();
 
         Map<String, SubCommandExecutor> commandMap = ((PortCommandExecutor) this.parent).getSubCommands();
         List<String> commands = new LinkedList<String>(commandMap.keySet());

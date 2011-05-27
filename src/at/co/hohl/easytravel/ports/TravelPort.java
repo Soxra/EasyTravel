@@ -18,8 +18,8 @@
 
 package at.co.hohl.easytravel.ports;
 
-import at.co.hohl.Permissions.PermissionsHandler;
 import at.co.hohl.easytravel.ports.depart.Departure;
+import at.co.hohl.permissions.PermissionHandler;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public interface TravelPort {
      * @param player      the players to check.
      * @return true, if the players is allowed to.
      */
-    boolean isAllowed(PermissionsHandler permissions, Player player);
+    boolean isAllowed(PermissionHandler permissions, Player player);
 
     /** Allows this TravelPort to everybody. */
     void setAllowedToEverybody();
