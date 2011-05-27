@@ -135,9 +135,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
      * @return search result.
      */
     @Override
-    public List<TravelPort> search(Location location) {
-        LinkedList<TravelPort> result = new LinkedList<TravelPort>();
+    public Collection<TravelPort> search(Location location) {
         Collection<TravelPort> ports = plugin.getTravelPorts().getAll();
+        Collection<TravelPort> result = new LinkedList<TravelPort>();
 
         for (TravelPort port : ports) {
             if (port.getArea().contains(location)) {
@@ -273,7 +273,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         TravelPort port = new FlatFileTravelPort(this, parser.getInt(INDEX_ID));
                         port.setName(parser.getString(INDEX_NAME));
                         port.setPrice(parser.getDouble(INDEX_PRICE));
-                        port.setTargetId(Integer.valueOf(parser.getString(INDEX_TARGET)));
+                        port.setTargetId(parser.getInteger(INDEX_TARGET));
                         port.setPassword(parser.getString(INDEX_PASSWORD));
                         port.setOwner(parser.getString(INDEX_OWNER));
                         port.setAllowed(StringHelper.decode(parser.getString(INDEX_ALLOWED)));

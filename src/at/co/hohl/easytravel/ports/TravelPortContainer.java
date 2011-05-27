@@ -24,7 +24,6 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Interface for the TravelPortContainer.
@@ -74,7 +73,7 @@ public interface TravelPortContainer {
      * @param location the location to search for.
      * @return search result.
      */
-    List<TravelPort> search(Location location);
+    Collection<TravelPort> search(Location location);
 
     /**
      * Searches the TravelPorts.

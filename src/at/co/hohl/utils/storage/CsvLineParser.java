@@ -86,6 +86,20 @@ public class CsvLineParser {
         }
     }
 
+    /**
+     * Returns the integer value at the passed index.
+     *
+     * @param index the index of the value.
+     * @return the parsed value.
+     */
+    public Integer getInteger(int index) {
+        if (index < parsedColumns.length && !"null".equals(parsedColumns[index])) {
+            return Integer.valueOf(parsedColumns[index]);
+        } else {
+            return null;
+        }
+    }
+
     /** @return number of parsed columns. */
     public int columns() {
         return parsedColumns.length;
