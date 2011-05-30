@@ -16,6 +16,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/res/translations/english/messages.yml" />
         </element>
       </element>
+      <element id="artifact" artifact-name="EasyTravel - Create Snapshot" />
     </root>
   </artifact>
 </component>
