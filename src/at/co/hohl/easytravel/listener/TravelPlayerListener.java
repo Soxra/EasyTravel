@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Collection;
 
@@ -38,6 +39,9 @@ import java.util.Collection;
 public class TravelPlayerListener extends PlayerListener {
     /** Plugin which holds the instance. */
     private final TravelPlugin plugin;
+
+    /** Scheduler of the plugin. */
+    private BukkitScheduler scheduler;
 
     /**
      * Creates a new instance of the players listener.
@@ -65,7 +69,6 @@ public class TravelPlayerListener extends PlayerListener {
                 event.getPlayer().sendMessage(ChatColor.GREEN + "[EasyTravel] Your plugin version is outdated!");
             }
         }
-
     }
 
     /**
@@ -81,9 +84,15 @@ public class TravelPlayerListener extends PlayerListener {
     /** Updates the information if the players is inside of a TravelPort. */
     public void onPlayerLocationUpdate() {
         Player[] players = plugin.getServer().getOnlinePlayers();
+        scheduler = plugin.getServer().getScheduler();
 
-        for (Player player : players) {
-            updatePlayerLocation(player);
+        for (final Player player : players) {
+            scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    updatePlayerLocation(player);
+                }
+            });
         }
     }
 
