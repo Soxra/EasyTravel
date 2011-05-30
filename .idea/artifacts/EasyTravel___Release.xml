@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact name="EasyTravel - Release">
+    <output-path>$PROJECT_DIR$/out/release/</output-path>
+    <root id="root">
+      <element id="archive" name="EasyTravel_DE.zip">
+        <element id="directory" name="EasyTravel">
+          <element id="file-copy" path="$PROJECT_DIR$/res/config.yml" />
+          <element id="file-copy" path="$PROJECT_DIR$/res/translations/german/messages.yml" />
+        </element>
+        <element id="artifact" artifact-name="EasyTravel - Create Snapshot" />
+      </element>
+      <element id="archive" name="EasyTravel_EN.zip">
+        <element id="artifact" artifact-name="EasyTravel - Create Snapshot" />
+        <element id="directory" name="EasyTravel">
+          <element id="file-copy" path="$PROJECT_DIR$/res/config.yml" />
+          <element id="file-copy" path="$PROJECT_DIR$/res/translations/english/messages.yml" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
