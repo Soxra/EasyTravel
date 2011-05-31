@@ -61,7 +61,7 @@ public class TravelPlugin extends JavaPlugin {
 
     /** URL to check for updates. */
     private static final String RELEASE_REPOSITORY_INFORMATION =
-            "https://github.com/hohl/EasyTravel/raw/master/res/updates.yml";
+            "http://github.com/hohl/EasyTravel/raw/master/res/updates.yml";
 
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
