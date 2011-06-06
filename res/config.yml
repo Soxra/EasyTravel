@@ -16,3 +16,9 @@ arrived-notification-delay: 10
 # Set to true, will check for updates on server start and notifying users with the 'lwc.admin' permission
 # when the plugin version is outdated.
 check-for-update: true
+
+# Flag if server should send money to owner of TravelPort.
+pay-owner: true
+
+# Flag if server should notify player, when earning money.
+notify-owner: false

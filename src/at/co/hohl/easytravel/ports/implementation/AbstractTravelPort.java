@@ -158,9 +158,18 @@ public abstract class AbstractTravelPort implements TravelPort {
             if (container.getPlugin().hasPaymentMethods()) {
                 Method method = container.getPlugin().getPaymentMethod();
 
-
                 variables.put("amount", method.format(getPrice()));
                 ChatHelper.sendMessage(player, Messages.get("greeting.paid", variables));
+
+                if (getOwner() != null && TravelPlugin.PAY_OWNER && method.hasAccount(getOwner())) {
+                    method.getAccount(getOwner()).subtract(getPrice());
+
+                    if (TravelPlugin.NOTIFY_OWNER) {
+                        ChatHelper.sendMessage(player, Messages.get("messages.earn-money", variables));
+                    }
+                }
+
+
             } else {
                 ChatHelper.sendMessage(player, Messages.get("problem.miss-economy", variables));
             }

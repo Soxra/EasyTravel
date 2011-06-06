@@ -59,6 +59,12 @@ public class TravelPlugin extends JavaPlugin {
     /** Ticks waited after departing. */
     public static int DEPART_DELAY;
 
+    /** Flag if owner should get paid for TravelPorts. */
+    public static boolean PAY_OWNER;
+
+    /** Flag if owner should get notified. */
+    public static boolean NOTIFY_OWNER;
+
     /** URL to check for updates. */
     private static final String RELEASE_REPOSITORY_INFORMATION =
             "http://github.com/hohl/EasyTravel/raw/master/res/updates.yml";
@@ -242,6 +248,8 @@ public class TravelPlugin extends JavaPlugin {
         getConfiguration().load();
         ARRIVED_NOTIFICATION_DELAY = getConfiguration().getInt("arrived-notification-delay", 10);
         DEPART_DELAY = getConfiguration().getInt("depart-delay", 0);
+        PAY_OWNER = getConfiguration().getBoolean("pay-owner", true);
+        NOTIFY_OWNER = getConfiguration().getBoolean("notify-owner", false);
 
         // Messages...
         Configuration messages = new Configuration(new File(getDataFolder(), "messages.yml"));

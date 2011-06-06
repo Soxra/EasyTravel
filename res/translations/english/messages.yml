@@ -12,6 +12,7 @@ greeting:
 messages:
     next-departure: "Next departure at &a<time>&d. It is &a<current>&d."
     no-more-departure-today: "No more departures today!"
+    earn-money: "&a<player>&d paid &a<amount>&d to use your TravelPort."
 
 # Called when events occurred.
 event:
