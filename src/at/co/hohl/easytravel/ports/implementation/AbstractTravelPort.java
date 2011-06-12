@@ -168,8 +168,6 @@ public abstract class AbstractTravelPort implements TravelPort {
                         ChatHelper.sendMessage(player, Messages.get("messages.earn-money", variables));
                     }
                 }
-
-
             } else {
                 ChatHelper.sendMessage(player, Messages.get("problem.miss-economy", variables));
             }

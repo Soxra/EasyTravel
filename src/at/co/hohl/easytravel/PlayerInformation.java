@@ -21,6 +21,7 @@ package at.co.hohl.easytravel;
 import at.co.hohl.easytravel.ports.TravelPort;
 import org.bukkit.entity.Player;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class PlayerInformation {
     private TravelPort currentPort;
 
     /** The last entered password by this user. */
-    private List<String> enteredPasswords;
+    private List<String> enteredPasswords = new LinkedList<String>();
 
     /** Creates a new players information. */
     public PlayerInformation(Player player) {
