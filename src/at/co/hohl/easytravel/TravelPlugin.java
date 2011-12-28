@@ -20,7 +20,6 @@ package at.co.hohl.easytravel;
 
 import at.co.hohl.easytravel.commands.DepartCommandExecutor;
 import at.co.hohl.easytravel.commands.PortCommandExecutor;
-import at.co.hohl.easytravel.listener.EconomyPluginListener;
 import at.co.hohl.easytravel.listener.TravelPlayerListener;
 import at.co.hohl.easytravel.messages.Messages;
 import at.co.hohl.easytravel.ports.Area;
@@ -71,10 +70,7 @@ public class TravelPlugin extends JavaPlugin {
 
     /** Listener for players events. */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
-
-    /** Listener for economy plugins. */
-    private final EconomyPluginListener economyPluginListener = new EconomyPluginListener(this);
-
+  
     /** Player Information implementation. */
     private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
 
@@ -83,9 +79,6 @@ public class TravelPlugin extends JavaPlugin {
 
     /** The permissions handler. */
     private PermissionHandler permissionHandler;
-
-    /** The economy handler. */
-    private Methods methods = new Methods();
 
     /** The WorldEdit plugin. */
     private WorldEditPlugin worldEditPlugin;
@@ -196,19 +189,14 @@ public class TravelPlugin extends JavaPlugin {
         return logger;
     }
 
-    /** @return the payment method. */
-    public Methods getMethods() {
-        return methods;
-    }
-
     /** @return true, if there is at least one payment method! */
     public boolean hasPaymentMethods() {
-        return methods.hasMethod();
+        return Methods.hasMethod();
     }
 
     /** @return the payment method. */
     public Method getPaymentMethod() {
-        return methods.getMethod();
+        return Methods.getMethod();
     }
 
     /** @return the container for the travel ports. */
@@ -266,9 +254,8 @@ public class TravelPlugin extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
 
         // Listen to plugins enabling, used for finding an economy plugin.
-        pluginManager.registerEvent(Event.Type.PLUGIN_ENABLE, economyPluginListener, Event.Priority.Monitor, this);
-        pluginManager.registerEvent(Event.Type.PLUGIN_DISABLE, economyPluginListener, Event.Priority.Monitor, this);
-
+        Methods.setMethod(pluginManager);
+      
         // Remove player information on quit.
         pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Low, this);
         pluginManager.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);

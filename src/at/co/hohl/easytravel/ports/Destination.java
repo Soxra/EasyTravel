@@ -18,6 +18,7 @@
 
 package at.co.hohl.easytravel.ports;
 
+import at.co.hohl.easytravel.TravelException;
 import at.co.hohl.utils.storage.PropertiesParser;
 import at.co.hohl.utils.storage.SyntaxException;
 import org.bukkit.Location;
@@ -80,7 +81,11 @@ public class Destination {
      * @param player the location to teleport to.
      */
     public void teleport(Player player) {
+      if (location != null) {
         player.teleport(location);
+      } else {
+        throw new MissDestinationException("Whoops, something went wrong! Travel port destination not set!");
+      }
     }
 
     /** @return the x coord of the destination. */
@@ -114,4 +119,13 @@ public class Destination {
                 ", yaw=" + location.getYaw() +
                 '}';
     }
+
+  /**
+   * Exception which is thrown when there is no Destination set.
+   */
+  public static class MissDestinationException extends RuntimeException {
+    public MissDestinationException(String s) {
+      super(s);
+    }
+  }
 }
