@@ -1,6 +1,6 @@
 name: EasyTravel
 main: at.co.hohl.easytravel.TravelPlugin
-version: 1.3
+version: 1.3-preview
 softdepend: [WorldEdit, iConomy, BOSEconomy, Currency, MultiCurrency]
 authors:
  - 'Michael Hohl (miho)'
@@ -11,3 +11,39 @@ commands:
   port:
     description: Manages the TravelPorts of EasyTravel.
     usage: /<command> help - Shows the help of the command.
+permissions:
+  easytravel.*:
+    description: Gives all permissions for EasyTravel
+    children:
+      easytravel.administrate: true
+      easytravel.moderate: true
+      easytravel.port: true
+      easytravel.compass: true
+      easytravel.list: true
+      easytravel.info: true
+      easytravel.create: true
+      easytravel.depart: true
+  easytravel.depart:
+    description: Allows to depart when staying inside a TravelPort.
+    default: true
+  easytravel.info:
+    description: Allows to get information about a TravelPort.
+    default: true
+  easytravel.compass:
+    description: Allows to point the compass to a Travel Port.
+    default: true
+  easytravel.port:
+    description: Allows to port to a TravelPort from everywhere.
+    default: op
+  easytravel.list:
+    description: Allows to show a list of all available TravelPorts.
+    default: op
+  easytravel.moderate:
+    description: Allows to edit others TravelPorts.
+    default: op
+  easytravel.administrate:
+    description: Gets update information and could change settings.
+    default: op
+  easytravel.create:
+    description: Allows to create new TravelPorts.
+    default: op

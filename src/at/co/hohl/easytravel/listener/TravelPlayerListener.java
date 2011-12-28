@@ -88,7 +88,6 @@ public class TravelPlayerListener extends PlayerListener {
 
         for (final Player player : players) {
             scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
                 public void run() {
                     updatePlayerLocation(player);
                 }
