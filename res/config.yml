@@ -10,12 +10,15 @@ location-update-interval: 60
 depart-delay: 0
 
 # Delay waited until the arrived at TravelPort message is send after starting the teleport.
-# If your server is slow and laggy you should set the value to 25 or abouve.
+# If your server is slow and laggy you should set the value to 25 or above.
 arrived-notification-delay: 10
 
-# Set to true, will check for updates on server start and notifying users with the 'lwc.admin' permission
+# Set to true will check for updates on server start and notifying users with the 'lwc.admin' permission
 # when the plugin version is outdated.
-check-for-update: true
+check-for-update: false
+
+# Set to false will disable auto saves of TravelPorts after plugin gets disabled. (NOT RECOMMENDED!)
+auto-save: true;
 
 # Flag if server should send money to owner of TravelPort.
 pay-owner: true

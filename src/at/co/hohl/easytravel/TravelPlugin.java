@@ -52,44 +52,70 @@ import java.util.logging.Logger;
  * @author hohl
  */
 public class TravelPlugin extends JavaPlugin {
-    /** Ticks used for waiting after sending the arrived notification. */
+    /**
+     * Ticks used for waiting after sending the arrived notification.
+     */
     public static int ARRIVED_NOTIFICATION_DELAY;
 
-    /** Ticks waited after departing. */
+    /**
+     * Ticks waited after departing.
+     */
     public static int DEPART_DELAY;
 
-    /** Flag if owner should get paid for TravelPorts. */
+    /**
+     * Flag if owner should get paid for TravelPorts.
+     */
     public static boolean PAY_OWNER;
 
-    /** Flag if owner should get notified. */
+    /**
+     * Flag if owner should get notified.
+     */
     public static boolean NOTIFY_OWNER;
 
-    /** URL to check for updates. */
+    /**
+     * URL to check for updates.
+     */
     private static final String RELEASE_REPOSITORY_INFORMATION =
-            "http://github.com/hohl/EasyTravel/raw/master/res/updates.yml";
+        "http://github.com/hohl/EasyTravel/raw/master/res/updates.yml";
 
-    /** Listener for players events. */
+    /**
+     * Listener for players events.
+     */
     private final TravelPlayerListener playerListener = new TravelPlayerListener(this);
-  
-    /** Player Information implementation. */
+
+    /**
+     * Player Information implementation.
+     */
     private final Map<Player, PlayerInformation> playerInformationMap = new HashMap<Player, PlayerInformation>();
 
-    /** Logger used for outputting debug information. */
+    /**
+     * Logger used for outputting debug information.
+     */
     private final Logger logger = Logger.getLogger("Minecraft.EasyTravel");
 
-    /** The permissions handler. */
+    /**
+     * The permissions handler.
+     */
     private PermissionHandler permissionHandler;
 
-    /** The WorldEdit plugin. */
+    /**
+     * The WorldEdit plugin.
+     */
     private WorldEditPlugin worldEditPlugin;
 
-    /** The container which holds the TravelPorts. */
+    /**
+     * The container which holds the TravelPorts.
+     */
     private FlatFileTravelPortContainer travelPortContainer;
 
-    /** Downloaded configuration file which contains information about the latest version. */
+    /**
+     * Downloaded configuration file which contains information about the latest version.
+     */
     private Configuration releaseRepository;
 
-    /** Enables this plugin. */
+    /**
+     * Enables this plugin.
+     */
     public void onEnable() {
         loadConfiguration();
         setupWorldEdit();
@@ -100,37 +126,49 @@ public class TravelPlugin extends JavaPlugin {
 
         if (isVersionPreview()) {
             logger.info("Notice: You are using a PREVIEW build! Not recommended for production server!");
-        } else if (getConfiguration().getBoolean("check-for-updates", true)) {
+        } else if (getConfiguration().getBoolean("check-for-updates", false)) {
             checkForOutdated();
         }
     }
 
-    /** Disables this plugin. */
+    /**
+     * Disables this plugin.
+     */
     public void onDisable() {
-        save();
+        if (getConfiguration().getBoolean("auto-save", true)) {
+            save();
+        }
 
         logger.info(String.format("%s is disabled!", getDescription().getName()));
     }
 
-    /** Called when forcing a reload. */
+    /**
+     * Called when forcing a reload.
+     */
     public void onReload() {
         loadConfiguration();
     }
 
-    /** Called when forcing a save. */
+    /**
+     * Called when forcing a save.
+     */
     public void onSave() {
         logger.info("Save TravelPorts...");
         travelPortContainer.save();
     }
 
-    /** Saves the configuration an the TravelPorts. */
+    /**
+     * Saves the configuration an the TravelPorts.
+     */
     public final void save() {
         logger.info("EasyTravel forcing a save...");
         onSave();
         logger.info("EasyTravel ports and configuration saved!");
     }
 
-    /** Reloads the server. */
+    /**
+     * Reloads the server.
+     */
     public final void reload() {
         onReload();
         logger.info("EasyTravel reloaded!");
@@ -179,27 +217,37 @@ public class TravelPlugin extends JavaPlugin {
         }
     }
 
-    /** @return the current permissions handler. */
+    /**
+     * @return the current permissions handler.
+     */
     public PermissionHandler getPermissionsHandler() {
         return permissionHandler;
     }
 
-    /** @return the logger of this application. */
+    /**
+     * @return the logger of this application.
+     */
     public Logger getLogger() {
         return logger;
     }
 
-    /** @return true, if there is at least one payment method! */
+    /**
+     * @return true, if there is at least one payment method!
+     */
     public boolean hasPaymentMethods() {
         return Methods.hasMethod();
     }
 
-    /** @return the payment method. */
+    /**
+     * @return the payment method.
+     */
     public Method getPaymentMethod() {
         return Methods.getMethod();
     }
 
-    /** @return the container for the travel ports. */
+    /**
+     * @return the container for the travel ports.
+     */
     public TravelPortContainer getTravelPorts() {
         return travelPortContainer;
     }
@@ -230,7 +278,9 @@ public class TravelPlugin extends JavaPlugin {
         }
     }
 
-    /** Loads the configuration. */
+    /**
+     * Loads the configuration.
+     */
     private void loadConfiguration() {
         // Properties...
         getConfiguration().load();
@@ -248,14 +298,16 @@ public class TravelPlugin extends JavaPlugin {
         travelPortContainer.load();
     }
 
-    /** Setups all event handlers, used by this plugin. */
+    /**
+     * Setups all event handlers, used by this plugin.
+     */
     private void setupEventHandler() {
         // Get the plugin manager.
         PluginManager pluginManager = getServer().getPluginManager();
 
         // Listen to plugins enabling, used for finding an economy plugin.
         Methods.setMethod(pluginManager);
-      
+
         // Remove player information on quit.
         pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Low, this);
         pluginManager.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
@@ -263,22 +315,26 @@ public class TravelPlugin extends JavaPlugin {
         // Update player information controlled by an scheduler.
         int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 60);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                    public void run() {
-                        playerListener.onPlayerLocationUpdate();
-                    }
-                }, locationUpdateInterval * 3, locationUpdateInterval);
+            public void run() {
+                playerListener.onPlayerLocationUpdate();
+            }
+        }, locationUpdateInterval * 3, locationUpdateInterval);
 
         // Register commands.
         getCommand("port").setExecutor(new PortCommandExecutor(this));
         getCommand("depart").setExecutor(new DepartCommandExecutor(this));
     }
 
-    /** Setups the permissions handler. */
+    /**
+     * Setups the permissions handler.
+     */
     private void setupPermissions() {
         permissionHandler = new PermissionHandler(this);
     }
 
-    /** Setups the WorldEdit client. */
+    /**
+     * Setups the WorldEdit client.
+     */
     private void setupWorldEdit() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
         if (plugin != null) {
@@ -289,7 +345,9 @@ public class TravelPlugin extends JavaPlugin {
         }
     }
 
-    /** Downloads information about latest release. */
+    /**
+     * Downloads information about latest release.
+     */
     private void checkForOutdated() {
         try {
             new Download(new URL(RELEASE_REPOSITORY_INFORMATION), new File(getDataFolder(), "updates.yml")) {
@@ -317,7 +375,7 @@ public class TravelPlugin extends JavaPlugin {
             };
         } catch (MalformedURLException e) {
             logger.severe("[EasyTravel] Error when creating url for checking for updates!" +
-                    "Please contact the developer of this plugin.");
+                "Please contact the developer of this plugin.");
         }
     }
 }
