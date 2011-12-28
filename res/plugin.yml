@@ -1,6 +1,6 @@
 name: EasyTravel
 main: at.co.hohl.easytravel.TravelPlugin
-version: 1.3-preview
+version: 1.3
 softdepend: [WorldEdit, iConomy, BOSEconomy, Currency, MultiCurrency]
 authors:
  - 'Michael Hohl (miho)'

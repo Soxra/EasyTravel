@@ -15,7 +15,7 @@ arrived-notification-delay: 10
 
 # Set to true will check for updates on server start and notifying users with the 'lwc.admin' permission
 # when the plugin version is outdated.
-check-for-update: false
+check-for-update: true
 
 # Set to false will disable auto saves of TravelPorts after plugin gets disabled. (NOT RECOMMENDED!)
 auto-save: true;

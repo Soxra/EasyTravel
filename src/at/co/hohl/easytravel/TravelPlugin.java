@@ -126,7 +126,7 @@ public class TravelPlugin extends JavaPlugin {
 
         if (isVersionPreview()) {
             logger.info("Notice: You are using a PREVIEW build! Not recommended for production server!");
-        } else if (getConfiguration().getBoolean("check-for-updates", false)) {
+        } else if (getConfiguration().getBoolean("check-for-updates", true)) {
             checkForOutdated();
         }
     }
