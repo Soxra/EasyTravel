@@ -1,0 +1,28 @@
+#
+# EasyTravel Configuration
+#
+
+# Une plus petite valeur signifie que le plugin va vérifier plus souvent si le joueur est dans un TravelPort.
+# Attention, utilisation intense du CPU!
+location-update-interval: 60
+
+# Temps d'attente après avoir utilisé /depart.
+# (Une sorte de temps de chauffe)
+depart-delay: 0
+
+# Délai qui s'écoule entre le message d'arrivée et le début de la téléportation.
+# Si votre serveur est lent ou si il connaît des lags, veuillez changer la valeur à 25 ou plus.
+arrived-notification-delay: 10
+
+# Si le paramètre est sur "true", le plugin recherchera des mises à jours quand le serveur se lance.
+# Les joueurs avec la permission 'lwc.admin' seront notifiés si le plugin n'est pas à jour.
+check-for-update: true
+
+# Si le paramètre est sur "false", les sauvegardes automatiques seront désactivées. [NON RECOMMANDE]
+auto-save: true;
+
+# "true" signifie que les joueurs qui ont des TravelPort recevront de l'argent si quelqu'un les utilise.
+pay-owner: true
+
+# "false" signifie que les joueurs ne seront pas notifiés si ils gagnent de l'argent.
+notify-owner: false

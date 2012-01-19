@@ -1,0 +1,61 @@
+# General Message Format:
+# You could set a prefix here and it will used for all output by this plugin. (Except the Help)
+format: "&d%s"
+
+# The greetings get shown when you enter a TravelPort.
+greeting:
+    free: "Bienvenue a bord!"
+    paid: "Bienvenue a bord! Ce trajet coute &a<amount>&d."
+    departure: "Tapez /depart pour commencer le voyage."
+
+# Messages shown to normal players.
+messages:
+    next-departure: "Prochain depart a &a<time>&d. Il est &a<current>&d."
+    no-more-departure-today: "Il n'y a plus de depart pour aujourd'hui!"
+    earn-money: "&a<player>&d depense &a<amount>&d pour utiliser votre TravelPort."
+
+# Called when events occurred.
+event:
+    departing: "Tout le monde a bord, depart imminent!"
+    arrived: "Vous etes arrive a &a<target>&d!"
+    money-paid: "Le voyage vous a coute &a<amount>&d!"
+
+# Messages which are shown to the player when there are problems, or they have made a mistake.
+problem:
+    little-money: "&cVous n'avez pas assez d'argent pour ce trajet!"
+    not-allowed: "&cVous n'etes pas authorise a faire ce trajet!"
+    not-inside: "&cVous ne pouvez pas partir si vous n'etes pas a bord!"
+    invalid-password: "&cCe trajet est scelle avec de la magie! Tapez &4/depart <password>&c pour le desceller!"
+    miss-economy: "&cDesole. Vous ne pouvez pas faire ce trajet pour cause de problemes techniques."
+    miss-target: "&cLe voyage ne mene nulle part! Reliez les quais avant d'utilisez /depart."
+    internal-error: "&cErreur interne survenue! Veuillez contacter un Administrateur!"
+
+# This messages are only shown in the moderator backend.
+moderator:
+    success:
+         created: "&2Le quai a ete cree avec succes!"
+         removed: "&2Le quai a ete supprime avec succes!"
+         linked: "&2Quais relies avec succes!"
+         unlinked: "&2Quais dissocies avec succes!"
+         saved: "&2Sauvegarde complete!"
+         reloaded: "&2Configuration rechargee avec les TravelPorts!"
+         change-price: "&2Changement de prix effectue!"
+         change-owner: "&2Changement de proprietaire effectue!"
+         change-destination: "&2Changement de destination effectue!"
+         change-password: "&2Changement du mot de passe effectue!"
+         change-depart-mode: "&2Changement du mode de depart effectue!"
+         rename: "&2Changement de nom effectue!"
+         redefine: "&2Zones redefinies avec succes!"
+         add-member: "&2Authorisation ajoutee pour le joueur/groupe!"
+         point-compass: "&2Votre boussole pointe sur le TravelPort!"
+    problem:
+         not-allowed: "&cVous n'avez pas la permission!"
+         not-own: "&cVous n'avez pas le droit d'editer ce TravelPort!"
+         invalid-num-args: "&cNombre d'arguments invalide!"
+         invalid-use: "&cCommande invalide! Tapez /port help pour savoir comment l'utiliser."
+         invalid-page: "&cPage invalide pour cette commande!"
+         select-area: "&cVous devez selectionner une zone avec le WorldEdit wand!"
+         not-inside: "&cVous n'etes pas dans un TravelPort!"
+         already-linked: "&cAu moins un des quais est deja relie a un autre! Dissociez les d'abord!"
+         not-linked: "&cLe quai n'est associe a aucun autre quai!"
+         invalid-id: "&cCe TravelPort n'a pas ete trouve!"
