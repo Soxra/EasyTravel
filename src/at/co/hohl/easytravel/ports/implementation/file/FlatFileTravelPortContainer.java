@@ -50,19 +50,29 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
     private static final int INDEX_DEPARTURE = 9;
     private static final int CSV_COLUMNS = 10;
 
-    /** The plugin which holds this instance. */
+    /**
+     * The plugin which holds this instance.
+     */
     private final Server server;
 
-    /** Plugin which holds the container. */
+    /**
+     * Plugin which holds the container.
+     */
     private final TravelPlugin plugin;
 
-    /** The file used for storing the TravelPorts. */
+    /**
+     * The file used for storing the TravelPorts.
+     */
     private final File csvFile;
 
-    /** Logger used for outputting debug information. */
+    /**
+     * Logger used for outputting debug information.
+     */
     private final Logger logger;
 
-    /** Contains all travel ports. */
+    /**
+     * Contains all travel ports.
+     */
     private final Map<Integer, TravelPort> travelPorts = new HashMap<Integer, TravelPort>();
 
 
@@ -84,7 +94,6 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
      *
      * @param id the id of the travel port to get.
      * @return the travel port.
-     *
      * @throws TravelPortNotFound thrown when there isn't any port with the passed id.
      */
     public TravelPort get(Integer id) throws TravelPortNotFound {
@@ -95,7 +104,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         }
     }
 
-    /** @return list of TravelPorts. */
+    /**
+     * @return list of TravelPorts.
+     */
     public Collection<TravelPort> getAll() {
         return travelPorts.values();
     }
@@ -105,7 +116,6 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
      *
      * @param id could be a part of the name or the id.
      * @return the founded TravelPort.
-     *
      * @throws TravelPortNotFound thrown when there is no match for the id.
      */
     public TravelPort search(String id) throws TravelPortNotFound {
@@ -240,22 +250,30 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         }
     }
 
-    /** @return number of available entries. */
+    /**
+     * @return number of available entries.
+     */
     public int size() {
         return travelPorts.size();
     }
 
-    /** @return the server which holds the container. */
+    /**
+     * @return the server which holds the container.
+     */
     public Server getServer() {
         return server;
     }
 
-    /** @return the plugin, which holds the container. */
+    /**
+     * @return the plugin, which holds the container.
+     */
     public TravelPlugin getPlugin() {
         return plugin;
     }
 
-    /** Loads the TravelPorts. */
+    /**
+     * Loads the TravelPorts.
+     */
     public void load() {
         if (csvFile.exists()) {
             try {
@@ -291,7 +309,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                         travelPorts.put(port.getId(), port);
                     } catch (SyntaxException e) {
                         server.getLogger().warning(
-                                String.format("Corrupt TravelPort configuration line! '%s'", line));
+                            String.format("Corrupt TravelPort configuration line! '%s'", line));
                         server.getLogger().info("Exception: " + e.getMessage());
                     } catch (NumberFormatException e) {
                         server.getLogger().warning(String.format("Invalid TravelPort configuration line! '%s'", line));
@@ -311,7 +329,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         }
     }
 
-    /** Saves the TravelPorts. */
+    /**
+     * Saves the TravelPorts.
+     */
     public void save() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
@@ -357,7 +377,7 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
                             break;
                         default:
                             throw new RuntimeException(
-                                    "This Code should never get reached! Error in program, please contact the developer.");
+                                "This Code should never get reached! Error in program, please contact the developer.");
                     }
 
                     if (index + 1 < CSV_COLUMNS) {
@@ -376,7 +396,9 @@ public class FlatFileTravelPortContainer implements TravelPortContainer {
         }
     }
 
-    /** @return the next free travel port id. */
+    /**
+     * @return the next free travel port id.
+     */
     private Integer findUnusedId() {
         Integer currentId = Integer.valueOf(0);
 

@@ -67,26 +67,32 @@ public class PortSearchCommandExecutor extends SubCommandExecutor {
         for (TravelPort port : result) {
             Destination destination = port.getDestination();
             sender.sendMessage(
-                    String.format("[%s] %s (%s) - %.1f, %.1f, %.1f", port.getId(), port.getName(), port.getOwner(),
-                            destination.getX(), destination.getY(), destination.getZ()));
+                String.format("[%s] %s (%s) - %.1f, %.1f, %.1f", port.getId(), port.getName(), port.getOwner(),
+                    destination.getX(), destination.getY(), destination.getZ()));
         }
 
         return true;
     }
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     @Override
     public String getUsage() {
         return "/<command> search <keyword>";
     }
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     @Override
     public String getDescription() {
         return "Searches TravelPorts.";
     }
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     @Override
     public Permission getRequiredPermission() {
         return TravelPermissions.LIST;

@@ -28,10 +28,14 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public class PropertiesParser {
-    /** Contains the type of the parsed ports. (Like in the example it is "CuboidArea") */
+    /**
+     * Contains the type of the parsed ports. (Like in the example it is "CuboidArea")
+     */
     private final String type;
 
-    /** Parsed properties. */
+    /**
+     * Parsed properties.
+     */
     private final Map<String, String> properties = new HashMap<String, String>();
 
     /**
@@ -44,7 +48,7 @@ public class PropertiesParser {
         if (lineToParse.matches("[A-Za-z0-9]+\\{.*\\}")) {
             type = lineToParse.split("\\{")[0];
             String[] propertyStrings =
-                    lineToParse.substring(type.length() + 1, lineToParse.length() - 1).split(",");
+                lineToParse.substring(type.length() + 1, lineToParse.length() - 1).split(",");
 
             for (String propertyString : propertyStrings) {
                 String[] splittedLine = propertyString.split("=");
@@ -60,7 +64,9 @@ public class PropertiesParser {
         }
     }
 
-    /** @return type of the parsed ports. */
+    /**
+     * @return type of the parsed ports.
+     */
     public String getType() {
         return type;
     }

@@ -102,19 +102,25 @@ public class PortPriceCommandExecutor extends SubCommandExecutor {
         return true;
     }
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     @Override
     public String getUsage() {
         return "/<command> price [<id>] <price>";
     }
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     @Override
     public String getDescription() {
         return "Sets the price for a TravelPort.";
     }
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     @Override
     public Permission getRequiredPermission() {
         return TravelPermissions.CREATE;

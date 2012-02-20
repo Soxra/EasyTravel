@@ -18,7 +18,6 @@
 
 package at.co.hohl.easytravel.ports;
 
-import at.co.hohl.easytravel.TravelException;
 import at.co.hohl.utils.storage.PropertiesParser;
 import at.co.hohl.utils.storage.SyntaxException;
 import org.bukkit.Location;
@@ -32,7 +31,9 @@ import org.bukkit.entity.Player;
  * @author Michael Hohl
  */
 public class Destination {
-    /** Location of the destination. */
+    /**
+     * Location of the destination.
+     */
     private final Location location;
 
     /**
@@ -81,29 +82,37 @@ public class Destination {
      * @param player the location to teleport to.
      */
     public void teleport(Player player) {
-      if (location != null) {
-        player.teleport(location);
-      } else {
-        throw new MissDestinationException("Whoops, something went wrong! Travel port destination not set!");
-      }
+        if (location != null) {
+            player.teleport(location);
+        } else {
+            throw new MissDestinationException("Whoops, something went wrong! Travel port destination not set!");
+        }
     }
 
-    /** @return the x coord of the destination. */
+    /**
+     * @return the x coord of the destination.
+     */
     public double getX() {
         return location.getX();
     }
 
-    /** @return the y coord of the destination. */
+    /**
+     * @return the y coord of the destination.
+     */
     public double getY() {
         return location.getY();
     }
 
-    /** @return the z coord of the destination. */
+    /**
+     * @return the z coord of the destination.
+     */
     public double getZ() {
         return location.getZ();
     }
 
-    /** @return the location of the destination. */
+    /**
+     * @return the location of the destination.
+     */
     public Location getLocation() {
         return location;
     }
@@ -111,21 +120,21 @@ public class Destination {
     @Override
     public String toString() {
         return "Destination{" +
-                "locx=" + location.getX() +
-                ", locy=" + location.getY() +
-                ", locz=" + location.getZ() +
-                ", world=" + location.getWorld().getName() +
-                ", pitch=" + location.getPitch() +
-                ", yaw=" + location.getYaw() +
-                '}';
+            "locx=" + location.getX() +
+            ", locy=" + location.getY() +
+            ", locz=" + location.getZ() +
+            ", world=" + location.getWorld().getName() +
+            ", pitch=" + location.getPitch() +
+            ", yaw=" + location.getYaw() +
+            '}';
     }
 
-  /**
-   * Exception which is thrown when there is no Destination set.
-   */
-  public static class MissDestinationException extends RuntimeException {
-    public MissDestinationException(String s) {
-      super(s);
+    /**
+     * Exception which is thrown when there is no Destination set.
+     */
+    public static class MissDestinationException extends RuntimeException {
+        public MissDestinationException(String s) {
+            super(s);
+        }
     }
-  }
 }

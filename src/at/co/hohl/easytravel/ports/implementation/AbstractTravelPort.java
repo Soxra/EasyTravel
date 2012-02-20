@@ -37,10 +37,14 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public abstract class AbstractTravelPort implements TravelPort {
-    /** Container which holds the instance. */
+    /**
+     * Container which holds the instance.
+     */
     protected final TravelPortContainer container;
 
-    /** @param container container, which holds this port. */
+    /**
+     * @param container container, which holds this port.
+     */
     public AbstractTravelPort(TravelPortContainer container) {
         this.container = container;
     }
@@ -121,7 +125,7 @@ public abstract class AbstractTravelPort implements TravelPort {
         }
 
         container.getServer().getScheduler().scheduleAsyncDelayedTask(container.getPlugin(), departRunnable,
-                TravelPlugin.DEPART_DELAY);
+            TravelPlugin.DEPART_DELAY);
     }
 
     /**
@@ -142,7 +146,7 @@ public abstract class AbstractTravelPort implements TravelPort {
             }
         };
         container.getServer().getScheduler().scheduleAsyncDelayedTask(container.getPlugin(), notifyRunnable,
-                TravelPlugin.ARRIVED_NOTIFICATION_DELAY);
+            TravelPlugin.ARRIVED_NOTIFICATION_DELAY);
     }
 
     /**

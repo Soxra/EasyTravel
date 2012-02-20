@@ -73,7 +73,7 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
             sender.sendMessage(String.format("Target Name: %s%s", ChatColor.GRAY, currentPort.getTarget()));
             Destination destination = currentPort.getDestination();
             sender.sendMessage(String.format("Location: %.1f, %.1f, %.1f", destination.getX(), destination.getY(),
-                    destination.getZ()));
+                destination.getZ()));
             sender.sendMessage(String.format("Departure-Mode: %s%s", ChatColor.GRAY, currentPort.getDeparture()));
             sender.sendMessage(String.format("Price: %s%.2f", ChatColor.GRAY, currentPort.getPrice()));
             sender.sendMessage(String.format("Password: %s%s", ChatColor.GRAY, currentPort.getPassword()));
@@ -81,7 +81,7 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
                 sender.sendMessage("Allowed: " + ChatColor.GRAY + " EVERYBODY");
             } else {
                 sender.sendMessage(String.format("Allowed: %s%s", ChatColor.GRAY, StringHelper.encode(
-                        currentPort.getAllowed())));
+                    currentPort.getAllowed())));
             }
             sender.sendMessage("");
         } else {
@@ -91,19 +91,25 @@ public class PortInfoCommandExecutor extends SubCommandExecutor {
         return true;
     }
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     @Override
     public String getUsage() {
         return "/<command> info";
     }
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     @Override
     public String getDescription() {
         return "Information about your current TravelPort.";
     }
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     @Override
     public Permission getRequiredPermission() {
         return TravelPermissions.INFO;

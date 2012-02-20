@@ -26,31 +26,49 @@ import at.co.hohl.permissions.Permission;
  * @author Michael Hohl
  */
 public final class TravelPermissions {
-    /** The Permission needed to depart. */
+    /**
+     * The Permission needed to depart.
+     */
     public final static Permission DEPART = new Permission("easytravel.depart", false);
 
-    /** The Permission needed to create new TravelPorts. */
+    /**
+     * The Permission needed to create new TravelPorts.
+     */
     public final static Permission CREATE = new Permission("easytravel.create", true);
 
-    /** The Permission needed to get info about TravelPorts. */
+    /**
+     * The Permission needed to get info about TravelPorts.
+     */
     public final static Permission INFO = new Permission("easytravel.info", true);
 
-    /** The Permission needed to get info about TravelPorts. */
+    /**
+     * The Permission needed to get info about TravelPorts.
+     */
     public final static Permission LIST = new Permission("easytravel.list", true);
 
-    /** The Permission needed to point the compass TravelPorts. */
+    /**
+     * The Permission needed to point the compass TravelPorts.
+     */
     public final static Permission COMPASS = new Permission("easytravel.compass", true);
 
-    /** The Permission needed to warp to TravelPorts. */
+    /**
+     * The Permission needed to warp to TravelPorts.
+     */
     public final static Permission PORT = new Permission("easytravel.port", true);
 
-    /** The Permission manage all existing TravelPorts. */
+    /**
+     * The Permission manage all existing TravelPorts.
+     */
     public final static Permission MODERATE = new Permission("easytravel.moderate", true);
 
-    /** The Permission needed to force saving or reload the plugin. */
+    /**
+     * The Permission needed to force saving or reload the plugin.
+     */
     public final static Permission ADMINISTRATE = new Permission("easytravel.administrate", true);
 
-    /** Hidden constructor. */
+    /**
+     * Hidden constructor.
+     */
     private TravelPermissions() {
     }
 }

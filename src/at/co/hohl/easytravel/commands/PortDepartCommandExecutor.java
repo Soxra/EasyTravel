@@ -85,19 +85,25 @@ public class PortDepartCommandExecutor extends SubCommandExecutor {
         return true;
     }
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     @Override
     public String getUsage() {
         return "/<command> depart MANUAL|<time>";
     }
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     @Override
     public String getDescription() {
         return "Changes the departure mode.";
     }
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     @Override
     public Permission getRequiredPermission() {
         return TravelPermissions.CREATE;

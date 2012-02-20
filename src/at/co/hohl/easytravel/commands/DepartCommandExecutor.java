@@ -35,7 +35,9 @@ import org.bukkit.entity.Player;
  * @author Michael Hohl
  */
 public class DepartCommandExecutor implements CommandExecutor {
-    /** The plugin, which holds this instance. */
+    /**
+     * The plugin, which holds this instance.
+     */
     private final TravelPlugin plugin;
 
     /**

@@ -39,7 +39,9 @@ import java.util.Collection;
  * @author Michael Hohl
  */
 public class PortListCommandExecutor extends SubCommandExecutor {
-    /** Numbers of entries displayed per page. */
+    /**
+     * Numbers of entries displayed per page.
+     */
     private static final int ENTRIES_PER_PAGE = 5;
 
     /**
@@ -86,8 +88,8 @@ public class PortListCommandExecutor extends SubCommandExecutor {
             if (current >= startEntry && current < endEntry) {
                 Destination destination = port.getDestination();
                 sender.sendMessage(
-                        String.format("[%s] %s (%s) - %.1f, %.1f, %.1f", port.getId(), port.getName(), port.getOwner(),
-                                destination.getX(), destination.getY(), destination.getZ()));
+                    String.format("[%s] %s (%s) - %.1f, %.1f, %.1f", port.getId(), port.getName(), port.getOwner(),
+                        destination.getX(), destination.getY(), destination.getZ()));
             }
             ++current;
         }
@@ -95,19 +97,25 @@ public class PortListCommandExecutor extends SubCommandExecutor {
         return true;
     }
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     @Override
     public String getUsage() {
         return "/<command> list [<page>]";
     }
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     @Override
     public String getDescription() {
         return "Lists available TravelPorts.";
     }
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     @Override
     public Permission getRequiredPermission() {
         return TravelPermissions.LIST;

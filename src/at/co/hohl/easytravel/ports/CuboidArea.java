@@ -106,21 +106,21 @@ public class CuboidArea implements Area {
      */
     public boolean contains(final Location location) {
         return world.equalsIgnoreCase(location.getWorld().getName()) // Same World?
-                && (highx >= location.getBlockX() && lowx <= location.getBlockX()) // Inside X coords?
-                && (highy >= location.getBlockY() && lowy <= location.getBlockY()) // Inside Y coords?
-                && (highz >= location.getBlockZ() && lowz <= location.getBlockZ()); // Inside Z coords?
+            && (highx >= location.getBlockX() && lowx <= location.getBlockX()) // Inside X coords?
+            && (highy >= location.getBlockY() && lowy <= location.getBlockY()) // Inside Y coords?
+            && (highz >= location.getBlockZ() && lowz <= location.getBlockZ()); // Inside Z coords?
     }
 
     @Override
     public String toString() {
         return "CuboidArea{" +
-                "highx=" + highx +
-                ", lowx=" + lowx +
-                ", highy=" + highy +
-                ", lowy=" + lowy +
-                ", highz=" + highz +
-                ", lowz=" + lowz +
-                ", world=" + world +
-                '}';
+            "highx=" + highx +
+            ", lowx=" + lowx +
+            ", highy=" + highy +
+            ", lowy=" + lowy +
+            ", highz=" + highz +
+            ", lowz=" + lowz +
+            ", world=" + world +
+            '}';
     }
 }

@@ -46,13 +46,15 @@ public final class ChatHelper {
      */
     public static String replaceColorCodes(String message) {
         for (ChatColor color : ChatColor.values()) {
-            message = message.replace(String.format("&%x", color.getCode()), color.toString());
+            message = message.replace(String.format("&%s", color.getChar()), color.toString());
         }
 
         return message;
     }
 
-    /** Hidden constructor. */
+    /**
+     * Hidden constructor.
+     */
     private ChatHelper() {
     }
 }

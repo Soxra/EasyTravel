@@ -37,7 +37,9 @@ public interface TravelPort {
      */
     void setAllowed(List<String> allowed);
 
-    /** @return true, if this TravelPort is allowed to everybody. */
+    /**
+     * @return true, if this TravelPort is allowed to everybody.
+     */
     boolean isAllowedToEverybody();
 
     /**
@@ -49,7 +51,9 @@ public interface TravelPort {
      */
     boolean isAllowed(PermissionHandler permissions, Player player);
 
-    /** Allows this TravelPort to everybody. */
+    /**
+     * Allows this TravelPort to everybody.
+     */
     void setAllowedToEverybody();
 
     /**
@@ -66,10 +70,14 @@ public interface TravelPort {
      */
     void removeAllowed(String allowed);
 
-    /** @return the unique id of the travel port. */
+    /**
+     * @return the unique id of the travel port.
+     */
     Integer getId();
 
-    /** @return the name of the travel point. */
+    /**
+     * @return the name of the travel point.
+     */
     String getName();
 
     /**
@@ -79,10 +87,14 @@ public interface TravelPort {
      */
     void setName(String name);
 
-    /** @return the id of the target. */
+    /**
+     * @return the id of the target.
+     */
     Integer getTargetId();
 
-    /** @return the target or null if not linked to any. */
+    /**
+     * @return the target or null if not linked to any.
+     */
     TravelPort getTarget();
 
     /**
@@ -92,7 +104,9 @@ public interface TravelPort {
      */
     void setTargetId(Integer targetId);
 
-    /** @return area of the port. */
+    /**
+     * @return area of the port.
+     */
     Area getArea();
 
     /**
@@ -102,7 +116,9 @@ public interface TravelPort {
      */
     void setArea(Area area);
 
-    /** @return the destination */
+    /**
+     * @return the destination
+     */
     Destination getDestination();
 
     /**
@@ -112,7 +128,9 @@ public interface TravelPort {
      */
     void setDestination(Destination destination);
 
-    /** @return the departure. */
+    /**
+     * @return the departure.
+     */
     Departure getDeparture();
 
     /**
@@ -122,7 +140,9 @@ public interface TravelPort {
      */
     void setDeparture(Departure departure);
 
-    /** @return the price it costs to travel. */
+    /**
+     * @return the price it costs to travel.
+     */
     double getPrice();
 
     /**
@@ -132,19 +152,29 @@ public interface TravelPort {
      */
     void setPrice(double price);
 
-    /** @return the password needed to travel with this port. */
+    /**
+     * @return the password needed to travel with this port.
+     */
     String getPassword();
 
-    /** @return true if the TravelPort is locked with a password. */
+    /**
+     * @return true if the TravelPort is locked with a password.
+     */
     boolean isPasswordLocked();
 
-    /** @param password sets the password needed to travel */
+    /**
+     * @param password sets the password needed to travel
+     */
     void setPassword(String password);
 
-    /** @return a list of allowed groups and players. If null everybody is allowed to use that TravelPort. */
+    /**
+     * @return a list of allowed groups and players. If null everybody is allowed to use that TravelPort.
+     */
     List<String> getAllowed();
 
-    /** @return owner of the port. */
+    /**
+     * @return owner of the port.
+     */
     String getOwner();
 
     /**

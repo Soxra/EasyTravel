@@ -92,7 +92,9 @@ public final class StringHelper {
         return builder.toString().trim();
     }
 
-    /** Hidden constructor */
+    /**
+     * Hidden constructor
+     */
     private StringHelper() {
     }
 }

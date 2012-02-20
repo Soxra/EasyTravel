@@ -33,7 +33,9 @@ import java.util.List;
  * @author Michael Hohl
  */
 public class ManualDeparture implements Departure {
-    /** Port, which holds this departure instance. */
+    /**
+     * Port, which holds this departure instance.
+     */
     private final TravelPort port;
 
     /**

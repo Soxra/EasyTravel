@@ -30,10 +30,14 @@ import java.util.Date;
  * @author Michael
  */
 public class BukkitTime implements Comparable<BukkitTime> {
-    /** DateFormatter for 24h da */
+    /**
+     * DateFormatter for 24h da
+     */
     private final DateFormat dayTimeFormat = new SimpleDateFormat("h:mm a");
 
-    /** The ticks, represented by the time. */
+    /**
+     * The ticks, represented by the time.
+     */
     private final long ticks;
 
     /**
@@ -82,32 +86,44 @@ public class BukkitTime implements Comparable<BukkitTime> {
         this.ticks = ticks;
     }
 
-    /** @return the ticks of the time. */
+    /**
+     * @return the ticks of the time.
+     */
     public long getTicks() {
         return ticks;
     }
 
-    /** @return the seconds of the time. */
+    /**
+     * @return the seconds of the time.
+     */
     public long getSeconds() {
         return ticks * 36 / 10;
     }
 
-    /** @return the seconds of the time. */
+    /**
+     * @return the seconds of the time.
+     */
     public long getMinutes() {
         return ticks * 60 / 1000;
     }
 
-    /** @return the hours of the time. */
+    /**
+     * @return the hours of the time.
+     */
     public long getHours() {
         return ticks / 1000;
     }
 
-    /** @return the days of the time. */
+    /**
+     * @return the days of the time.
+     */
     public long getDays() {
         return ticks / 24000;
     }
 
-    /** @return formatted string with 24 hours day time. */
+    /**
+     * @return formatted string with 24 hours day time.
+     */
     public String getDayTime12() {
         Date dateTime = new Date();
         dateTime.setMinutes((int) getMinutes() % 60);

@@ -18,7 +18,7 @@
 
 package at.co.hohl.easytravel.messages;
 
-import org.bukkit.util.config.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Map;
 
@@ -28,17 +28,18 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public final class Messages {
-    /** Configuration which stores the messages. */
-    private static Configuration configuration;
+    /**
+     * Configuration which stores the messages.
+     */
+    private static FileConfiguration configuration;
 
     /**
      * Loads the messages out of the passed Configuration.
      *
      * @param configuration the configuration used for loading.
      */
-    public static void load(Configuration configuration) {
+    public static void load(FileConfiguration configuration) {
         Messages.configuration = configuration;
-        configuration.load();
     }
 
     /**
@@ -91,7 +92,9 @@ public final class Messages {
     }
 
 
-    /** Hidden constructor. */
+    /**
+     * Hidden constructor.
+     */
     private Messages() {
     }
 }

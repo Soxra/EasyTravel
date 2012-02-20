@@ -36,16 +36,24 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public class IntervalScheduledDeparture implements Departure {
-    /** Interval */
+    /**
+     * Interval
+     */
     private final long interval;
 
-    /** Time of the last depart. */
+    /**
+     * Time of the last depart.
+     */
     private long lastDepart;
 
-    /** Port which holds this instance. */
+    /**
+     * Port which holds this instance.
+     */
     private final TravelPort port;
 
-    /** All players inside the port. */
+    /**
+     * All players inside the port.
+     */
     private final List<Player> playerInside = new LinkedList<Player>();
 
     /**

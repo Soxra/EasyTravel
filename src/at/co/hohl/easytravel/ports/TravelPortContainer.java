@@ -31,10 +31,14 @@ import java.util.Collection;
  * @author Michael Hohl
  */
 public interface TravelPortContainer {
-    /** @return the server which holds the container. */
+    /**
+     * @return the server which holds the container.
+     */
     Server getServer();
 
-    /** @return the plugin, which holds the container. */
+    /**
+     * @return the plugin, which holds the container.
+     */
     TravelPlugin getPlugin();
 
     /**
@@ -49,12 +53,13 @@ public interface TravelPortContainer {
      *
      * @param id the id of the travel port to get.
      * @return the travel port.
-     *
      * @throws TravelPortNotFound thrown when there isn't any port with the passed id.
      */
     TravelPort get(Integer id) throws TravelPortNotFound;
 
-    /** @return list of TravelPorts. */
+    /**
+     * @return list of TravelPorts.
+     */
     Collection<TravelPort> getAll();
 
     /**
@@ -62,7 +67,6 @@ public interface TravelPortContainer {
      *
      * @param keyword could be a part of the name or the id.
      * @return the founded TravelPort.
-     *
      * @throws TravelPortNotFound thrown when there is no match for the id.
      */
     TravelPort search(String keyword) throws TravelPortNotFound;
@@ -116,10 +120,14 @@ public interface TravelPortContainer {
      */
     void unlink(TravelPort port) throws InvalidLinkException;
 
-    /** @return number of available entries. */
+    /**
+     * @return number of available entries.
+     */
     int size();
 
-    /** Exception for invalid links. */
+    /**
+     * Exception for invalid links.
+     */
     public class InvalidLinkException extends TravelException {
         /**
          * Creates a new InvalidLinkException.

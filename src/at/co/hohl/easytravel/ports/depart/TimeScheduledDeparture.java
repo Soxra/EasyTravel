@@ -34,16 +34,24 @@ import java.util.*;
  * @author Michael Hohl
  */
 public class TimeScheduledDeparture implements Departure {
-    /** Time when departure. */
+    /**
+     * Time when departure.
+     */
     private final List<BukkitTime> departureTimes;
 
-    /** All players inside the port. */
+    /**
+     * All players inside the port.
+     */
     private final List<Player> playerInside = new LinkedList<Player>();
 
-    /** TravelPort which holds the port. */
+    /**
+     * TravelPort which holds the port.
+     */
     private final TravelPort port;
 
-    /** Next departure time. */
+    /**
+     * Next departure time.
+     */
     private BukkitTime nextDeparture;
 
     /**

@@ -26,7 +26,9 @@ import com.sun.istack.internal.Nullable;
  * @author Michael Hohl
  */
 public class CsvLineParser {
-    /** Parsed columns. */
+    /**
+     * Parsed columns.
+     */
     private final String[] parsedColumns;
 
     /**
@@ -100,7 +102,9 @@ public class CsvLineParser {
         }
     }
 
-    /** @return number of parsed columns. */
+    /**
+     * @return number of parsed columns.
+     */
     public int columns() {
         return parsedColumns.length;
     }

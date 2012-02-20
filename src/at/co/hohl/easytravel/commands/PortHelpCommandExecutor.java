@@ -37,7 +37,9 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public class PortHelpCommandExecutor extends SubCommandExecutor {
-    /** Number of help entries per page. */
+    /**
+     * Number of help entries per page.
+     */
     private static final int ENTRIES_PER_PAGE = 7;
 
     /**
@@ -78,7 +80,7 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
         }
 
         sender.sendMessage(ChatColor.GREEN + String.format("= = = %s [Page %d/%d] = = =",
-                plugin.getDescription().getName(), page, (commands.size() / ENTRIES_PER_PAGE) + 1));
+            plugin.getDescription().getName(), page, (commands.size() / ENTRIES_PER_PAGE) + 1));
 
         int start = (page - 1) * ENTRIES_PER_PAGE;
         int end = Math.min(page * ENTRIES_PER_PAGE, commands.size());
@@ -87,8 +89,8 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
             Permission permission = commandExecutor.getRequiredPermission();
             if (permission == null || permissionsHandler.hasPermission(sender, permission)) {
                 String helpLine = String.format("%s%s%s - %s", ChatColor.GRAY,
-                        commandExecutor.getUsage().replace("<command>", label), ChatColor.WHITE,
-                        commandExecutor.getDescription());
+                    commandExecutor.getUsage().replace("<command>", label), ChatColor.WHITE,
+                    commandExecutor.getDescription());
                 sender.sendMessage(helpLine);
             }
         }
@@ -96,19 +98,25 @@ public class PortHelpCommandExecutor extends SubCommandExecutor {
         return true;
     }
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     @Override
     public String getUsage() {
         return "/<command> help [<page>]";
     }
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     @Override
     public String getDescription() {
         return "Shows this help.";
     }
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     @Override
     public Permission getRequiredPermission() {
         return null;

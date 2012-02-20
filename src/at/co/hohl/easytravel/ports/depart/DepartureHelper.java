@@ -37,7 +37,6 @@ public final class DepartureHelper {
      * @param port        the port to load the Departure for.
      * @param description the description of the Departure.
      * @return the loaded departure.
-     *
      * @throws SyntaxException invalid format of description.
      */
     public static Departure load(TravelPort port, String description) throws SyntaxException {
@@ -61,7 +60,9 @@ public final class DepartureHelper {
         }
     }
 
-    /** No need of creating an instance of that! */
+    /**
+     * No need of creating an instance of that!
+     */
     private DepartureHelper() {
     }
 }

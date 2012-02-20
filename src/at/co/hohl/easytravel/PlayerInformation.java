@@ -30,34 +30,50 @@ import java.util.List;
  * @author Michael Hohl
  */
 public class PlayerInformation {
-    /** Maximum number of passwords stored for each player. */
+    /**
+     * Maximum number of passwords stored for each player.
+     */
     private static final int MAX_STORED_PASSWORDS = 3;
 
-    /** Player which is the owner of the information. */
+    /**
+     * Player which is the owner of the information.
+     */
     private final Player player;
 
-    /** The current TravelPort of the players. */
+    /**
+     * The current TravelPort of the players.
+     */
     private TravelPort currentPort;
 
-    /** The last entered password by this user. */
+    /**
+     * The last entered password by this user.
+     */
     private List<String> enteredPasswords = new LinkedList<String>();
 
-    /** Creates a new players information. */
+    /**
+     * Creates a new players information.
+     */
     public PlayerInformation(Player player) {
         this.player = player;
     }
 
-    /** @return player which holds the information. */
+    /**
+     * @return player which holds the information.
+     */
     public Player getPlayer() {
         return player;
     }
 
-    /** @return true, if the player is currently inside a TravelPort. */
+    /**
+     * @return true, if the player is currently inside a TravelPort.
+     */
     public boolean isInsideTravelPort() {
         return currentPort != null;
     }
 
-    /** @return the current port of the player. */
+    /**
+     * @return the current port of the player.
+     */
     public TravelPort getCurrentPort() {
         return currentPort;
     }

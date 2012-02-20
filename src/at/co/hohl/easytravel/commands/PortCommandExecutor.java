@@ -37,10 +37,14 @@ import java.util.Map;
  * @author Michael Hohl
  */
 public class PortCommandExecutor implements CommandExecutor {
-    /** The plugin which holds the instance. */
+    /**
+     * The plugin which holds the instance.
+     */
     private final TravelPlugin plugin;
 
-    /** Map with the sub commands. */
+    /**
+     * Map with the sub commands.
+     */
     private final Map<String, SubCommandExecutor> subCommands;
 
     /**
@@ -99,7 +103,7 @@ public class PortCommandExecutor implements CommandExecutor {
                     Permission requiredPermission = subCommandExecutor.getRequiredPermission();
 
                     if (requiredPermission == null ||
-                            permissionsHandler.hasPermission(sender, requiredPermission)) {
+                        permissionsHandler.hasPermission(sender, requiredPermission)) {
                         return subCommandExecutor.onCommand(sender, command, label, args);
                     }
                 } else {
@@ -115,7 +119,9 @@ public class PortCommandExecutor implements CommandExecutor {
         }
     }
 
-    /** @return sub commands by this plugin. */
+    /**
+     * @return sub commands by this plugin.
+     */
     public Map<String, SubCommandExecutor> getSubCommands() {
         return subCommands;
     }

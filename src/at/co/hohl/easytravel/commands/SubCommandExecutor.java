@@ -25,18 +25,28 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-/** Abstract class for all subclasses. */
+/**
+ * Abstract class for all subclasses.
+ */
 public abstract class SubCommandExecutor implements CommandExecutor {
-    /** Plugin which holds the instance of the sub command. */
+    /**
+     * Plugin which holds the instance of the sub command.
+     */
     protected final TravelPlugin plugin;
 
-    /** Parent CommandExecutor which holds this SubCommandExecutor. */
+    /**
+     * Parent CommandExecutor which holds this SubCommandExecutor.
+     */
     protected final CommandExecutor parent;
 
-    /** The permissions handler of the plugin. */
+    /**
+     * The permissions handler of the plugin.
+     */
     protected final PermissionHandler permissionHandler;
 
-    /** Number of arguments which are allowed. */
+    /**
+     * Number of arguments which are allowed.
+     */
     private int minimumNumberOfArguments, maximumNumberOfArguments;
 
     /**
@@ -64,7 +74,7 @@ public abstract class SubCommandExecutor implements CommandExecutor {
      */
     public boolean isValidNumberOfArguments(int numberOfArguments) {
         return minimumNumberOfArguments <= numberOfArguments &&
-                (numberOfArguments <= maximumNumberOfArguments || maximumNumberOfArguments == -1);
+            (numberOfArguments <= maximumNumberOfArguments || maximumNumberOfArguments == -1);
     }
 
     /**
@@ -79,12 +89,18 @@ public abstract class SubCommandExecutor implements CommandExecutor {
      */
     public abstract boolean onCommand(CommandSender sender, Command parentCommand, String label, String[] args);
 
-    /** @return string which describes the valid usage. */
+    /**
+     * @return string which describes the valid usage.
+     */
     public abstract String getUsage();
 
-    /** @return description of the command. */
+    /**
+     * @return description of the command.
+     */
     public abstract String getDescription();
 
-    /** @return required permission for executing this command. */
+    /**
+     * @return required permission for executing this command.
+     */
     public abstract Permission getRequiredPermission();
 }

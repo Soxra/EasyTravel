@@ -32,14 +32,14 @@ import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Methods;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -111,7 +111,17 @@ public class TravelPlugin extends JavaPlugin {
     /**
      * Downloaded configuration file which contains information about the latest version.
      */
-    private Configuration releaseRepository;
+    private FileConfiguration releaseRepository;
+
+    /**
+     * Configuration for the messages.
+     */
+    private FileConfiguration messagesConfig = null;
+
+    /**
+     * File for the messages configuration.
+     */
+    private File messagesConfigurationFile = null;
 
     /**
      * Enables this plugin.
@@ -126,7 +136,7 @@ public class TravelPlugin extends JavaPlugin {
 
         if (isVersionPreview()) {
             logger.info("Notice: You are using a PREVIEW build! Not recommended for production server!");
-        } else if (getConfiguration().getBoolean("check-for-updates", true)) {
+        } else if (getConfig().getBoolean("check-for-updates", true)) {
             checkForOutdated();
         }
     }
@@ -135,7 +145,7 @@ public class TravelPlugin extends JavaPlugin {
      * Disables this plugin.
      */
     public void onDisable() {
-        if (getConfiguration().getBoolean("auto-save", true)) {
+        if (getConfig().getBoolean("auto-save", true)) {
             save();
         }
 
@@ -146,6 +156,9 @@ public class TravelPlugin extends JavaPlugin {
      * Called when forcing a reload.
      */
     public void onReload() {
+        reloadMessagesConfig();
+        reloadConfig();
+
         loadConfiguration();
     }
 
@@ -279,19 +292,45 @@ public class TravelPlugin extends JavaPlugin {
     }
 
     /**
+     * Reloads the messages configuration.
+     */
+    public void reloadMessagesConfig() {
+        if (messagesConfigurationFile == null) {
+            messagesConfigurationFile = new File(getDataFolder(), "messages.yml");
+        }
+        messagesConfig = YamlConfiguration.loadConfiguration(messagesConfigurationFile);
+
+        // Look for defaults in the jar
+        InputStream defConfigStream = getResource("customConfig.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            messagesConfig.setDefaults(defConfig);
+        }
+    }
+
+    /**
+     * @return the messages configuration.
+     */
+    public FileConfiguration getMessagesConfig() {
+        if (messagesConfig == null) {
+            reloadMessagesConfig();
+        }
+        return messagesConfig;
+    }
+
+
+    /**
      * Loads the configuration.
      */
     private void loadConfiguration() {
         // Properties...
-        getConfiguration().load();
-        ARRIVED_NOTIFICATION_DELAY = getConfiguration().getInt("arrived-notification-delay", 10);
-        DEPART_DELAY = getConfiguration().getInt("depart-delay", 0);
-        PAY_OWNER = getConfiguration().getBoolean("pay-owner", true);
-        NOTIFY_OWNER = getConfiguration().getBoolean("notify-owner", false);
+        ARRIVED_NOTIFICATION_DELAY = getConfig().getInt("arrived-notification-delay", 10);
+        DEPART_DELAY = getConfig().getInt("depart-delay", 0);
+        PAY_OWNER = getConfig().getBoolean("pay-owner", true);
+        NOTIFY_OWNER = getConfig().getBoolean("notify-owner", false);
 
         // Messages...
-        Configuration messages = new Configuration(new File(getDataFolder(), "messages.yml"));
-        Messages.load(messages);
+        Messages.load(getMessagesConfig());
 
         // TravelPorts...
         travelPortContainer = new FlatFileTravelPortContainer(this, new File(getDataFolder(), "ports.csv"));
@@ -302,18 +341,14 @@ public class TravelPlugin extends JavaPlugin {
      * Setups all event handlers, used by this plugin.
      */
     private void setupEventHandler() {
-        // Get the plugin manager.
-        PluginManager pluginManager = getServer().getPluginManager();
-
         // Listen to plugins enabling, used for finding an economy plugin.
-        Methods.setMethod(pluginManager);
+        Methods.setMethod(getServer().getPluginManager());
 
         // Remove player information on quit.
-        pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Low, this);
-        pluginManager.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Low, this);
+        getServer().getPluginManager().registerEvents(playerListener, this);
 
         // Update player information controlled by an scheduler.
-        int locationUpdateInterval = getConfiguration().getInt("location-update-interval", 60);
+        int locationUpdateInterval = getConfig().getInt("location-update-interval", 60);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 playerListener.onPlayerLocationUpdate();
@@ -358,7 +393,7 @@ public class TravelPlugin extends JavaPlugin {
                  */
                 @Override
                 public void onComplete(File downloadedFile) {
-                    releaseRepository = new Configuration(downloadedFile);
+                    releaseRepository = YamlConfiguration.loadConfiguration(downloadedFile);
 
                     if (isVersionOutdated()) {
                         logger.info("[EasyTravel] version outdated date.");

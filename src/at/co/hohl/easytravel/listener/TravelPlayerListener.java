@@ -24,8 +24,9 @@ import at.co.hohl.easytravel.TravelPlugin;
 import at.co.hohl.easytravel.ports.TravelPort;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -36,11 +37,15 @@ import java.util.Collection;
  *
  * @author Michael Hohl
  */
-public class TravelPlayerListener extends PlayerListener {
-    /** Plugin which holds the instance. */
+public class TravelPlayerListener implements Listener {
+    /**
+     * Plugin which holds the instance.
+     */
     private final TravelPlugin plugin;
 
-    /** Scheduler of the plugin. */
+    /**
+     * Scheduler of the plugin.
+     */
     private BukkitScheduler scheduler;
 
     /**
@@ -57,12 +62,12 @@ public class TravelPlayerListener extends PlayerListener {
      *
      * @param event information about the event which occurred.
      */
-    @Override
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (plugin.getPermissionsHandler().hasPermission(event.getPlayer(), TravelPermissions.ADMINISTRATE)) {
             if (plugin.isVersionPreview()) {
                 event.getPlayer().sendMessage(ChatColor.GREEN +
-                        "[EasyTravel] You are using a NON PRODUCTION BUILD!");
+                    "[EasyTravel] You are using a NON PRODUCTION BUILD!");
             }
 
             if (plugin.isVersionOutdated()) {
@@ -76,12 +81,14 @@ public class TravelPlayerListener extends PlayerListener {
      *
      * @param event details of the event.
      */
-    @Override
+    @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         plugin.removePlayerInformation(event.getPlayer());
     }
 
-    /** Updates the information if the players is inside of a TravelPort. */
+    /**
+     * Updates the information if the players is inside of a TravelPort.
+     */
     public void onPlayerLocationUpdate() {
         Player[] players = plugin.getServer().getOnlinePlayers();
         scheduler = plugin.getServer().getScheduler();

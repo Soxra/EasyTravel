@@ -35,34 +35,54 @@ import java.util.List;
  * @author Michael Hohl
  */
 public class FlatFileTravelPort extends AbstractTravelPort {
-    /** Unique ID of the Travel Port. */
+    /**
+     * Unique ID of the Travel Port.
+     */
     private final Integer id;
 
-    /** Name of the travel port. */
+    /**
+     * Name of the travel port.
+     */
     private String name;
 
-    /** Area of the port. */
+    /**
+     * Area of the port.
+     */
     private Area area;
 
-    /** The destination. */
+    /**
+     * The destination.
+     */
     private Destination destination;
 
-    /** The departure handler. */
+    /**
+     * The departure handler.
+     */
     private Departure departure = new ManualDeparture(this);
 
-    /** Name of the target of this port. */
+    /**
+     * Name of the target of this port.
+     */
     private Integer targetId;
 
-    /** Password for the travel port. */
+    /**
+     * Password for the travel port.
+     */
     private String password;
 
-    /** Owner of the travel port. */
+    /**
+     * Owner of the travel port.
+     */
     private String owner;
 
-    /** List of allowed Groups and Players. */
+    /**
+     * List of allowed Groups and Players.
+     */
     private List<String> allowed = new LinkedList<String>();
 
-    /** The price to travel */
+    /**
+     * The price to travel
+     */
     private double price;
 
     /**
@@ -87,7 +107,9 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.allowed = allowed;
     }
 
-    /** @return true, if this TravelPort is allowed to everybody. */
+    /**
+     * @return true, if this TravelPort is allowed to everybody.
+     */
     @Override
     public boolean isAllowedToEverybody() {
         return allowed == null || allowed.size() == 0;
@@ -117,7 +139,9 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         return false;
     }
 
-    /** Allows this TravelPort to everybody. */
+    /**
+     * Allows this TravelPort to everybody.
+     */
     @Override
     public void setAllowedToEverybody() {
         allowed.clear();
@@ -143,7 +167,9 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.allowed.remove(allowed);
     }
 
-    /** @return the departure. */
+    /**
+     * @return the departure.
+     */
     @Override
     public Departure getDeparture() {
         return departure;
@@ -159,13 +185,17 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.departure = departure;
     }
 
-    /** @return the unique id of the travel port. */
+    /**
+     * @return the unique id of the travel port.
+     */
     @Override
     public final Integer getId() {
         return id;
     }
 
-    /** @return area of the port. */
+    /**
+     * @return area of the port.
+     */
     @Override
     public Area getArea() {
         return area;
@@ -181,7 +211,9 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.area = area;
     }
 
-    /** @return the destination */
+    /**
+     * @return the destination
+     */
     @Override
     public Destination getDestination() {
         return destination;
@@ -197,7 +229,9 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.destination = destination;
     }
 
-    /** @return the name of the travel point. */
+    /**
+     * @return the name of the travel point.
+     */
     @Override
     public final String getName() {
         return name;
@@ -213,13 +247,17 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.name = name;
     }
 
-    /** @return the id of the target. */
+    /**
+     * @return the id of the target.
+     */
     @Override
     public final Integer getTargetId() {
         return targetId;
     }
 
-    /** @return the target or null if not linked to any. */
+    /**
+     * @return the target or null if not linked to any.
+     */
     @Override
     public TravelPort getTarget() {
         try {
@@ -239,7 +277,9 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.targetId = targetId;
     }
 
-    /** @return the price it costs to travel. */
+    /**
+     * @return the price it costs to travel.
+     */
     @Override
     public final double getPrice() {
         return price;
@@ -255,31 +295,41 @@ public class FlatFileTravelPort extends AbstractTravelPort {
         this.price = price;
     }
 
-    /** @return the password needed to travel with this port. */
+    /**
+     * @return the password needed to travel with this port.
+     */
     @Override
     public final String getPassword() {
         return password;
     }
 
-    /** @return true if the TravelPort is locked with a password. */
+    /**
+     * @return true if the TravelPort is locked with a password.
+     */
     @Override
     public final boolean isPasswordLocked() {
         return password != null;
     }
 
-    /** @param password sets the password needed to travel */
+    /**
+     * @param password sets the password needed to travel
+     */
     @Override
     public final void setPassword(String password) {
         this.password = password;
     }
 
-    /** @return a list of allowed groups and players. If null everybody is allowed to use that TravelPort. */
+    /**
+     * @return a list of allowed groups and players. If null everybody is allowed to use that TravelPort.
+     */
     @Override
     public List<String> getAllowed() {
         return allowed;
     }
 
-    /** @return owner of the port. */
+    /**
+     * @return owner of the port.
+     */
     @Override
     public String getOwner() {
         return owner;

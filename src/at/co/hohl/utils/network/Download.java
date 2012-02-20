@@ -41,19 +41,29 @@ public class Download extends Observable implements Runnable {
     public static final int CANCELLED = 3;
     public static final int ERROR = 4;
 
-    /** Url to download. */
+    /**
+     * Url to download.
+     */
     private final URL url;
 
-    /** Target file to download. */
+    /**
+     * Target file to download.
+     */
     private final File targetFile;
 
-    /** Size of download in bytes. */
+    /**
+     * Size of download in bytes.
+     */
     private int size;
 
-    /** Bytes already downloaded. */
+    /**
+     * Bytes already downloaded.
+     */
     private int downloaded;
 
-    /** Current status of the download. */
+    /**
+     * Current status of the download.
+     */
     private int status;
 
     /**
@@ -78,7 +88,9 @@ public class Download extends Observable implements Runnable {
         return url.toString();
     }
 
-    /** @return the target file. */
+    /**
+     * @return the target file.
+     */
     public File getTargetFile() {
         if (status == COMPLETE) {
             return targetFile;
@@ -129,7 +141,9 @@ public class Download extends Observable implements Runnable {
     public void onComplete(File downloadedFile) {
     }
 
-    /** Called when an error occurs on downloading. */
+    /**
+     * Called when an error occurs on downloading.
+     */
     public void onError() {
     }
 

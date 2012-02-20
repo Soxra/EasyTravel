@@ -1,11 +1,12 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="EasyTravel - Create Snapshot">
-    <output-path>$PROJECT_DIR$/bin</output-path>
-    <root id="archive" name="EasyTravel.jar">
-      <element id="module-output" name="EasyTravel" />
-      <element id="file-copy" path="$PROJECT_DIR$/res/plugin.yml" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Register.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../Permissions/out/artifacts/Permissions.jar" path-in-jar="/" />
-    </root>
-  </artifact>
+    <artifact type="jar" build-on-make="true" name="EasyTravel - Create Snapshot">
+        <output-path>$PROJECT_DIR$/bin</output-path>
+        <root id="archive" name="EasyTravel.jar">
+            <element id="module-output" name="EasyTravel"/>
+            <element id="file-copy" path="$PROJECT_DIR$/res/plugin.yml"/>
+            <element id="extracted-dir" path="$PROJECT_DIR$/lib/Register.jar" path-in-jar="/"/>
+            <element id="extracted-dir" path="$PROJECT_DIR$/../Permissions/out/artifacts/Permissions.jar"
+                     path-in-jar="/"/>
+        </root>
+    </artifact>
 </component>
